@@ -4,6 +4,10 @@ import logger from "morgan";
 import errorHandler from "./middleware/errorHandler";
 import logErrors from "./middleware/logErrors";
 import { isProduction } from "./utils/env";
+import usersRouter from "./domains/users/users.router";
+import reservationsRouter from "./domains/reservations/reservations.router";
+import roomsRouter from "./domains/rooms/rooms.router";
+import spaceshipsRouter from "./domains/spaceships/spaceships.router";
 
 const app = express();
 
@@ -21,6 +25,10 @@ app.use(express.urlencoded({ extended: true }));
 /**
  * Routes
  */
+app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/reservations", reservationsRouter);
+app.use("/api/v1/rooms", roomsRouter);
+app.use("/api/v1/spaceships", spaceshipsRouter);
 
 /**
  * Error Handlers
