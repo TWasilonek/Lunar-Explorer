@@ -35,7 +35,10 @@ export const signin = async ({
     });
 
     return {
-        ...user,
+        id: user.id,
+        firstName: user.firstName,
+        lastName: user.lastName,
+        email: user.email,
         accessToken: token,
     };
 };
