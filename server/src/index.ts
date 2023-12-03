@@ -1,3 +1,4 @@
+import "dotenv/config";
 import express from "express";
 import logger from "morgan";
 
@@ -5,11 +6,18 @@ import errorHandler from "./middleware/errorHandler";
 import logErrors from "./middleware/logErrors";
 import { isProduction } from "./utils/env";
 import usersRouter from "./domains/users/users.router";
-import reservationsRouter from "./domains/reservations/reservations.router";
-import roomsRouter from "./domains/rooms/rooms.router";
-import spaceshipsRouter from "./domains/spaceships/spaceships.router";
+import { appDataSource, dbConfig } from "./database/app-data-source";
 
 const app = express();
+/**
+ * DATABASE
+ */
+appDataSource
+  .initialize()
+  .then(() => {
+    console.log(`Databse connected on port ${dbConfig.port}`);
+  })
+  .catch((error) => console.log(error));
 
 /**
  * CONFIG
@@ -23,15 +31,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 /**
- * Routes
+ * ROUTES
  */
 app.use("/api/v1/users", usersRouter);
-app.use("/api/v1/reservations", reservationsRouter);
-app.use("/api/v1/rooms", roomsRouter);
-app.use("/api/v1/spaceships", spaceshipsRouter);
 
 /**
- * Error Handlers
+ * ERROR_HANDLING
  */
 app.use(logErrors);
 app.use(errorHandler);
