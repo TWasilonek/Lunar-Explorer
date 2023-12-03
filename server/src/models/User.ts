@@ -1,8 +1,9 @@
 import { Length } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Auditable } from "./Auditable";
 
 @Entity({ name: "users" })
-export class User {
+export class User extends Auditable {
   @PrimaryGeneratedColumn()
   id: string;
 
