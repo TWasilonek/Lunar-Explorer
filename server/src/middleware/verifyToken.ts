@@ -13,14 +13,15 @@ export const verifyToken = (
     }
 
     if (!token) {
-        return res.status(403).send({ message: "No token provided" });
+        console.error("No token provided");
+        return res.status(403).send({ message: "Forbidden" });
     }
 
     if (!authConfig.secret) {
         console.error('There is no "secret"');
         return res
             .status(500)
-            .send({ message: "Something went wront. Try again later." });
+            .send({ message: "Something went wrong. Try again later." });
     }
 
     jwt.verify(token, authConfig.secret, (err, decoded) => {
@@ -28,7 +29,7 @@ export const verifyToken = (
             console.log(err);
             return res.status(401).send({ message: "Unauthorized" });
         }
-        req.body.user = (decoded as JwtPayload).id;
+        req.body.userId = (decoded as JwtPayload).id;
         next();
     });
 };

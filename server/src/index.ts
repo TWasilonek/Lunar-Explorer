@@ -16,7 +16,7 @@ const app = express();
 appDataSource
     .initialize()
     .then(() => {
-        console.log(`Databse connected on port ${dbConfig.port}`);
+        console.log(`Database connected on port ${dbConfig.port}`);
     })
     .catch((error) => console.log(error));
 

@@ -17,6 +17,7 @@ export const getAllUsers = async () => {
 };
 
 export const getUserById = async (userId: string) => {
+    console.log("userId", userId);
     const user = await usersRepository.findById(userId);
     if (!user) {
         throw Error("User not found");

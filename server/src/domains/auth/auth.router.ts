@@ -21,7 +21,6 @@ router.post(
             });
             res.send(user);
         } catch (err) {
-            console.error(err);
             next(err);
         }
     },
@@ -42,7 +41,6 @@ router.post(
             });
             res.send(userWithAccessToken);
         } catch (err) {
-            console.error(err);
             next(err);
         }
     },
