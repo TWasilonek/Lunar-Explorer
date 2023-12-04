@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { userRepository } from "../domains/users/users.repository";
+import { usersRepository } from "../domains/users/users.repository";
 
 export const checkDuplicateUsernameOrEmail = async (
     req: Request,
@@ -7,7 +7,7 @@ export const checkDuplicateUsernameOrEmail = async (
     next: NextFunction,
 ) => {
     try {
-        const user = await userRepository.findByEmail(req.body.email);
+        const user = await usersRepository.findByEmail(req.body.email);
         if (user) {
             return res
                 .status(400)

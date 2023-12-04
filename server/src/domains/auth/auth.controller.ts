@@ -2,7 +2,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authConfig from "../../config/authConfig";
 import { createUser } from "../users/users.controller";
-import { userRepository } from "../users/users.repository";
+import { usersRepository } from "../users/users.repository";
 import { ReturnUser, SaveUser } from "../users/types";
 
 export const signup = async (user: SaveUser): Promise<ReturnUser> => {
@@ -15,7 +15,7 @@ export const signin = async ({
 }: Pick<SaveUser, "email" | "password">): Promise<
     ReturnUser & { accessToken: string }
 > => {
-    const user = await userRepository.findByEmail(email);
+    const user = await usersRepository.findByEmail(email);
     if (!user) {
         throw Error("User not found.");
     }
