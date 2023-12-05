@@ -1,5 +1,10 @@
 import express, { NextFunction, Request, Response } from "express";
-import { getAllUsers, getUserById } from "./users.controller";
+import {
+    deleteUser,
+    getAllUsers,
+    getUserById,
+    updateUser,
+} from "./users.controller";
 import { verifyToken } from "../../middleware/verifyToken";
 
 const router = express.Router();
@@ -11,6 +16,32 @@ router.get(
         try {
             const user = await getUserById(req.body.userId);
             res.json(user);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+router.put(
+    "/me",
+    [verifyToken],
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user = await updateUser(req.body.userId, req.body);
+            res.json(user);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
+
+router.delete(
+    "/me",
+    [verifyToken],
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            await deleteUser(req.body.userId);
+            res.sendStatus(200);
         } catch (err) {
             next(err);
         }
@@ -30,16 +61,43 @@ router.get(
     },
 );
 
-router.post("/", (eq: Request, res: Response, next: NextFunction) => {
-    // implementation for creating a new user
-});
+router.get(
+    "/:userId",
+    [verifyToken],
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user = await getUserById(req.params.userId);
+            res.json(user);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
 
-router.put("/me", (eq: Request, res: Response, next: NextFunction) => {
-    // implementation for updating user data
-});
+router.put(
+    "/:userId",
+    [verifyToken],
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            const user = await updateUser(req.params.userId, req.body);
+            res.json(user);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
 
-router.delete("/me", (eq: Request, res: Response, next: NextFunction) => {
-    // implementation for deleting user data
-});
+router.delete(
+    "/:userId",
+    [verifyToken],
+    async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            await deleteUser(req.params.userId);
+            res.sendStatus(200);
+        } catch (err) {
+            next(err);
+        }
+    },
+);
 
 export default router;

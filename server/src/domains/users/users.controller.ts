@@ -37,10 +37,16 @@ export const createUser = async (user: SaveUser): Promise<ReturnUser> => {
     return saveAndReturnUser(newUser);
 };
 
-export const updateUser = async (userId: string, data: Partial<SaveUser>) => {
+export const updateUser = async (userId: string, data: SaveUser) => {
     const user = await getUserById(userId);
 
-    usersRepository.merge(user, data);
+    const sanitizedData = {
+        firstName: data.firstName,
+        lastName: data.lastName,
+        email: data.email,
+    };
+
+    usersRepository.merge(user, sanitizedData);
     return saveAndReturnUser(user);
 };
 
