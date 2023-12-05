@@ -1,6 +1,7 @@
 import { Length } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Auditable } from "./Auditable";
+import { UserRole } from "../constants";
 
 @Entity({ name: "users" })
 export class User extends Auditable {
@@ -32,4 +33,11 @@ export class User extends Auditable {
     })
     @Length(8, 100)
     password: string;
+
+    @Column({
+        type: "enum",
+        enum: UserRole,
+        default: UserRole.USER,
+    })
+    role: UserRole;
 }

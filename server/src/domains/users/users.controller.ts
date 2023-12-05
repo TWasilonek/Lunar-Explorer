@@ -9,6 +9,7 @@ const saveAndReturnUser = async (user: SaveUser): Promise<ReturnUser> => {
         firstName: savedUser.firstName,
         lastName: savedUser.lastName,
         email: savedUser.email,
+        role: savedUser.role,
     };
 };
 

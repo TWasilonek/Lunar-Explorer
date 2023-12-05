@@ -6,6 +6,8 @@ import {
     updateUser,
 } from "./users.controller";
 import { verifyToken } from "../../middleware/verifyToken";
+import { verifyPermissions } from "../../middleware/verifyPermissions";
+import { Permissions } from "../../constants";
 
 const router = express.Router();
 
@@ -50,7 +52,7 @@ router.delete(
 
 router.get(
     "/",
-    [verifyToken],
+    [verifyToken, verifyPermissions([Permissions.READ])],
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const users = await getAllUsers();
@@ -63,7 +65,7 @@ router.get(
 
 router.get(
     "/:userId",
-    [verifyToken],
+    [verifyToken, verifyPermissions([Permissions.READ])],
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const user = await getUserById(req.params.userId);
@@ -76,7 +78,7 @@ router.get(
 
 router.put(
     "/:userId",
-    [verifyToken],
+    [verifyToken, verifyPermissions([Permissions.UPDATE])],
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const user = await updateUser(req.params.userId, req.body);
@@ -89,7 +91,7 @@ router.put(
 
 router.delete(
     "/:userId",
-    [verifyToken],
+    [verifyToken, verifyPermissions([Permissions.DELETE])],
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             await deleteUser(req.params.userId);

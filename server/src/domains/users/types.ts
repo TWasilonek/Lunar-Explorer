@@ -1,3 +1,5 @@
+import { UserRole } from "../../constants";
+
 export type SaveUser = {
     firstName: string;
     lastName: string;
@@ -10,4 +12,5 @@ export type ReturnUser = {
     firstName: string;
     lastName: string;
     email: string;
+    role: UserRole;
 };
