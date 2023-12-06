@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { usersRepository } from "../domains/users/users.repository";
 import { rolesConfig } from "../config/rolesConfig";
-import { Permissions } from "../constants";
+import { HttpStatusCode, Permissions } from "../constants";
 
 export const verifyPermissions =
     (permission: Permissions[]) =>
@@ -10,13 +10,17 @@ export const verifyPermissions =
             const userId = req.body.userId;
             const user = await usersRepository.findById(userId);
             if (!user) {
-                return res.status(404).send({ message: "User not found" });
+                return res
+                    .status(HttpStatusCode.NOT_FOUND)
+                    .send({ message: "User not found" });
             }
             const userRoleConfig = rolesConfig.find(
                 (r) => r.name === user.role,
             );
             if (!userRoleConfig) {
-                return res.status(403).send({ message: "Forbidden" });
+                return res
+                    .status(HttpStatusCode.FORBIDDEN)
+                    .send({ message: "Forbidden" });
             }
 
             if (
@@ -24,10 +28,14 @@ export const verifyPermissions =
             ) {
                 return next();
             } else {
-                return res.status(403).send({ message: "Forbidden" });
+                return res
+                    .status(HttpStatusCode.FORBIDDEN)
+                    .send({ message: "Forbidden" });
             }
         } catch (err) {
             console.error("User does not have sufficient permissions.", err);
-            return res.status(403).send({ message: "Forbidden" });
+            return res
+                .status(HttpStatusCode.FORBIDDEN)
+                .send({ message: "Forbidden" });
         }
     };

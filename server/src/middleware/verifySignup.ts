@@ -1,5 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { usersRepository } from "../domains/users/users.repository";
+import { HttpStatusCode } from "../constants";
 
 export const checkDuplicateUsernameOrEmail = async (
     req: Request,
@@ -10,12 +11,14 @@ export const checkDuplicateUsernameOrEmail = async (
         const user = await usersRepository.findByEmail(req.body.email);
         if (user) {
             return res
-                .status(400)
+                .status(HttpStatusCode.BAD_REQUEST)
                 .send({ message: "Email is already in use." });
         }
         next();
     } catch (err) {
         console.error(err);
-        return res.status(500).send({ message: err });
+        return res
+            .status(HttpStatusCode.INTERNAL_SERVER)
+            .send({ message: err });
     }
 };
