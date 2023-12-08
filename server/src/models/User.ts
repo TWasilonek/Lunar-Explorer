@@ -1,4 +1,4 @@
-import { Length } from "class-validator";
+import { IsNotEmpty, Length } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
 import { Auditable } from "./Auditable";
 import { UserRole } from "../constants";
@@ -12,12 +12,14 @@ export class User extends Auditable {
         length: 50,
         nullable: false,
     })
+    @Length(2, 50)
     firstName: string;
 
     @Column("varchar", {
         length: 50,
         nullable: false,
     })
+    @Length(2, 50)
     lastName: string;
 
     @Column("varchar", {
@@ -25,6 +27,7 @@ export class User extends Auditable {
         unique: true,
         nullable: false,
     })
+    @IsNotEmpty()
     email: string;
 
     @Column("varchar", {

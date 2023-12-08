@@ -28,22 +28,22 @@ export const getUserById = async (userId: string) => {
 
 export const createUser = async (user: SaveUser): Promise<ReturnUser> => {
     const newUser = usersRepository.create({
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
+        firstName: user.firstName.trim(),
+        lastName: user.lastName.trim(),
+        email: user.email.trim().toLowerCase(),
         password: bcrypt.hashSync(user.password, 8),
     });
 
     return saveAndReturnUser(newUser);
 };
 
-export const updateUser = async (userId: string, data: SaveUser) => {
+export const updateUser = async (userId: string, data: Partial<SaveUser>) => {
     const user = await getUserById(userId);
 
     const sanitizedData = {
-        firstName: data.firstName,
-        lastName: data.lastName,
-        email: data.email,
+        firstName: data.firstName?.trim(),
+        lastName: data.lastName?.trim(),
+        email: data.email?.trim().toLowerCase(),
     };
 
     usersRepository.merge(user, sanitizedData);

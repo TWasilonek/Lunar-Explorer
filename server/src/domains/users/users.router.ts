@@ -9,6 +9,8 @@ import { verifyToken } from "../../middleware/verifyToken";
 import { verifyPermissions } from "../../middleware/verifyPermissions";
 import { HttpStatusCode, Permissions } from "../../constants";
 import asyncMiddleware from "../../middleware/asyncMiddleware/asyncMiddleware";
+import { validateRequestBody } from "../../middleware/validateRequestBody";
+import { updateUserSchema } from "./user.requestSchema";
 
 const router = express.Router();
 
@@ -23,9 +25,13 @@ router.get(
 
 router.put(
     "/me",
-    [verifyToken],
+    [verifyToken, validateRequestBody(updateUserSchema)],
     asyncMiddleware(async (req, res, next) => {
-        const user = await updateUser(req.body.userId, req.body);
+        const user = await updateUser(req.body.userId, {
+            firstName: req.body.firstName,
+            lastName: req.body.lastName,
+            email: req.body.email,
+        });
         res.json(user);
     }),
 );
@@ -59,7 +65,11 @@ router.get(
 
 router.put(
     "/:userId",
-    [verifyToken, verifyPermissions([Permissions.UPDATE])],
+    [
+        verifyToken,
+        verifyPermissions([Permissions.UPDATE]),
+        validateRequestBody(updateUserSchema),
+    ],
     asyncMiddleware(async (req, res, next) => {
         const user = await updateUser(req.params.userId, req.body);
         res.json(user);
