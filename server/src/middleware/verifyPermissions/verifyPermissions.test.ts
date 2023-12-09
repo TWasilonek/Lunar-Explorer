@@ -1,7 +1,7 @@
-import { Request, Response, NextFunction } from "express";
+import { Request, Response } from "express";
 import { verifyPermissions } from "./verifyPermissions";
 import { userRepository } from "../../models/user/UserRepository";
-import { DBUserMock, userMock } from "../../testHelpers/userMock";
+import { DBUserMock } from "../../testHelpers/userMock";
 import { HttpStatusCode, Permissions, UserRole } from "../../constants";
 
 describe("verifyPermissions", () => {
@@ -92,11 +92,16 @@ describe("verifyPermissions", () => {
         jest.spyOn(userRepository, "findById").mockRejectedValueOnce({
             message: errorMessage,
         });
+        const consoleErrorSpy = jest
+            .spyOn(console, "error")
+            .mockImplementationOnce(() => {});
 
         await verifyPermissions([Permissions.READ])(req, res, next);
 
         expect(res.status).toHaveBeenCalledWith(HttpStatusCode.FORBIDDEN);
         expect(res.send).toHaveBeenCalledWith({ message: "Forbidden" });
         expect(next).not.toHaveBeenCalled();
+
+        consoleErrorSpy.mockRestore();
     });
 });
