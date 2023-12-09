@@ -1,7 +1,7 @@
 import { IsNotEmpty, Length } from "class-validator";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
-import { Auditable } from "./Auditable";
-import { UserRole } from "../constants";
+import { Auditable } from "../Auditable";
+import { UserRole } from "../../constants";
 
 @Entity({ name: "users" })
 export class User extends Auditable {

@@ -1,12 +1,25 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authConfig from "../../config/authConfig";
-import { createUser } from "../users/users.controller";
-import { usersRepository } from "../users/users.repository";
-import { ReturnUser, SaveUser } from "../users/types";
+import { userRepository } from "../../models/user/UserRepository";
+import { ReturnUser, SaveUser } from "../../types";
 
 export const signup = async (user: SaveUser): Promise<ReturnUser> => {
-    return createUser(user);
+    const newUser = userRepository.create({
+        firstName: user.firstName.trim(),
+        lastName: user.lastName.trim(),
+        email: user.email.trim().toLowerCase(),
+        password: bcrypt.hashSync(user.password, 8),
+    });
+
+    const savedUser = await userRepository.save(newUser);
+    return {
+        id: savedUser.id,
+        firstName: savedUser.firstName,
+        lastName: savedUser.lastName,
+        email: savedUser.email,
+        role: savedUser.role,
+    };
 };
 
 export const signin = async ({
@@ -15,7 +28,7 @@ export const signin = async ({
 }: Pick<SaveUser, "email" | "password">): Promise<
     ReturnUser & { accessToken: string }
 > => {
-    const user = await usersRepository.findByEmail(email);
+    const user = await userRepository.findByEmail(email);
     if (!user) {
         throw Error("User not found.");
     }
@@ -40,5 +53,6 @@ export const signin = async ({
         lastName: user.lastName,
         email: user.email,
         accessToken: token,
+        role: user.role,
     };
 };

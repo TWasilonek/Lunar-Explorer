@@ -6,8 +6,8 @@ import errorHandler from "./middleware/errorHandler";
 import logErrors from "./middleware/logErrors";
 import { isProduction } from "./utils/env";
 import { appDataSource, dbConfig } from "./database/app-data-source";
-import usersRouter from "./domains/users/users.router";
-import authRouter from "./domains/auth/auth.router";
+import usersRouter from "./routes/users/users.router";
+import authRouter from "./routes/auth/auth.router";
 
 const app = express();
 /**

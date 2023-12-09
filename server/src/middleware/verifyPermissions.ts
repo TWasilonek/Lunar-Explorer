@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { usersRepository } from "../domains/users/users.repository";
+import { userRepository } from "../models/user/UserRepository";
 import { rolesConfig } from "../config/rolesConfig";
 import { HttpStatusCode, Permissions } from "../constants";
 
@@ -8,7 +8,7 @@ export const verifyPermissions =
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId = req.body.userId;
-            const user = await usersRepository.findById(userId);
+            const user = await userRepository.findById(userId);
             if (!user) {
                 return res
                     .status(HttpStatusCode.NOT_FOUND)

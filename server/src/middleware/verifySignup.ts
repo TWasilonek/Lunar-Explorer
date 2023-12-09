@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { usersRepository } from "../domains/users/users.repository";
+import { userRepository } from "../models/user/UserRepository";
 import { HttpStatusCode } from "../constants";
 
 export const checkDuplicateUsernameOrEmail = async (
@@ -8,7 +8,7 @@ export const checkDuplicateUsernameOrEmail = async (
     next: NextFunction,
 ) => {
     try {
-        const user = await usersRepository.findByEmail(req.body.email);
+        const user = await userRepository.findByEmail(req.body.email);
         if (user) {
             return res
                 .status(HttpStatusCode.BAD_REQUEST)

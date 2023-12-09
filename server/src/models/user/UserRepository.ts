@@ -1,7 +1,7 @@
-import { User } from "../../models/User";
+import { User } from "./User";
 import { appDataSource } from "../../database/app-data-source";
 
-export const usersRepository = appDataSource.getRepository(User).extend({
+export const userRepository = appDataSource.getRepository(User).extend({
     findById(userId: string) {
         return this.createQueryBuilder("users")
             .where("users.id = :userId", { userId })

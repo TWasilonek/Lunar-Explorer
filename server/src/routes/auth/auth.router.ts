@@ -1,8 +1,8 @@
 import express from "express";
 import { checkDuplicateUsernameOrEmail } from "../../middleware/verifySignup";
-import { signin, signup } from "./auth.controller";
 import asyncMiddleware from "../../middleware/asyncMiddleware";
 import { validateRequestBody } from "../../middleware/validateRequestBody";
+import { signin, signup } from "./auth.controller";
 import { loginSchema, signupSchema } from "./auth.requestSchema";
 
 const router = express.Router();
