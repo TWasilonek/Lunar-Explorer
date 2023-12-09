@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from "express";
 import { ObjectSchema, ValidationError } from "joi";
-import { HttpStatusCode } from "../constants";
+import { HttpStatusCode } from "../../constants";
 
 export const validateRequestBody = (schema: ObjectSchema) => {
     return async (req: Request, res: Response, next: NextFunction) => {

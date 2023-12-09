@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
-import { userRepository } from "../models/user/UserRepository";
-import { rolesConfig } from "../config/rolesConfig";
-import { HttpStatusCode, Permissions } from "../constants";
+import { userRepository } from "../../models/user/UserRepository";
+import { rolesConfig } from "../../config/rolesConfig";
+import { HttpStatusCode, Permissions } from "../../constants";
 
 export const verifyPermissions =
-    (permission: Permissions[]) =>
+    (permissions: Permissions[]) =>
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId = req.body.userId;
@@ -24,7 +24,7 @@ export const verifyPermissions =
             }
 
             if (
-                permission.some((p) => userRoleConfig.permissions.includes(p))
+                permissions.some((p) => userRoleConfig.permissions.includes(p))
             ) {
                 return next();
             } else {
