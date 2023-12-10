@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authConfig from "../../config/authConfig";
-import { userRepository } from "../../models/user/UserRepository";
+import { userRepository } from "../../repositories/userRepository";
 import { ReturnUser, SaveUser } from "../../types";
 
 export const signup = async (user: SaveUser): Promise<ReturnUser> => {

@@ -1,5 +1,5 @@
-import { User } from "./User";
-import { appDataSource } from "../../database/app-data-source";
+import { User } from "../models/User";
+import { appDataSource } from "../database/app-data-source";
 
 export const userRepository = appDataSource.getRepository(User).extend({
     findById(userId: string) {

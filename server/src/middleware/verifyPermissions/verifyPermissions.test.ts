@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { verifyPermissions } from "./verifyPermissions";
-import { userRepository } from "../../models/user/UserRepository";
+import { userRepository } from "../../repositories/userRepository";
 import { DBUserMock } from "../../testHelpers/userMock";
 import { HttpStatusCode, Permissions, UserRole } from "../../constants";
 

@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { userRepository } from "../../models/user/UserRepository";
+import { userRepository } from "../../repositories/userRepository";
 import { rolesConfig } from "../../config/rolesConfig";
 import { HttpStatusCode, Permissions } from "../../constants";
 

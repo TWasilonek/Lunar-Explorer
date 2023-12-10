@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from "express";
-import { userRepository } from "../../models/user/UserRepository";
+import { userRepository } from "../../repositories/userRepository";
 import { HttpStatusCode } from "../../constants";
 
 export const checkDuplicateUsernameOrEmail = async (

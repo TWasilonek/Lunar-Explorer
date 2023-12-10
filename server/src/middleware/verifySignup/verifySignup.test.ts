@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { userRepository } from "../../models/user/UserRepository";
+import { userRepository } from "../../repositories/userRepository";
 import { checkDuplicateUsernameOrEmail } from "./verifySignup";
 import { DBUserMock } from "../../testHelpers/userMock";
 

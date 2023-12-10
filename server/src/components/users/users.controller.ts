@@ -1,4 +1,4 @@
-import { userRepository } from "../../models/user/UserRepository";
+import { userRepository } from "../../repositories/userRepository";
 import { ReturnUser, SaveUser } from "../../types";
 
 export const getAllUsers = async () => {
