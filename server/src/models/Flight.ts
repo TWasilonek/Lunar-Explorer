@@ -8,7 +8,7 @@ import {
 } from "typeorm";
 import { Auditable } from "./Auditable";
 import { Spaceship } from "./Spaceship";
-import { Port } from "./Ports";
+import { Port } from "./Port";
 
 @Entity({ name: "flights" })
 export class Flight extends Auditable {
@@ -35,10 +35,10 @@ export class Flight extends Auditable {
     })
     arrivalTime: string;
 
-    @ManyToOne(() => Port)
+    @ManyToOne(() => Port, (port) => port.id)
     originPort: Port;
 
-    @ManyToOne(() => Port)
+    @ManyToOne(() => Port, (port) => port.id)
     destinationPort: Port;
 
     @Column("varchar", {

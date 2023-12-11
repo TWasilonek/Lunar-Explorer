@@ -23,6 +23,8 @@ export class Spaceship extends Auditable {
     })
     totalSeats: number;
 
-    @ManyToOne(() => Manufacturer, (manufacturer) => manufacturer.id)
+    @ManyToOne(() => Manufacturer, (manufacturer) => manufacturer.id, {
+        onDelete: "SET NULL",
+    })
     manufacturer: Manufacturer;
 }

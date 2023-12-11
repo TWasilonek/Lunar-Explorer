@@ -20,7 +20,7 @@ export class FlightOccupancy extends Auditable {
     @JoinColumn()
     room: Room;
 
-    @OneToOne(() => Booking, { onDelete: "CASCADE" })
+    @ManyToOne(() => Booking, (booking) => booking.id, { onDelete: "CASCADE" })
     @JoinColumn()
     booking: Booking;
 

@@ -6,7 +6,6 @@ import {
     PrimaryGeneratedColumn,
 } from "typeorm";
 import { Auditable } from "./Auditable";
-import { Booking } from "./Booking";
 import { Flight } from "./Flight";
 
 @Entity({ name: "trips" })
