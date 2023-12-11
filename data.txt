@@ -1,0 +1,676 @@
+table: ports
+
+id: 1
+name: Cape Canaveral Space Force Station
+code: CCSFS
+location: Cape Canaveral, Florida, USA
+
+id: 2
+name: Vandenberg Space Force Base
+code: VBG
+location: Lompoc, Santa Barbara County, California, USA
+
+id: 3
+name: Kennedy Space Center
+code: KSC
+location: Merritt Island, Brevard County, Florida, USA
+
+id: 4
+name: International Space Station
+code: ISS
+location: Low Earth Orbit
+
+id: 5
+name: Lunar Spaceport
+code: LSP
+location: Moon
+
+---
+
+table: manufacturers
+
+id: 1
+name: SpaceX
+
+id: 2
+name: The Spaceship Company
+
+id: 3
+name: Lunar Space Systems
+
+---
+
+table: spaceships
+
+id: 1
+model: Lunar Starship (LS)
+name: Voyager 1
+totalSeats: 50
+manufacturerId: 3
+
+id: 2
+model: Lunar Starship (LS)
+name: Voyager 2
+totalSeats: 50
+manufacturerId: 3
+
+id: 3
+model: Lunar Starship (LS)
+name: Voyager 3
+totalSeats: 50
+manufacturerId: 3
+
+id: 4
+model: Lunar Starship (LS)
+name: Voyager 4
+totalSeats: 50
+manufacturerId: 3
+
+id: 5
+model: Starship
+name: Ego I
+totalSeats: 100
+manufacturer: SpaceX
+manufacturerId: 1
+
+id: 6
+model: Starship
+name: Ego X100
+totalSeats: 100
+manufacturer: SpaceX
+manufacturerId: 1
+
+--- 
+
+table: users
+
+id: 7bd107d9-1eeb-4da1-8be3-7c2d5c5db212
+firstName: Admin
+lastName: Admin
+email: admin@admin.pl
+password:
+role: admin
+
+id: c96f2636-c47e-4840-b844-f08e39a5599b
+firstName: John
+lastName: Doe
+email: John@Doe.com
+password: 
+role: user
+
+id: c3451038-cf72-4f56-be1f-4f39f736c307
+firstName: Eloneusz
+lastName: Muskinski
+email: ego@elo.dev
+password: 
+role: user
+
+id: 5d5c1d70-244c-4a12-8890-0494378c0f3f
+firstName: Alice
+lastName: Johnson
+email: alice.johnson@email.com
+password:
+role: user
+
+id: a2b36b6d-b829-4c3d-9c87-5bc19bf9a7e0
+firstName: Robert
+lastName: Smith
+email: robert.smith@email.com
+password:
+role: user
+
+id: 9a1d5c56-1ff5-4eac-bf47-2586a2a1a395
+firstName: Emily
+lastName: White
+email: emily.white@email.com
+password:
+role: user
+
+id: 7cf5237c-0c97-4a6f-8ec7-8f822e5cb1c6
+firstName: Michael
+lastName: Davis
+email: michael.davis@email.com
+password:
+role: user
+
+id: f6e2a0c1-c8b5-4d6a-b3b5-39ecf02c0a65
+firstName: Sarah
+lastName: Brown
+email: sarah.brown@email.com
+password:
+role: user
+
+id: d2a54043-3e2a-4a2c-9ba2-bb942881ab2d
+firstName: Daniel
+lastName: Anderson
+email: daniel.anderson@email.com
+password:
+role: user
+
+id: 48c3a0a9-82eb-43aa-b535-2a2253a24319
+firstName: Olivia
+lastName: Miller
+email: olivia.miller@email.com
+password:
+role: user
+
+id: 0cb93df8-9615-44fe-8c95-303292ef9a79
+firstName: James
+lastName: Taylor
+email: james.taylor@email.com
+password:
+role: user
+
+id: b35d2682-53cf-49e1-9e47-29e1b6d3e0d1
+firstName: Sophia
+lastName: Moore
+email: sophia.moore@email.com
+password:
+role: user
+
+id: 8b39c39d-c04a-4b9b-86f1-2765d84a9e4e
+firstName: Ethan
+lastName: Wilson
+email: ethan.wilson@email.com
+password:
+role: user
+
+id: bba8f46b-6f46-4ff2-a1f4-1b3c5822ac92
+firstName: Emma
+lastName: Robinson
+email: emma.robinson@email.com
+password:
+role: user
+
+id: 2dcb6e41-7809-4ee3-9cc5-4ff1047e25dd
+firstName: William
+lastName: Martinez
+email: william.martinez@email.com
+password:
+role: user
+
+id: e1a99c49-7ea5-4f4d-815e-7b10164c14d3
+firstName: Chloe
+lastName: Garcia
+email: chloe.garcia@email.com
+password:
+role: user
+
+id: 7b512c43-0fcf-4a44-8f90-1a650ed8c70c
+firstName: Benjamin
+lastName: Adams
+email: benjamin.adams@email.com
+password:
+role: user
+
+id: d6087d3d-3e4e-4b17-9294-ec2f77899aa5
+firstName: Mia
+lastName: Cooper
+email: mia.cooper@email.com
+password:
+role: user
+
+id: 5a9d45a8-e2cc-4e3e-9cda-6357fb4d7aa0
+firstName: Liam
+lastName: Turner
+email: liam.turner@email.com
+password:
+role: user
+
+id: c80fe5aa-5010-4a5b-bc32-81116191bbd1
+firstName: Harper
+lastName: Hill
+email: harper.hill@email.com
+password:
+role: user
+
+id: 03c7478d-d939-4f4e-bf0c-0a73344a55ec
+firstName: Jackson
+lastName: Mitchell
+email: jackson.mitchell@email.com
+password:
+role: user
+
+id: 9015d76e-7ff9-4f92-9d6b-829eb2fb67e7
+firstName: Lily
+lastName: Cooper
+email: lily.cooper@email.com
+password:
+role: user
+
+id: 09c24288-3b86-4e0b-a268-7d5b7de6d34e
+firstName: Aiden
+lastName: Jenkins
+email: aiden.jenkins@email.com
+password:
+role: user
+
+id: 7ac98d2b-6a09-4f8d-aaf7-74e4e2b5c71c
+firstName: Sophia
+lastName: Turner
+email: sophia.turner@email.com
+password:
+role: user
+
+id: 0eb410b4-238b-4db4-910e-6dbad7fda5a5
+firstName: Noah
+lastName: Lewis
+email: noah.lewis@email.com
+password:
+role: user
+
+id: 2f56ab4b-7a94-4b72-b6e8-6f4a40f21764
+firstName: Ava
+lastName: Parker
+email: ava.parker@email.com
+password:
+role: user
+
+id: 8c6ff8b8-df6f-4a48-8a27-9e9b9a2c7874
+firstName: James
+lastName: Adams
+email: james.adams@email.com
+password:
+role: user
+
+id: 67cd88a1-190f-4d67-aa24-44c6b671f1e4
+firstName: Olivia
+lastName: Green
+email: olivia.green@email.com
+password:
+role: user
+
+id: 4a2a0b8f-c5c1-4c65-9abf-12d8a3d46e2b
+firstName: Jackson
+lastName: Moore
+email: jackson.moore@email.com
+password:
+role: user
+
+id: 689b5bd1-70ac-4b07-8c2e-77ef7859d8b3
+firstName: Emma
+lastName: Turner
+email: emma.turner@email.com
+password:
+role: user
+
+id: 8cfb4f4f-c6d5-4e7e-835b-b6bf31c9acfd
+firstName: Aiden
+lastName: Walker
+email: aiden.walker@email.com
+password:
+role: user
+
+id: 4d7f4702-7a97-40c4-9f96-d276763c1dcd
+firstName: Lily
+lastName: Wright
+email: lily.wright@email.com
+password:
+role: user
+
+id: 6a1966a3-7d9c-4d6a-bde1-5f6bc9ed9a4a
+firstName: Ethan
+lastName: Parker
+email: ethan.parker@email.com
+password:
+role: user
+
+id: 3b2ea987-8af4-465b-8f9f-7a6abade5d72
+firstName: Grace
+lastName: Miller
+email: grace.miller@email.com
+password:
+role: user
+
+id: 0e95b4b2-3b50-4645-bd94-2c9f3bf89c7a
+firstName: Oliver
+lastName: Adams
+email: oliver.adams@email.com
+password:
+role: user
+
+id: 6b82d660-92fb-42e8-b1f2-3f9f14c90721
+firstName: Scarlett
+lastName: Turner
+email: scarlett.turner@email.com
+password:
+role: user
+
+id: 895d0f21-3e1b-4e67-9f3e-6a4b8f24c8f7
+firstName: Mason
+lastName: Moore
+email: mason.moore@email.com
+password:
+role: user
+
+id: 0d937c43-6ea5-40a8-9bda-0c0f0a7f8f2b
+firstName: Ava
+lastName: Martin
+email: ava.martin@email.com
+password:
+role: user
+
+id: 59e5c5a4-345e-4d35-8d6f-0b307df5367e
+firstName: Liam
+lastName: Davis
+email: liam.davis@email.com
+password:
+role: user
+
+id: 96c3f89e-89e9-4c32-93b3-1bdaad2c44fc
+firstName: Zoey
+lastName: Wilson
+email: zoey.wilson@email.com
+password:
+role: user
+
+id: 0ce15b50-0d95-4da8-9a93-d8b650ea6a26
+firstName: William
+lastName: Turner
+email: william.turner@email.com
+password:
+role: user
+
+id: 899ab661-4f65-48a1-8d04-63d92b64c272
+firstName: Harper
+lastName: Wilson
+email: harper.wilson@email.com
+password:
+role: user
+
+id: ceb6a198-97a1-4c6d-8b25-6c6d52a3b12b
+firstName: Noah
+lastName: Taylor
+email: noah.taylor@email.com
+password:
+role: user
+
+id: 21c43cf1-5b6b-4e8a-a1ec-36bae59b0ff9
+firstName: Emma
+lastName: Green
+email: emma.green@email.com
+password:
+role: user
+
+id: 8725e2c2-930d-4b4d-a7b8-63b764db0945
+firstName: Logan
+lastName: Adams
+email: logan.adams@email.com
+password:
+role: user
+
+id: aea84ac4-62dd-4592-8759-aae7a064f6cf
+firstName: Mia
+lastName: Taylor
+email: mia.taylor@email.com
+password:
+role: user
+
+id: f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07
+firstName: Elijah
+lastName: Davis
+email: elijah.davis@email.com
+password:
+role: user
+
+id: 9a6b7e3b-22f4-45ce-b76c-2f2ea3ef9d5e
+firstName: Ava
+lastName: Wright
+email: ava.wright@email.com
+password:
+role: user
+
+id: 88a4dcd2-1c77-4efb-a2f1-64f6ff1d5df1
+firstName: William
+lastName: White
+email: william.white@email.com
+password:
+role: user
+
+id: 1ac86833-6d43-4f56-92b9-d6a0a2a617d2
+firstName: Mia
+lastName: Robinson
+email: mia.robinson@email.com
+password:
+role: user
+
+id: 388fc630-4900-4b53-8f7d-d3df929fd2fc
+firstName: Oliver
+lastName: Turner
+email: oliver.turner@email.com
+password:
+role: user
+
+id: a84e0ba7-2d0f-495d-b437-186a453a697d
+firstName: Scarlett
+lastName: Harris
+email: scarlett.harris@email.com
+password:
+role: user
+
+id: a9e0a6bc-9eb1-47d0-8e0e-7e937a98eef2
+firstName: Mason
+lastName: Turner
+email: mason.turner@email.com
+password:
+role: user
+
+---
+
+table: flights
+
+id: 1
+flightNumber: LE 1
+departureTime: 2024-03-01 12:00:00
+arrivalTime: 2024-03-01 22:00:00
+spaceshipId: 1
+originPortId: 1
+destinationPortId: 5
+status: scheduled
+
+id: 2
+flightNumber: LE 2
+departureTime: 2024-03-07 12:00:00
+arrivalTime: 2024-03-07 22:00:00
+spaceshipId: 1
+originPortId: 5
+destinationPortId: 1
+status: scheduled
+
+id: 3
+flightNumber: SX 1
+departureTime: 2024-03-08 12:00:00
+arrivalTime: 2024-03-08 22:00:00
+spaceshipId: 5
+originPortId: 2
+destinationPortId: 5
+status: scheduled
+
+id: 4
+flightNumber: SX 2
+departureTime: 2024-03-15 12:00:00
+arrivalTime: 2024-03-15 22:00:00
+spaceshipId: 5
+originPortId: 5
+destinationPortId: 2
+status: scheduled
+
+id: 5
+flightNumber: LE 1
+departureTime: 2024-03-16 12:00:00
+arrivalTime: 2024-03-16 22:00:00
+spaceshipId: 2
+originPortId: 1
+destinationPortId: 5
+status: scheduled
+
+id: 6
+flightNumber: LE 2
+departureTime: 2024-03-22 12:00:00
+arrivalTime: 2024-03-22 22:00:00
+spaceshipId: 2
+originPortId: 5
+destinationPortId: 1
+status: scheduled
+
+id: 7
+flightNumber: SX 1
+departureTime: 2024-03-23 12:00:00
+arrivalTime: 2024-03-23 22:00:00
+spaceshipId: 6  
+originPortId: 2
+destinationPortId: 5
+status: scheduled
+
+id: 8
+flightNumber: SX 2
+departureTime: 2024-03-30 12:00:00
+arrivalTime: 2024-03-30 22:00:00
+spaceshipId: 6
+originPortId: 5
+destinationPortId: 2
+status: scheduled
+
+id: 9
+flightNumber: LE 1
+departureTime: 2024-03-31 12:00:00
+arrivalTime: 2024-03-31 22:00:00
+spaceshipId: 3  
+originPortId: 1
+destinationPortId: 5
+status: scheduled
+
+id: 10
+flightNumber: LE 2
+departureTime: 2024-04-06 12:00:00
+arrivalTime: 2024-04-06 22:00:00
+spaceshipId: 3
+originPortId: 5
+destinationPortId: 1
+status: scheduled
+
+id: 11
+flightNumber: SX 1
+departureTime: 2024-04-13 12:00:00
+arrivalTime: 2024-04-13 22:00:00
+spaceshipId: 5 
+originPortId: 2
+destinationPortId: 5
+status: scheduled
+
+id: 12
+flightNumber: SX 2
+departureTime: 2024-04-20 12:00:00
+arrivalTime: 2024-04-20 22:00:00
+spaceshipId: 5
+originPortId: 5
+destinationPortId: 2
+status: scheduled
+
+id: 13
+flightNumber: LE 1
+departureTime: 2024-04-21 12:00:00
+arrivalTime: 2024-04-21 22:00:00
+spaceshipId: 4  
+originPortId: 1
+destinationPortId: 5
+status: scheduled
+
+id: 14
+flightNumber: LE 2
+departureTime: 2024-04-27 12:00:00
+arrivalTime: 2024-04-27 22:00:00
+spaceshipId: 4
+originPortId: 5
+destinationPortId: 1
+status: scheduled
+
+id: 15
+flightNumber: SX 1
+departureTime: 2024-05-04 12:00:00
+arrivalTime: 2024-05-04 22:00:00
+spaceshipId: 5  
+originPortId: 2
+destinationPortId: 5
+status: scheduled
+
+id: 16
+flightNumber: SX 2
+departureTime: 2024-05-11 12:00:00
+arrivalTime: 2024-05-11 22:00:00
+spaceshipId: 5
+originPortId: 5
+destinationPortId: 2
+status: scheduled
+
+id: 17
+flightNumber: LE 1
+departureTime: 2024-05-12 12:00:00
+arrivalTime: 2024-05-12 22:00:00
+spaceshipId: 2  
+originPortId: 1
+destinationPortId: 5
+status: scheduled
+
+id: 18
+flightNumber: LE 2
+departureTime: 2024-05-18 12:00:00
+arrivalTime: 2024-05-18 22:00:00
+spaceshipId: 2
+originPortId: 5
+destinationPortId: 1
+status: scheduled
+
+id: 19
+flightNumber: SX 1
+departureTime: 2024-05-25 12:00:00
+arrivalTime: 2024-05-25 22:00:00
+spaceshipId: 6  
+originPortId: 2
+destinationPortId: 5
+status: scheduled
+
+id: 20
+flightNumber: SX 2
+departureTime: 2024-06-01 12:00:00
+arrivalTime: 2024-06-01 22:00:00
+spaceshipId: 6
+originPortId: 5
+destinationPortId: 2
+status: scheduled
+
+id: 21
+flightNumber: LE 1
+departureTime: 2024-06-02 12:00:00
+arrivalTime: 2024-06-02 22:00:00
+spaceshipId: 3  
+originPortId: 1
+destinationPortId: 5
+status: scheduled
+
+id: 22
+flightNumber: LE 2
+departureTime: 2024-06-08 12:00:00
+arrivalTime: 2024-06-08 22:00:00
+spaceshipId: 3
+originPortId: 5
+destinationPortId: 1
+status: scheduled
+
+id: 23
+flightNumber: SX 1
+departureTime: 2024-06-15 12:00:00
+arrivalTime: 2024-06-15 22:00:00
+spaceshipId: 5  
+originPortId: 2
+destinationPortId: 5
+status: scheduled
+
+id: 24
+flightNumber: SX 2
+departureTime: 2024-06-22 12:00:00
+arrivalTime: 2024-06-22 22:00:00
+spaceshipId: 5
+originPortId: 5
+destinationPortId: 2
+status: scheduled

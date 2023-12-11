@@ -7,19 +7,19 @@ export class Port extends Auditable {
     id: number;
 
     @Column("varchar", {
-        length: 100,
+        length: 255,
         nullable: false,
     })
     name: string;
 
     @Column("varchar", {
-        length: 4,
+        length: 20,
         nullable: false,
     })
     code: string;
 
     @Column("varchar", {
-        length: 50,
+        length: 255,
         nullable: false,
     })
     location: string;
