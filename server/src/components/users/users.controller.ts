@@ -1,3 +1,4 @@
+import { NotFoundError } from "../../errors/NotFoundError";
 import { userRepository } from "../../repositories/userRepository";
 import { ReturnUser, SaveUser } from "../../types";
 
@@ -8,7 +9,7 @@ export const getAllUsers = async () => {
 export const getUserById = async (userId: string) => {
     const user = await userRepository.findById(userId);
     if (!user) {
-        throw Error("User not found");
+        throw new NotFoundError("User not found");
     }
 
     return user;
