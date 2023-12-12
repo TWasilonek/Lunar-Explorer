@@ -5,7 +5,7 @@ import logger from "morgan";
 import errorHandler from "./middleware/errorHandler";
 import logErrors from "./middleware/logErrors";
 import { isProduction } from "./utils/env";
-import { appDataSource, dbConfig } from "./database/app-data-source";
+import { appDataSource, dbConfig } from "./db/app-data-source";
 import usersRouter from "./components/users/users.router";
 import authRouter from "./components/auth/auth.router";
 
