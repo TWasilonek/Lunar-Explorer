@@ -10,7 +10,16 @@
     "tsc": "tsc",
     "test": "jest",
     "test:watch": "jest --watch",
-    "test:coverage": "jest --coverage"
+    "test:coverage": "jest --coverage",
+    "typeorm": "typeorm-ts-node-commonjs",
+    "schema:sync": "npx typeorm-ts-node-commonjs schema:sync",
+    "typeorm:cache": "npx typeorm-ts-node-commonjs cache:clear",
+    "schema:drop": "npx typeorm-ts-node-commonjs -d ./src/db/app-data-source.ts",
+    "migration:create": "typeorm migration:create",
+    "migration:generate": "npx typeorm-ts-node-commonjs migration:generate -d ./src/db/app-data-source.ts",
+    "migration:show": "npx typeorm-ts-node-commonjs migration:show -d ./src/db/app-data-source.ts",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d  ./src/db/app-data-source.ts",
+    "migration:revert": "npx typeorm-ts-node-commonjs migration:revert -d ./src/db/app-data-source.ts"
   },
   "keywords": [],
   "author": "Tomasz Wasilonek",
@@ -40,6 +49,7 @@
     "prettier": "^3.1.0",
     "supertest": "^6.3.3",
     "ts-jest": "^29.1.1",
+    "ts-node": "^10.9.2",
     "ts-node-dev": "^2.0.0"
   }
 }

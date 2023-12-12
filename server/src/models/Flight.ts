@@ -21,8 +21,7 @@ export class Flight extends Auditable {
     })
     flightNumber: string;
 
-    @OneToOne(() => Spaceship)
-    @JoinColumn()
+    @ManyToOne(() => Spaceship, (spaceship) => spaceship.id)
     spaceship: Spaceship;
 
     @Column("timestamp with time zone", {

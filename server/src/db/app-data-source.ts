@@ -11,6 +11,7 @@ export const dbConfig: PostgresConnectionOptions = {
     synchronize: process.env.PG_SYNCHRONIZE as unknown as boolean,
     logging: process.env.PG_LOGGING as unknown as boolean,
     entities: [process.env.PG_ENTITIES as unknown as string],
+    migrations: [process.env.PG_MIGRATIONS as unknown as string],
 };
 
 export const appDataSource = new DataSource(dbConfig);
