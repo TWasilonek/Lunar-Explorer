@@ -8,13 +8,21 @@ This is the server for the Lunar Explorer app.
 
 ### Prerequisites
 
--   **Node.js**
+-   **Node.js** and **npm**
+-   **PostgreSQL** installed locally
+
+### Prepare the environment
+
+1. Create a `.env` file in the root of the project. Use the `.env.example` file as a template.
+2. Create a database in PostgreSQL. The name of the database should be the same as the one in the `.env` file. Ensure that the user has the correct permissions to access the database and all other values are in line with your local PostgreSQL setup.
+3. Run `npm install` to install the dependencies.
+4. Start the local database.
+5. Run `npm run migrations:run` to run the migrations. This will create the tables in the database and seed them with initial data.
 
 ### Run locally
 
-1. Run `npm install`
-2. Start the local database
-3. Start the server - `$ npm run dev`
+1. Start the local database
+2. Start the server - `$ npm run dev`
 
 ## Concepts
 

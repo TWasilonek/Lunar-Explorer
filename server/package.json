@@ -18,7 +18,7 @@
     "migration:create": "typeorm migration:create",
     "migration:generate": "npx typeorm-ts-node-commonjs migration:generate -d ./src/db/app-data-source.ts",
     "migration:show": "npx typeorm-ts-node-commonjs migration:show -d ./src/db/app-data-source.ts",
-    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d  ./src/db/app-data-source.ts",
+    "migration:run": "npx typeorm-ts-node-commonjs migration:run -d ./src/db/app-data-source.ts",
     "migration:revert": "npx typeorm-ts-node-commonjs migration:revert -d ./src/db/app-data-source.ts"
   },
   "keywords": [],
