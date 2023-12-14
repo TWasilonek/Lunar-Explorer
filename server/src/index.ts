@@ -8,6 +8,7 @@ import { isProduction } from "./utils/env";
 import { appDataSource, dbConfig } from "./db/app-data-source";
 import usersRouter from "./components/users/users.router";
 import authRouter from "./components/auth/auth.router";
+import tripsRouter from "./components/trips/trips.router";
 
 const app = express();
 /**
@@ -36,6 +37,7 @@ app.use(express.urlencoded({ extended: true }));
  */
 app.use("/api/v1/users", usersRouter);
 app.use("/api/v1/auth", authRouter);
+app.use("/api/v1/trips", tripsRouter);
 
 /**
  * ERROR_HANDLING

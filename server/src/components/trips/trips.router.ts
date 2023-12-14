@@ -1,16 +1,16 @@
 import express from "express";
 import asyncMiddleware from "../../middleware/asyncMiddleware";
 import { getTripById, getTrips } from "./trips.controller";
+import { addQuarters, format } from "date-fns";
 
 const router = express.Router();
 
-// TODO: add pagination by dates
 router.get(
     "/",
     asyncMiddleware(async (req, res, next) => {
         const trips = await getTrips({
-            startDate: req.query.startDate,
-            endDate: req.query.endDate,
+            startDate: req.query?.startDate as string,
+            endDate: req.query?.endDate as string,
         });
         res.json(trips);
     }),
@@ -23,3 +23,5 @@ router.get(
         res.json(trip);
     }),
 );
+
+export default router;
