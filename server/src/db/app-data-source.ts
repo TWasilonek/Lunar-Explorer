@@ -1,6 +1,7 @@
 import "dotenv/config";
 import { DataSource } from "typeorm";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
+import { isProduction } from "../utils/env";
 
 export const dbConfig: PostgresConnectionOptions = {
     type: "postgres",
@@ -9,8 +10,8 @@ export const dbConfig: PostgresConnectionOptions = {
     username: process.env.PG_ACCOUNT,
     password: process.env.PG_PASSWORD,
     database: process.env.PG_DATABASE,
-    synchronize: process.env.PG_SYNCHRONIZE as unknown as boolean,
-    logging: process.env.PG_LOGGING as unknown as boolean,
+    synchronize: false, // the migrations will take care of this
+    logging: isProduction(),
     entities: [process.env.PG_ENTITIES as unknown as string],
     migrations: [process.env.PG_MIGRATIONS as unknown as string],
 };
