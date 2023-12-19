@@ -1,10 +1,4 @@
-import {
-    Column,
-    Entity,
-    JoinColumn,
-    ManyToOne,
-    PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Auditable } from "./Auditable";
 import { Booking } from "./Booking";
 import { Flight } from "./Flight";

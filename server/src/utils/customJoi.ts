@@ -11,7 +11,7 @@ export const joi = baseJoi.extend(
             coerce: {
                 from: "string",
                 method(value: string, helpers: CustomHelpers) {
-                    if (value[0] !== "{" && !/^\s*\{/.test(value)) {
+                    if (!value.startsWith("{") && !/^\s*\{/.test(value)) {
                         return {
                             value,
                             errors: [helpers.error("object.base")],
@@ -40,7 +40,7 @@ export const joi = baseJoi.extend(
                 method(value: string, helpers: CustomHelpers) {
                     if (
                         typeof value !== "string" ||
-                        (value[0] !== "[" && !/^\s*\[/.test(value))
+                        (!value.startsWith("[") && !/^\s*\[/.test(value))
                     ) {
                         return { value, errors: [helpers.error("array.base")] };
                     }

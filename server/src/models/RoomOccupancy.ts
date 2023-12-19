@@ -12,7 +12,7 @@ import { Trip } from "./Trip";
 import { Room } from "./Room";
 
 @Entity({ name: "room_occupancies" })
-export class FlightOccupancy extends Auditable {
+export class RoomOccupancy extends Auditable {
     @PrimaryGeneratedColumn()
     id: number;
 
