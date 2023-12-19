@@ -1,4 +1,4 @@
-import joi from "joi";
+import { joi } from "../../utils/customJoi";
 
 export const signupSchema = joi.object({
     firstName: joi.string().required(),
