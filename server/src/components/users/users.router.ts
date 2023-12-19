@@ -7,7 +7,7 @@ import {
 } from "./users.controller";
 import { verifyToken } from "../../middleware/verifyToken";
 import { verifyPermissions } from "../../middleware/verifyPermissions";
-import { HttpStatusCode, Permissions } from "../../constants";
+import { HttpStatusCode, AdminPermissions } from "../../constants";
 import asyncMiddleware from "../../middleware/asyncMiddleware/asyncMiddleware";
 import { validateRequestBody } from "../../middleware/validateRequestBody";
 import { updateUserSchema } from "./user.requestSchema";
@@ -47,7 +47,7 @@ router.delete(
 
 router.get(
     "/",
-    [verifyToken, verifyPermissions([Permissions.READ])],
+    [verifyToken, verifyPermissions([AdminPermissions.READ])],
     asyncMiddleware(async (req, res, next) => {
         const users = await getAllUsers();
         res.json(users);
@@ -56,7 +56,7 @@ router.get(
 
 router.get(
     "/:userId",
-    [verifyToken, verifyPermissions([Permissions.READ])],
+    [verifyToken, verifyPermissions([AdminPermissions.READ])],
     asyncMiddleware(async (req, res, next) => {
         const user = await getUserById(req.params.userId);
         res.json(user);
@@ -67,7 +67,7 @@ router.put(
     "/:userId",
     [
         verifyToken,
-        verifyPermissions([Permissions.UPDATE]),
+        verifyPermissions([AdminPermissions.UPDATE]),
         validateRequestBody(updateUserSchema),
     ],
     asyncMiddleware(async (req, res, next) => {
@@ -78,7 +78,7 @@ router.put(
 
 router.delete(
     "/:userId",
-    [verifyToken, verifyPermissions([Permissions.DELETE])],
+    [verifyToken, verifyPermissions([AdminPermissions.DELETE])],
     asyncMiddleware(async (req, res, next) => {
         await deleteUser(req.params.userId);
         res.sendStatus(HttpStatusCode.OK);

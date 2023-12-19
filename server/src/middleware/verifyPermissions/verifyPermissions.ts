@@ -1,10 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { userRepository } from "../../repositories/userRepository";
 import { rolesConfig } from "../../config/rolesConfig";
-import { HttpStatusCode, Permissions } from "../../constants";
+import { HttpStatusCode, AdminPermissions } from "../../constants";
 
 export const verifyPermissions =
-    (permissions: Permissions[]) =>
+    (permissions: AdminPermissions[]) =>
     async (req: Request, res: Response, next: NextFunction) => {
         try {
             const userId = req.body.userId;

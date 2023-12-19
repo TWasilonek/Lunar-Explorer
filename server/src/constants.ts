@@ -8,7 +8,7 @@ export enum HttpStatusCode {
     INTERNAL_SERVER = 500,
 }
 
-export enum Permissions {
+export enum AdminPermissions {
     READ = "read",
     CREATE = "create",
     UPDATE = "update",

@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { verifyPermissions } from "./verifyPermissions";
 import { userRepository } from "../../repositories/userRepository";
 import { DBUserMock } from "../../testHelpers/userMock";
-import { HttpStatusCode, Permissions, UserRole } from "../../constants";
+import { HttpStatusCode, AdminPermissions, UserRole } from "../../constants";
 
 describe("verifyPermissions", () => {
     const req = { body: { userId: DBUserMock.id } } as Request;
@@ -17,7 +17,7 @@ describe("verifyPermissions", () => {
     });
 
     it("should call next if the user has the required permissions", async () => {
-        const permissions = [Permissions.READ];
+        const permissions = [AdminPermissions.READ];
         const user = {
             ...DBUserMock,
             role: UserRole.ADMIN,
@@ -35,10 +35,10 @@ describe("verifyPermissions", () => {
     });
 
     [
-        [Permissions.READ],
-        [Permissions.CREATE],
-        [Permissions.UPDATE],
-        [Permissions.DELETE],
+        [AdminPermissions.READ],
+        [AdminPermissions.CREATE],
+        [AdminPermissions.UPDATE],
+        [AdminPermissions.DELETE],
     ].forEach((permissions) => {
         it("should send a forbidden response if the user does not have the required permissions", async () => {
             const user = {
@@ -63,7 +63,7 @@ describe("verifyPermissions", () => {
             // @ts-ignore - We don't care about the whole repository object
             .mockResolvedValueOnce(null);
 
-        await verifyPermissions([Permissions.READ])(req, res, next);
+        await verifyPermissions([AdminPermissions.READ])(req, res, next);
 
         expect(res.status).toHaveBeenCalledWith(HttpStatusCode.NOT_FOUND);
         expect(res.send).toHaveBeenCalledWith({ message: "User not found" });
@@ -80,7 +80,7 @@ describe("verifyPermissions", () => {
             // @ts-ignore - We don't care about the whole repository object
             .mockResolvedValueOnce(user);
 
-        await verifyPermissions([Permissions.READ])(req, res, next);
+        await verifyPermissions([AdminPermissions.READ])(req, res, next);
 
         expect(res.status).toHaveBeenCalledWith(HttpStatusCode.FORBIDDEN);
         expect(res.send).toHaveBeenCalledWith({ message: "Forbidden" });
@@ -96,7 +96,7 @@ describe("verifyPermissions", () => {
             .spyOn(console, "error")
             .mockImplementationOnce(() => {});
 
-        await verifyPermissions([Permissions.READ])(req, res, next);
+        await verifyPermissions([AdminPermissions.READ])(req, res, next);
 
         expect(res.status).toHaveBeenCalledWith(HttpStatusCode.FORBIDDEN);
         expect(res.send).toHaveBeenCalledWith({ message: "Forbidden" });

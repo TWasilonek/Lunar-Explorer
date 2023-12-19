@@ -1,18 +1,18 @@
-import { Permissions, UserRole } from "../constants";
+import { AdminPermissions, UserRole } from "../constants";
 
 export type RoleConfig = {
     name: UserRole;
-    permissions: Permissions[];
+    permissions: AdminPermissions[];
 };
 
 export const rolesConfig: RoleConfig[] = [
     {
         name: UserRole.ADMIN,
         permissions: [
-            Permissions.READ,
-            Permissions.CREATE,
-            Permissions.UPDATE,
-            Permissions.DELETE,
+            AdminPermissions.READ,
+            AdminPermissions.CREATE,
+            AdminPermissions.UPDATE,
+            AdminPermissions.DELETE,
         ],
     },
     {
