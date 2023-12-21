@@ -191,3 +191,22 @@ VALUES
   (13, '013', 2, 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcwMTEzNDI2NQ&ixlib=rb-4.0.3&q=80&w=1080'),
   (14, '014', 1, 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcwMTEzNDI2NQ&ixlib=rb-4.0.3&q=80&w=1080'),
   (15, '015', 1, 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcwMTEzNDI2NQ&ixlib=rb-4.0.3&q=80&w=1080');
+
+INSERT INTO bookings (id, "bookingNumber", status, "numberOfGuests", "userId", "guestNames", "tripId")
+VALUES
+  ('f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07', '012345', 'pending_payment', 1, 'aea84ac4-62dd-4592-8759-aae7a064f6cf', '{"Mia Taylor"}', 1),
+  ('9e8d79cd-83da-44a7-9f44-0c1433fbb365', '012346', 'pending_payment', 2, '0d937c43-6ea5-40a8-9bda-0c0f0a7f8f2b', '{"Logan Adams", "Gerry Adams"}', 1);
+
+INSERT INTO room_occupancies (id, "numberOfOccupants", "roomId", "bookingId", "tripId")
+VALUES
+  (1, 1, 5, 'f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07', 1),
+  (2, 2, 1, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', 1);
+
+INSERT INTO flight_occupancies (id, "bookingId", "seatNumber", "flightId")
+VALUES
+  (1, 'f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07', '001', 1),
+  (2, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '002', 1),
+  (3, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '003', 1),
+  (4, 'f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07', '001', 2),
+  (5, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '002', 2),
+  (6, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '003', 2);
