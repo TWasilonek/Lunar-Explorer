@@ -4,6 +4,7 @@ import { verifyToken } from "../../middleware/verifyToken";
 import { validateRequestBody } from "../../middleware/validateRequestBody";
 import { createBookingSchema } from "./bookings.schema";
 import { createBooking } from "./bookings.controller";
+import { HttpStatusCode } from "../../constants";
 
 const router = express.Router();
 
@@ -23,8 +24,14 @@ router.post(
             // flightToMoonSeats: req.body.flightToMoonSeats,
             // flightToEarthSeats: req.body.flightToEarthSeats,
         });
-        // res.json(booking);
-        res.json({ message: "POST /bookings" });
+
+        if (booking) {
+            res.send(booking);
+        } else {
+            res.status(HttpStatusCode.INTERNAL_SERVER).send({
+                message: "Could not create booking",
+            });
+        }
     }),
 );
 

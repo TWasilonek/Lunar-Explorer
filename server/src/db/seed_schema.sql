@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS public.bookings (
 CREATE TABLE public.flight_occupancies (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     "bookingId" uuid,
     "seatNumber" character varying(3) NOT NULL,
     "flightId" integer
@@ -41,7 +41,7 @@ CREATE TABLE public.flight_occupancies (
 CREATE TABLE public.flights (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     "flightNumber" character varying(8) NOT NULL,
     "departureTime" timestamp with time zone NOT NULL,
     "arrivalTime" timestamp with time zone NOT NULL,
@@ -54,7 +54,7 @@ CREATE TABLE public.flights (
 CREATE TABLE public.manufacturers (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     name character varying(100) NOT NULL
 );
 
@@ -71,7 +71,7 @@ CREATE TABLE public.payments (
 CREATE TABLE public.ports (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     name character varying(255) NOT NULL,
     code character varying(20) NOT NULL,
     location character varying(255) NOT NULL
@@ -80,7 +80,7 @@ CREATE TABLE public.ports (
 CREATE TABLE public.room_occupancies (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     "numberOfOccupants" integer NOT NULL,
     "roomId" integer,
     "bookingId" uuid,
@@ -90,7 +90,7 @@ CREATE TABLE public.room_occupancies (
 CREATE TABLE public.rooms (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     "roomNumber" character varying(3) NOT NULL,
     capacity integer NOT NULL,
     "mainPhotoUrl" character varying(255) NOT NULL
@@ -99,7 +99,7 @@ CREATE TABLE public.rooms (
 CREATE TABLE public.spaceships (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     model character varying(100) NOT NULL,
     name character varying(100) NOT NULL,
     "totalSeats" integer NOT NULL,
@@ -109,7 +109,7 @@ CREATE TABLE public.spaceships (
 CREATE TABLE public.trips (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    id integer NOT NULL,
+    id SERIAL NOT NULL,
     "startDate" timestamp with time zone NOT NULL,
     "endDate" timestamp with time zone NOT NULL,
     status character varying(20) NOT NULL,

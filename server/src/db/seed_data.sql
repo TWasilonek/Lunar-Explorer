@@ -143,7 +143,7 @@ VALUES
 
 INSERT INTO trips (id, "startDate", "endDate", "flightToMoonId", "flightToEarthId", capacity, occupancy, status)
 VALUES
-  (1, '2024-03-01'::date, '2024-03-07'::date, 1, 2, 10, 0, 'scheduled'),
+  (1, '2024-03-01'::date, '2024-03-07'::date, 1, 2, 10, 3, 'scheduled'),
   (2, '2024-03-08'::date, '2024-03-15'::date, 3, 4, 15, 0, 'scheduled'),
   (3, '2024-03-16'::date, '2024-03-22'::date, 5, 6, 10, 0, 'scheduled'),
   (4, '2024-03-23'::date, '2024-03-30'::date, 7, 8, 15, 0, 'scheduled'),
@@ -204,9 +204,9 @@ VALUES
 
 INSERT INTO flight_occupancies (id, "bookingId", "seatNumber", "flightId")
 VALUES
-  (1, 'f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07', '001', 1),
-  (2, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '002', 1),
-  (3, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '003', 1),
-  (4, 'f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07', '001', 2),
-  (5, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '002', 2),
-  (6, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '003', 2);
+  (1, 'f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07', '1', 1),
+  (2, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '2', 1),
+  (3, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '3', 1),
+  (4, 'f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07', '1', 2),
+  (5, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '2', 2),
+  (6, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '3', 2);

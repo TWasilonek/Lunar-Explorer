@@ -9,13 +9,13 @@ export const createBookingSchema = joi.object({
     flightToMoon: joi
         .object({
             flightId: joi.string().required(),
-            seats: joi.string().required(),
+            seats: joi.array().items(joi.string()).required(),
         })
         .required(),
     flightToEarth: joi
         .object({
             flightId: joi.string().required(),
-            seats: joi.string().required(),
+            seats: joi.array().items(joi.string()).required(),
         })
         .required(),
 

@@ -18,5 +18,5 @@ export class FlightOccupancy extends Auditable {
         length: 3,
         nullable: false,
     })
-    seatNumber: number;
+    seatNumber: string;
 }
