@@ -11,15 +11,18 @@ router.post(
     "/",
     [verifyToken, validateRequestBody(createBookingSchema)],
     asyncMiddleware(async (req, res, next) => {
-        // const booking = await createBooking({
-        //     userId: req.body.userId,
-        //     tripId: req.body.tripId,
-        //     roomType: req.body.roomType,
-        //     numberOfGuests: req.body.numberOfGuests,
-        //     guestNames: req.body.guestNames,
-        //     flightToMoonSeats: req.body.flightToMoonSeats,
-        //     flightToEarthSeats: req.body.flightToEarthSeats,
-        // });
+        const booking = await createBooking({
+            userId: req.body.userId,
+            tripId: req.body.tripId,
+            roomType: req.body.roomType,
+            numberOfGuests: req.body.numberOfGuests,
+            guestNames: req.body.guestNames,
+            flightToMoon: req.body.flightToMoon,
+            flightToEarth: req.body.flightToEarth,
+
+            // flightToMoonSeats: req.body.flightToMoonSeats,
+            // flightToEarthSeats: req.body.flightToEarthSeats,
+        });
         // res.json(booking);
         res.json({ message: "POST /bookings" });
     }),
