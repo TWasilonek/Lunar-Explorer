@@ -18,11 +18,6 @@ router.post(
             roomType: req.body.roomType,
             numberOfGuests: req.body.numberOfGuests,
             guestNames: req.body.guestNames,
-            flightToMoon: req.body.flightToMoon,
-            flightToEarth: req.body.flightToEarth,
-
-            // flightToMoonSeats: req.body.flightToMoonSeats,
-            // flightToEarthSeats: req.body.flightToEarthSeats,
         });
 
         if (booking) {

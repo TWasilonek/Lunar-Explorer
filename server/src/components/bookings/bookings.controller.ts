@@ -8,13 +8,14 @@ import { flightRepository } from "../../repositories/flightRepository";
 import { roomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
 import { roomRepository } from "../../repositories/roomRepository";
 import { tripRepository } from "../../repositories/tripRepository";
-import { SaveBooking } from "../../types";
+import { CreateBooking } from "../../types";
 import { Trip } from "../../models/Trip";
 import { userRepository } from "../../repositories/userRepository";
 import { generateBookingNumber } from "../../utils/generateBookingNumbers";
 import { FlightOccupancy } from "../../models/FlightOccupancy";
 import { Booking } from "../../models/Booking";
 import { RoomOccupancy } from "../../models/RoomOccupancy";
+import { RoomType } from "../../constants";
 
 const getSeatsInShip = (spaceship: Spaceship) => {
     const seats = [];
@@ -50,7 +51,17 @@ const getAvailableSeats = async (flight: Flight, numberOfGuests: number) => {
     return availableSeats.slice(0, numberOfGuests);
 };
 
-const getRoomForTrip = async (trip: Trip, roomType: string) => {
+const getRoomForTrip = async (
+    trip: Trip,
+    roomType: string,
+    numberOfGuests: number,
+) => {
+    if (numberOfGuests > 2) {
+        throw new InternalServerError(
+            `Cannot book a room for more than 2 guests.`,
+        );
+    }
+
     const roomsTaken = await roomOccupancyRepository.find({
         where: {
             trip: {
@@ -65,7 +76,7 @@ const getRoomForTrip = async (trip: Trip, roomType: string) => {
 
     const availableRoomsOfChosenType = await roomRepository.find({
         where: {
-            capacity: roomType === "single" ? 1 : 2,
+            capacity: roomType === RoomType.SINGLE ? 1 : 2,
         },
     });
 
@@ -84,7 +95,7 @@ const getRoomForTrip = async (trip: Trip, roomType: string) => {
     return availableRoomsForTrip[0];
 };
 
-export const createBooking = async (data: SaveBooking) => {
+export const createBooking = async (data: CreateBooking) => {
     const user = await userRepository.findById(data.userId);
     if (!user) {
         throw new InternalServerError(`User with id ${data.userId} not found.`);
@@ -107,7 +118,6 @@ export const createBooking = async (data: SaveBooking) => {
     if (!trip) {
         throw new InternalServerError(`Trip with id ${data.tripId} not found.`);
     }
-
     if (!trip.flightToMoon.id) {
         throw new InternalServerError(`Flight ${trip.flightToMoon} not found.`);
     }
@@ -117,7 +127,13 @@ export const createBooking = async (data: SaveBooking) => {
         );
     }
 
-    const room = await getRoomForTrip(trip, data.roomType);
+    if (trip.occupancy + data.numberOfGuests > trip.capacity) {
+        throw new InternalServerError(
+            `Not enough capacity for this trip. Maximum occupancy is ${trip.capacity} and current occupancy is ${trip.occupancy}.`,
+        );
+    }
+
+    const room = await getRoomForTrip(trip, data.roomType, data.numberOfGuests);
     const flightToMoonSeats = await getAvailableSeats(
         trip.flightToMoon,
         data.numberOfGuests,
@@ -131,6 +147,9 @@ export const createBooking = async (data: SaveBooking) => {
 
     try {
         await appDataSource.transaction(async (transactionalEntityManager) => {
+            trip.occupancy += data.numberOfGuests;
+            await transactionalEntityManager.save(trip);
+
             booking = bookingRepository.create({
                 user,
                 trip,
@@ -149,9 +168,6 @@ export const createBooking = async (data: SaveBooking) => {
             });
             await transactionalEntityManager.save(roomOccupancy);
 
-            // console.log("\n\n========== BOOKING: ", booking);
-            // console.log("\n\n========== ROOM OCCUPANCY: ", roomOccupancy);
-
             for (let seat of flightToMoonSeats) {
                 const flightOccupancy = flightOccupancyRepository.create({
                     booking,
@@ -169,8 +185,6 @@ export const createBooking = async (data: SaveBooking) => {
                 });
                 await transactionalEntityManager.save(flightOccupancy);
             }
-
-            // TODO: update trip occupancy
         });
 
         return booking;

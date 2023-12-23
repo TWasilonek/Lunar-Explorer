@@ -1,0 +1,35 @@
+
+
+### Signup / Create a new user
+POST http://localhost:3000/auth/signup
+Content-Type: application/json
+
+{
+  "firstName": "te",
+  "lastName": "Wu",
+  "email": "te@wu.pl",
+  "password": "test12345"
+}
+
+### Login
+POST http://localhost:8000/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "jackson.moore@email.com",
+  "password": "test12345"
+}
+
+### Create a booking
+POST http://localhost:8000/api/v1/bookings
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwMzMyNTA4OCwiZXhwIjoxNzAzNDExNDg4fQ.c-HAc9byuyRECM2cw0Ll7Xo9cQGGdgMHU3ZYWZfpNfQ
+
+{
+  "userId": "4a2a0b8f-c5c1-4c65-9abf-12d8a3d46e2b",
+  "tripId": "1",
+  "numberOfGuests": 1,
+  "guestNames": ["Johnny", "Dommy"],
+  "roomType": "single"
+}
+

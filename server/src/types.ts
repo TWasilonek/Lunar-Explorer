@@ -15,18 +15,10 @@ export type ReturnUser = {
     role: UserRole;
 };
 
-export type SaveBooking = {
+export type CreateBooking = {
     userId: string;
     tripId: string;
     roomType: RoomType;
     numberOfGuests: number;
-    guestNames?: string[];
-    flightToMoon: {
-        flightId: string;
-        seats: string[];
-    };
-    flightToEarth: {
-        flightId: string;
-        seats: string[];
-    };
+    guestNames: string[];
 };
