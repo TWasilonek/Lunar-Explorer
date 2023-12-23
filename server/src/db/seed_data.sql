@@ -5,12 +5,14 @@ VALUES
   (3, 'Kennedy Space Center', 'KSC', 'Merritt Island, Brevard County, Florida, USA'),
   (4, 'International Space Station', 'ISS', 'Low Earth Orbit'),
   (5, 'Lunar Spaceport', 'LSP', 'Moon');
+SELECT setval('ports_id_seq', (SELECT MAX(id) FROM ports));
 
 INSERT INTO manufacturers (id, name)
 VALUES 
   (1, 'SpaceX'),
   (2, 'The Spaceship Company'),
   (3, 'Lunar Space Systems');
+SELECT setval('manufacturers_id_seq', (SELECT MAX(id) FROM manufacturers));
 
 
 INSERT INTO spaceships (id, model, name, "totalSeats", "manufacturerId")
@@ -21,6 +23,7 @@ VALUES
   (4, 'Lunar Starship (LS)', 'Voyager 4', 10, 3),
   (5, 'Starship', 'Ego I', 15, 1),
   (6, 'Starship', 'Ego X100', 15, 1);
+SELECT setval('spaceships_id_seq', (SELECT MAX(id) FROM spaceships));
 
 INSERT INTO users (id, "firstName", "lastName", email, password, role)
 VALUES
@@ -140,6 +143,7 @@ VALUES
   (58, 'LE 2', '2024-12-20 12:00:00 PST'::timestamptz, '2024-12-20 22:00:00 EST'::timestamptz, 3, 5, 1, 'scheduled'),
   (59, 'SX 1', '2024-12-21 12:00:00 EST'::timestamptz, '2024-12-21 22:00:00 PST'::timestamptz, 5, 2, 5, 'scheduled'),
   (60, 'SX 2', '2024-12-28 12:00:00 PST'::timestamptz, '2024-12-28 22:00:00 EST'::timestamptz, 5, 5, 2, 'scheduled');
+SELECT setval('flights_id_seq', (SELECT MAX(id) FROM flights));
 
 INSERT INTO trips (id, "startDate", "endDate", "flightToMoonId", "flightToEarthId", capacity, occupancy, status)
 VALUES
@@ -173,6 +177,7 @@ VALUES
   (28, '2024-11-30'::date, '2024-12-07'::date, 55, 56, 15, 0, 'scheduled'),
   (29, '2024-12-14'::date, '2024-12-20'::date, 57, 58, 10, 0, 'scheduled'),
   (30, '2024-12-21'::date, '2024-12-28'::date, 59, 60, 15, 0, 'scheduled');
+SELECT setval('trips_id_seq', (SELECT MAX(id) FROM trips));
 
 INSERT INTO rooms (id, "roomNumber", capacity, "mainPhotoUrl")
 VALUES
@@ -191,6 +196,7 @@ VALUES
   (13, '013', 2, 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcwMTEzNDI2NQ&ixlib=rb-4.0.3&q=80&w=1080'),
   (14, '014', 1, 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcwMTEzNDI2NQ&ixlib=rb-4.0.3&q=80&w=1080'),
   (15, '015', 1, 'https://images.unsplash.com/photo-1616046229478-9901c5536a45?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MnwxfDB8MXxyYW5kb218MHx8fHx8fHx8MTcwMTEzNDI2NQ&ixlib=rb-4.0.3&q=80&w=1080');
+SELECT setval('rooms_id_seq', (SELECT MAX(id) FROM rooms));
 
 INSERT INTO bookings (id, "bookingNumber", status, "numberOfGuests", "userId", "guestNames", "tripId")
 VALUES
@@ -201,6 +207,7 @@ INSERT INTO room_occupancies (id, "numberOfOccupants", "roomId", "bookingId", "t
 VALUES
   (1, 1, 5, 'f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07', 1),
   (2, 2, 1, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', 1);
+SELECT setval('room_occupancies_id_seq', (SELECT MAX(id) FROM room_occupancies));
 
 INSERT INTO flight_occupancies (id, "bookingId", "seatNumber", "flightId")
 VALUES
@@ -210,3 +217,4 @@ VALUES
   (4, 'f6a4e5f5-0a5a-4f89-9ef3-c3d37f6b0f07', '1', 2),
   (5, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '2', 2),
   (6, '9e8d79cd-83da-44a7-9f44-0c1433fbb365', '3', 2);
+SELECT setval('flight_occupancies_id_seq', (SELECT MAX(id) FROM flight_occupancies));

@@ -1,10 +1,21 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import {
+    AfterInsert,
+    Column,
+    Entity,
+    ManyToOne,
+    PrimaryGeneratedColumn,
+} from "typeorm";
 import { Auditable } from "./Auditable";
 import { Booking } from "./Booking";
 import { Flight } from "./Flight";
 
 @Entity({ name: "flight_occupancies" })
 export class FlightOccupancy extends Auditable {
+    @AfterInsert()
+    logInsert() {
+        console.log("Inserted FlightOccupancy with id", this.id);
+    }
+
     @PrimaryGeneratedColumn()
     id: number;
 

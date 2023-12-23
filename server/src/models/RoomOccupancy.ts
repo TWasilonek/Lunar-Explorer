@@ -1,4 +1,5 @@
 import {
+    AfterInsert,
     Column,
     Entity,
     JoinColumn,
@@ -13,6 +14,11 @@ import { Room } from "./Room";
 
 @Entity({ name: "room_occupancies" })
 export class RoomOccupancy extends Auditable {
+    @AfterInsert()
+    logInsert() {
+        console.log("Inserted RoomOccupancy with id", this.id);
+    }
+
     @PrimaryGeneratedColumn()
     id: number;
 

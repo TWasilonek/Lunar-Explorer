@@ -13,6 +13,8 @@ import { Trip } from "../../models/Trip";
 import { userRepository } from "../../repositories/userRepository";
 import { generateBookingNumber } from "../../utils/generateBookingNumbers";
 import { FlightOccupancy } from "../../models/FlightOccupancy";
+import { Booking } from "../../models/Booking";
+import { RoomOccupancy } from "../../models/RoomOccupancy";
 
 const getSeatsInShip = (spaceship: Spaceship) => {
     const seats = [];
@@ -61,7 +63,6 @@ const getRoomForTrip = async (trip: Trip, roomType: string) => {
         },
     });
 
-    // not occupied rooms for this trip of the given type
     const availableRoomsOfChosenType = await roomRepository.find({
         where: {
             capacity: roomType === "single" ? 1 : 2,
@@ -102,11 +103,10 @@ export const createBooking = async (data: SaveBooking) => {
             },
         },
     });
+
     if (!trip) {
         throw new InternalServerError(`Trip with id ${data.tripId} not found.`);
     }
-
-    // console.log("trip", trip);
 
     if (!trip.flightToMoon.id) {
         throw new InternalServerError(`Flight ${trip.flightToMoon} not found.`);
@@ -127,36 +127,11 @@ export const createBooking = async (data: SaveBooking) => {
         data.numberOfGuests,
     );
 
-    // console.log("room", room);
-    // console.log("flightToMoonSeats", flightToMoonSeats);
-    // console.log("flightToEarthSeats", flightToEarthSeats);
-
     let booking = null;
-
-    // const flightOccupancies: FlightOccupancy[] = [];
-
-    // for (let seat of flightToMoonSeats) {
-    //     const flightOccupancy = await flightOccupancyRepository.create({
-    //         booking,
-    //         flight: trip.flightToMoon,
-    //         seatNumber: seat,
-    //     });
-    //     flightOccupancies.push(flightOccupancy);
-    // }
-
-    // for (let seat of flightToEarthSeats) {
-    //     const flightOccupancy = await flightOccupancyRepository.create({
-    //         booking,
-    //         flight: trip.flightToEarth,
-    //         seatNumber: seat,
-    //     });
-    //     // await transactionalEntityManager.save(flightOccupancy);
-    //     flightOccupancies.push(flightOccupancy);
-    // }
 
     try {
         await appDataSource.transaction(async (transactionalEntityManager) => {
-            booking = await bookingRepository.create({
+            booking = bookingRepository.create({
                 user,
                 trip,
                 numberOfGuests: data.numberOfGuests,
@@ -164,30 +139,21 @@ export const createBooking = async (data: SaveBooking) => {
                 bookingNumber: generateBookingNumber(),
                 status: "pending_payment",
             });
+            await transactionalEntityManager.save(booking);
 
-            const roomOccupancy = await roomOccupancyRepository.create({
+            const roomOccupancy = roomOccupancyRepository.create({
                 booking,
                 trip,
                 room,
                 numberOfOccupants: data.numberOfGuests,
             });
-
-            console.log("\n\n========== BOOKING: ", booking);
-            await transactionalEntityManager.save(booking);
-
-            console.log("\n\n========== ROOM OCCUPANCY: ", roomOccupancy);
             await transactionalEntityManager.save(roomOccupancy);
 
-            // flightOccupancies.forEach(async (flightOccupancy) => {
-            //     console.log(
-            //         "\n\n========== FLIGHT OCCUPANCY: ",
-            //         flightOccupancy,
-            //     );
-            //     await transactionalEntityManager.save(flightOccupancy);
-            // });
+            // console.log("\n\n========== BOOKING: ", booking);
+            // console.log("\n\n========== ROOM OCCUPANCY: ", roomOccupancy);
 
             for (let seat of flightToMoonSeats) {
-                const flightOccupancy = await flightOccupancyRepository.create({
+                const flightOccupancy = flightOccupancyRepository.create({
                     booking,
                     flight: trip.flightToMoon,
                     seatNumber: seat,
@@ -196,13 +162,15 @@ export const createBooking = async (data: SaveBooking) => {
             }
 
             for (let seat of flightToEarthSeats) {
-                const flightOccupancy = await flightOccupancyRepository.create({
+                const flightOccupancy = flightOccupancyRepository.create({
                     booking,
                     flight: trip.flightToEarth,
                     seatNumber: seat,
                 });
                 await transactionalEntityManager.save(flightOccupancy);
             }
+
+            // TODO: update trip occupancy
         });
 
         return booking;

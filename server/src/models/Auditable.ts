@@ -1,6 +1,6 @@
-import { Column, BaseEntity } from "typeorm";
+import { Column } from "typeorm";
 
-export class Auditable extends BaseEntity {
+export class Auditable {
     @Column("timestamp with time zone", {
         default: () => `now()`,
         nullable: false,
