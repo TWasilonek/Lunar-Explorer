@@ -2,7 +2,7 @@ import express from "express";
 import {
     deleteUser,
     getAllUsers,
-    getUserById,
+    getUser,
     updateUser,
 } from "./users.controller";
 import { verifyToken } from "../../middleware/verifyToken";
@@ -18,7 +18,7 @@ router.get(
     "/me",
     [verifyToken],
     asyncMiddleware(async (req, res, next) => {
-        const user = await getUserById(req.body.userId);
+        const user = await getUser(req.body.userId);
         res.json(user);
     }),
 );
@@ -58,7 +58,7 @@ router.get(
     "/:userId",
     [verifyToken, verifyPermissions([AdminPermissions.READ])],
     asyncMiddleware(async (req, res, next) => {
-        const user = await getUserById(req.params.userId);
+        const user = await getUser(req.params.userId);
         res.json(user);
     }),
 );

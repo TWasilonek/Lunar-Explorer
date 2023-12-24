@@ -1,25 +1,18 @@
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authConfig from "../../config/authConfig";
-import { userRepository } from "../../repositories/userRepository";
+import * as usersService from "../users/users.service";
 import { ReturnUser, SaveUser } from "../../types";
 
 export const signup = async (user: SaveUser): Promise<ReturnUser> => {
-    const newUser = userRepository.create({
+    const sanitizedData = {
         firstName: user.firstName.trim(),
         lastName: user.lastName.trim(),
         email: user.email.trim().toLowerCase(),
         password: bcrypt.hashSync(user.password, 8),
-    });
-
-    const savedUser = await userRepository.save(newUser);
-    return {
-        id: savedUser.id,
-        firstName: savedUser.firstName,
-        lastName: savedUser.lastName,
-        email: savedUser.email,
-        role: savedUser.role,
     };
+
+    return usersService.createAndSaveUser(sanitizedData);
 };
 
 export const signin = async ({
@@ -28,10 +21,7 @@ export const signin = async ({
 }: Pick<SaveUser, "email" | "password">): Promise<
     ReturnUser & { accessToken: string }
 > => {
-    const user = await userRepository.findByEmail(email);
-    if (!user) {
-        throw Error("User not found.");
-    }
+    const user = await usersService.getUserByEmail(email);
 
     const passwordIsValid = bcrypt.compareSync(password, user.password);
     if (!passwordIsValid) {

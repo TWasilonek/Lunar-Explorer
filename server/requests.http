@@ -33,3 +33,11 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmL
   "roomType": "single"
 }
 
+### Get trips by date range
+GET http://localhost:8000/api/v1/trips?startDate=2024-05-01&endDate=2024-10-15
+Content-Type: application/json
+
+### Get trip
+GET http://localhost:8000/api/v1/trips/1
+Content-Type: application/json
+

@@ -1,6 +1,7 @@
 import { addQuarters, format } from "date-fns";
 import { NotFoundError } from "../../errors/NotFoundError";
 import { tripRepository } from "../../repositories/tripRepository";
+import { getTripsForDateRange } from "./trips.service";
 
 type GetTripsParams = {
     startDate: string;
@@ -15,25 +16,7 @@ export const getTrips = async (params: GetTripsParams) => {
         ? new Date(params.endDate as string)
         : addQuarters(startDate, 2);
 
-    console.log(
-        "startDate",
-        format(startDate, "dd MMM yyyy"),
-        // startDate,
-        "endDate",
-        // endDate,
-        format(endDate, "dd MMM yyyy"),
-    );
-
-    return tripRepository
-        .createQueryBuilder()
-        .where('"startDate" > :startDate', {
-            startDate,
-        })
-        .andWhere('"endDate" < :endDate', {
-            endDate,
-        })
-        .orderBy('"startDate"', "ASC")
-        .getMany();
+    return getTripsForDateRange(startDate, endDate);
 };
 
 export const getTripById = async (tripId: string) => {
