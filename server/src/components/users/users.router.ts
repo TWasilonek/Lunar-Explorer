@@ -3,6 +3,7 @@ import {
     deleteUser,
     getAllUsers,
     getUser,
+    getUserBookings,
     updateUser,
 } from "./users.controller";
 import { verifyToken } from "../../middleware/verifyToken";
@@ -20,6 +21,15 @@ router.get(
     asyncMiddleware(async (req, res, next) => {
         const user = await getUser(req.body.userId);
         res.json(user);
+    }),
+);
+
+router.get(
+    "/me/bookings",
+    [verifyToken],
+    asyncMiddleware(async (req, res, next) => {
+        const bookings = await getUserBookings(req.body.userId);
+        res.json(bookings);
     }),
 );
 

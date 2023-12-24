@@ -2,9 +2,16 @@ import { InternalServerError } from "../../errors/InternalServerError";
 import { CreateBooking } from "../../types";
 import * as tripsService from "../trips/trips.service";
 import * as usersService from "../users/users.service";
-import * as roomsSercvice from "../rooms/rooms.service";
+import * as roomsService from "../rooms/rooms.service";
 import * as flightsService from "../flights/flights.service";
-import * as bookingsSercice from "./bookings.service";
+import * as bookingsService from "./bookings.service";
+
+export const getBooking = async (bookingNumber: string) => {
+    const booking =
+        await bookingsService.getBookingByBookingNumber(bookingNumber);
+    const room = await roomsService.getRoomByBooking(booking);
+    return { ...booking, room };
+};
 
 export const createBooking = async (data: CreateBooking) => {
     const user = await usersService.getUserById(data.userId);
@@ -27,7 +34,7 @@ export const createBooking = async (data: CreateBooking) => {
         );
     }
 
-    const room = await roomsSercvice.getRoomForTrip(
+    const room = await roomsService.getRoomForTrip(
         trip,
         data.roomType,
         data.numberOfGuests,
@@ -41,7 +48,7 @@ export const createBooking = async (data: CreateBooking) => {
         data.numberOfGuests,
     );
 
-    return bookingsSercice.createAndSaveBooking({
+    return bookingsService.createAndSaveBooking({
         trip,
         user,
         room,

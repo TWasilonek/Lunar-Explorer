@@ -1,5 +1,6 @@
 import { RoomType } from "../../constants";
 import { InternalServerError } from "../../errors/InternalServerError";
+import { Booking } from "../../models/Booking";
 import { Trip } from "../../models/Trip";
 import { roomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
 import { roomRepository } from "../../repositories/roomRepository";
@@ -46,4 +47,14 @@ export const getRoomForTrip = async (
     }
 
     return availableRoomsForTrip[0];
+};
+
+export const getRoomByBooking = async (booking: Booking) => {
+    const roomOccupancy = await roomOccupancyRepository.findByBooking(booking);
+    if (!roomOccupancy) {
+        throw new InternalServerError(
+            `Room for booking with ${booking.bookingNumber} not found.`,
+        );
+    }
+    return roomOccupancy.room;
 };

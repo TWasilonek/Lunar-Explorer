@@ -17,6 +17,21 @@ export const generateBookingNumber = (length = 10) => {
     return bookingNumber;
 };
 
+export const getBookingByBookingNumber = async (bookingNumber: string) => {
+    const booking = await bookingRepository.findByBookingNumber(bookingNumber);
+    if (!booking) {
+        throw new InternalServerError(
+            `Booking with booking number ${bookingNumber} not found.`,
+        );
+    }
+
+    return booking;
+};
+
+export const getBookingsByUser = async (user: User) => {
+    return bookingRepository.findByUser(user);
+};
+
 export type BookingData = {
     user: User;
     trip: Trip;
