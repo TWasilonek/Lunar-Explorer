@@ -1,7 +1,5 @@
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import authConfig from "../../config/authConfig";
 import * as usersService from "../users/users.service";
+import * as authService from "./auth.service";
 import { ReturnUser, SaveUser } from "../../types";
 
 export const signup = async (user: SaveUser): Promise<ReturnUser> => {
@@ -9,7 +7,7 @@ export const signup = async (user: SaveUser): Promise<ReturnUser> => {
         firstName: user.firstName.trim(),
         lastName: user.lastName.trim(),
         email: user.email.trim().toLowerCase(),
-        password: bcrypt.hashSync(user.password, 8),
+        password: authService.hashPassword(user.password),
     };
 
     return usersService.createAndSaveUser(sanitizedData);
@@ -18,31 +16,26 @@ export const signup = async (user: SaveUser): Promise<ReturnUser> => {
 export const signin = async ({
     password,
     email,
-}: Pick<SaveUser, "email" | "password">): Promise<
-    ReturnUser & { accessToken: string }
-> => {
+}: Pick<SaveUser, "email" | "password">): Promise<{
+    user: ReturnUser;
+    accessToken: string;
+    refreshToken: string;
+}> => {
     const user = await usersService.getUserByEmail(email);
-
-    const passwordIsValid = bcrypt.compareSync(password, user.password);
-    if (!passwordIsValid) {
-        throw Error("Invalid password.");
-    }
-
-    if (!authConfig.secret) {
-        console.error('There is no "secret"');
-        throw Error("Something went wront. Try again later.");
-    }
-
-    const token = jwt.sign({ id: user.id }, authConfig.secret, {
-        expiresIn: 3600 * 24, // 24 hours
-    });
+    const { accessToken, refreshToken } = await authService.authenticate(
+        user,
+        password,
+    );
 
     return {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        accessToken: token,
-        role: user.role,
+        user: {
+            id: user.id,
+            firstName: user.firstName,
+            lastName: user.lastName,
+            email: user.email,
+            role: user.role,
+        },
+        accessToken,
+        refreshToken,
     };
 };

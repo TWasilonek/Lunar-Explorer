@@ -7,6 +7,16 @@ import { bookingRepository } from "../../repositories/bookingRepository";
 import { flightOccupancyRepository } from "../../repositories/flightOccupancyRepository";
 import { roomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
 
+export type BookingData = {
+    user: User;
+    trip: Trip;
+    room: Room;
+    flightToMoonSeats: string[];
+    flightToEarthSeats: string[];
+    numberOfGuests: number;
+    guestNames: string[];
+};
+
 export const generateBookingNumber = (length = 10) => {
     const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     let bookingNumber = "";
@@ -30,16 +40,6 @@ export const getBookingByBookingNumber = async (bookingNumber: string) => {
 
 export const getBookingsByUser = async (user: User) => {
     return bookingRepository.findByUser(user);
-};
-
-export type BookingData = {
-    user: User;
-    trip: Trip;
-    room: Room;
-    flightToMoonSeats: string[];
-    flightToEarthSeats: string[];
-    numberOfGuests: number;
-    guestNames: string[];
 };
 
 export const createAndSaveBooking = async ({

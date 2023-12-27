@@ -25,11 +25,13 @@ router.post(
     "/login",
     [validateRequestBody(loginSchema)],
     asyncMiddleware(async (req, res, next) => {
-        const userWithAccessToken = await signin({
+        const { user, accessToken, refreshToken } = await signin({
             email: req.body.email,
             password: req.body.password,
         });
-        res.send(userWithAccessToken);
+        res.header("x-access-token", accessToken);
+        // todo: put the refresh token in a cookie
+        res.send(user);
     }),
 );
 
