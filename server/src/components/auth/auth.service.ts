@@ -18,7 +18,7 @@ export const createAccessToken = (user: User) => {
     }
 
     return jwt.sign({ id: user.id }, authConfig.jwt_secret, {
-        expiresIn: isProduction() ? "10m" : "1m",
+        expiresIn: isProduction() ? "10m" : "1h",
     });
 };
 

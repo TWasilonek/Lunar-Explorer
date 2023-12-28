@@ -33,6 +33,7 @@ Content-Type: application/json
 POST http://localhost:8000/api/v1/auth/logout
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwMzgwMTE0OSwiZXhwIjoxNzAzODAxMjA5fQ.yNqoSnajfd_z8kdgUMYafDU_vKG36T1PkSMSeGlML68
+
 ### Refresh token
 POST http://localhost:8000/api/v1/auth/refresh
 Content-Type: application/json
@@ -40,25 +41,24 @@ Content-Type: application/json
 ### Create a booking
 POST http://localhost:8000/api/v1/bookings
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwMzgwMTE0OSwiZXhwIjoxNzAzODAxMjA5fQ.yNqoSnajfd_z8kdgUMYafDU_vKG36T1PkSMSeGlML68
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwMzgwMTc0NywiZXhwIjoxNzAzODA1MzQ3fQ.N-3WZzioMmDRhE0iLPTte-dawtjyZi30Gq77KNebNIM
 
 {
   "userId": "4a2a0b8f-c5c1-4c65-9abf-12d8a3d46e2b",
-  "tripId": "1",
+  "tripId": "2",
   "numberOfGuests": 1,
   "guestNames": ["Johnny"],
   "roomType": "single"
 }
 
 ### GET booking by booking number (Mia Taylor)
-GET http://localhost:8000/api/v1/bookings/012345
+GET http://localhost:8000/api/v1/bookings/8M5538EA13
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwMzQzNDE4OSwiZXhwIjoxNzAzNTIwNTg5fQ.8fUk4yvsF91aPP-IPJt_Fl0nMmbduCUfoaAiaBCNI3o
-
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwMzgwMTc0NywiZXhwIjoxNzAzODA1MzQ3fQ.N-3WZzioMmDRhE0iLPTte-dawtjyZi30Gq77KNebNIM
 ### GET user bookings
 GET http://localhost:8000/api/v1/users/me/bookings
 ontent-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwMzQzNDk2OSwiZXhwIjoxNzAzNTIxMzY5fQ.i99LCqvY2Tlx97dIKai94iDpSS72ybfuNwrWt2v-SkI
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwMzgwMTc0NywiZXhwIjoxNzAzODA1MzQ3fQ.N-3WZzioMmDRhE0iLPTte-dawtjyZi30Gq77KNebNIM
 
 ### Get trips by date range
 GET http://localhost:8000/api/v1/trips?startDate=2024-05-01&endDate=2024-10-15

@@ -1,5 +1,6 @@
 import { appDataSource } from "../../db/app-data-source";
 import { InternalServerError } from "../../errors/InternalServerError";
+import { Booking } from "../../models/Booking";
 import { Room } from "../../models/Room";
 import { Trip } from "../../models/Trip";
 import { User } from "../../models/User";
@@ -42,7 +43,7 @@ export const getBookingsByUser = async (user: User) => {
     return bookingRepository.findByUser(user);
 };
 
-export const createAndSaveBooking = async ({
+const createBookingTransaction = async ({
     trip,
     user,
     room,
@@ -50,51 +51,56 @@ export const createAndSaveBooking = async ({
     flightToEarthSeats,
     numberOfGuests,
     guestNames,
-}: BookingData) => {
-    let booking = null;
+}: BookingData) =>
+    appDataSource.transaction(async (transactionalEntityManager) => {
+        trip.occupancy += numberOfGuests;
+        await transactionalEntityManager.save(trip);
 
-    try {
-        await appDataSource.transaction(async (transactionalEntityManager) => {
-            trip.occupancy += numberOfGuests;
-            await transactionalEntityManager.save(trip);
+        const booking = bookingRepository.create({
+            user,
+            trip,
+            numberOfGuests: numberOfGuests,
+            guestNames: guestNames,
+            bookingNumber: generateBookingNumber(),
+            status: "pending_payment",
+        });
+        await transactionalEntityManager.save(booking);
 
-            booking = bookingRepository.create({
-                user,
-                trip,
-                numberOfGuests: numberOfGuests,
-                guestNames: guestNames,
-                bookingNumber: generateBookingNumber(),
-                status: "pending_payment",
-            });
-            await transactionalEntityManager.save(booking);
+        const roomOccupancy = roomOccupancyRepository.create({
+            booking,
+            trip,
+            room,
+            numberOfOccupants: numberOfGuests,
+        });
+        await transactionalEntityManager.save(roomOccupancy);
 
-            const roomOccupancy = roomOccupancyRepository.create({
+        const seatsPromises = flightToMoonSeats.map((seat) => {
+            const flightOccupancy = flightOccupancyRepository.create({
                 booking,
-                trip,
-                room,
-                numberOfOccupants: numberOfGuests,
+                flight: trip.flightToMoon,
+                seatNumber: seat,
             });
-            await transactionalEntityManager.save(roomOccupancy);
-
-            for (let seat of flightToMoonSeats) {
-                const flightOccupancy = flightOccupancyRepository.create({
-                    booking,
-                    flight: trip.flightToMoon,
-                    seatNumber: seat,
-                });
-                await transactionalEntityManager.save(flightOccupancy);
-            }
-
-            for (let seat of flightToEarthSeats) {
-                const flightOccupancy = flightOccupancyRepository.create({
-                    booking,
-                    flight: trip.flightToEarth,
-                    seatNumber: seat,
-                });
-                await transactionalEntityManager.save(flightOccupancy);
-            }
+            return transactionalEntityManager.save(flightOccupancy);
         });
 
+        const flightOccupancyPromises = flightToEarthSeats.map((seat) => {
+            const flightOccupancy = flightOccupancyRepository.create({
+                booking,
+                flight: trip.flightToEarth,
+                seatNumber: seat,
+            });
+            return transactionalEntityManager.save(flightOccupancy);
+        });
+
+        await Promise.all(seatsPromises);
+        await Promise.all(flightOccupancyPromises);
+
+        return booking;
+    });
+
+export const createAndSaveBooking = async (bookingData: BookingData) => {
+    try {
+        const booking = await createBookingTransaction(bookingData);
         return booking;
     } catch (error) {
         console.error(error);
