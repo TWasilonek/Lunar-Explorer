@@ -110,6 +110,7 @@ CREATE TABLE public.users (
     email character varying(255) NOT NULL,
     password character varying(100) NOT NULL,
     role public.users_role_enum DEFAULT 'user'::public.users_role_enum NOT NULL,
+    "refreshToken" VARCHAR(255) UNIQUE,
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );

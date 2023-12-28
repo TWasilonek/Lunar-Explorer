@@ -1,3 +1,4 @@
 export default {
-    secret: process.env.SECRET,
+    jwt_secret: process.env.JWT_SECRET,
+    jwt_refresh_secret: process.env.JWT_REFRESH_SECRET,
 };

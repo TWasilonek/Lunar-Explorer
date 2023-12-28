@@ -43,4 +43,11 @@ export class User extends Auditable {
         default: UserRole.USER,
     })
     role: UserRole;
+
+    @Column("varchar", {
+        length: 255,
+        nullable: true,
+        unique: true,
+    })
+    refreshToken: string | null;
 }

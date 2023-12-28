@@ -20,13 +20,13 @@ export const verifyToken = (
             .send({ message: "Forbidden" });
     }
 
-    if (!authConfig.secret) {
-        console.error('There is no "secret"');
+    if (!authConfig.jwt_secret) {
+        console.error('There is no "jwt_secret"');
         return res
             .status(HttpStatusCode.INTERNAL_SERVER)
             .send({ message: "Something went wrong. Try again later." });
     }
-    jwt.verify(token, authConfig.secret, (err, decoded) => {
+    jwt.verify(token, authConfig.jwt_secret, (err, decoded) => {
         if (err || !decoded) {
             return res
                 .status(HttpStatusCode.UNAUTHORIZED)
