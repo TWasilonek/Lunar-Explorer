@@ -33,7 +33,7 @@ export const createRefreshToken = (user: User) => {
     });
 };
 
-export const authenticate = async (user: User, password: string) => {
+export const authenticate = (user: User, password: string) => {
     const passwordIsValid = bcrypt.compareSync(password, user.password);
     if (!passwordIsValid) {
         console.error("Invalid password.");
@@ -46,10 +46,7 @@ export const authenticate = async (user: User, password: string) => {
     return { accessToken, refreshToken };
 };
 
-export const validateRefreshToken = async (
-    // user: User,
-    refreshToken: string,
-) => {
+export const validateRefreshToken = async (refreshToken: string) => {
     if (!authConfig.jwt_refresh_secret) {
         console.error('There is no "jwt_refresh_secret"');
         throw new UnauthorizedError();

@@ -67,7 +67,7 @@ describe("verifyToken", () => {
     });
 
     it("should send an internal server error response if there is no secret", async () => {
-        authConfig.default.secret = undefined;
+        authConfig.default.jwt_secret = undefined;
 
         verifyToken(req, res, next);
 
@@ -78,7 +78,7 @@ describe("verifyToken", () => {
             message: "Something went wrong. Try again later.",
         });
 
-        authConfig.default.secret = "secret";
+        authConfig.default.jwt_secret = "secret";
     });
 
     it("should send an unauthorized response if the token is invalid", async () => {

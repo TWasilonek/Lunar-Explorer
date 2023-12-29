@@ -23,7 +23,7 @@ export const signin = async ({
     refreshToken: string;
 }> => {
     const user = await usersService.getUserByEmail(email);
-    const { accessToken, refreshToken } = await authService.authenticate(
+    const { accessToken, refreshToken } = authService.authenticate(
         user,
         password,
     );
@@ -61,7 +61,7 @@ export const refreshTokens = async (
 }> => {
     const decoded = await authService.validateRefreshToken(refreshToken);
     if (!decoded) {
-        console.log("Decoding refresh token was not successful.");
+        console.error("Decoding refresh token was not successful.");
         throw new InternalServerError();
     }
 
