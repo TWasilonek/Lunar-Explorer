@@ -6,7 +6,7 @@ import * as authConfig from "../../config/authConfig";
 jest.mock("../../config/authConfig", () => ({
     __esModule: true,
     default: {
-        secret: "secret",
+        jwt_secret: "secret",
     },
 }));
 jest.mock("jsonwebtoken", () => ({

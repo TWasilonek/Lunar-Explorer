@@ -26,8 +26,10 @@ export const verifyToken = (
             .status(HttpStatusCode.INTERNAL_SERVER)
             .send({ message: "Something went wrong. Try again later." });
     }
+
     jwt.verify(token, authConfig.jwt_secret, (err, decoded) => {
         if (err || !decoded) {
+            console.error("token verification failed:", err);
             return res
                 .status(HttpStatusCode.UNAUTHORIZED)
                 .send({ message: "Unauthorized" });

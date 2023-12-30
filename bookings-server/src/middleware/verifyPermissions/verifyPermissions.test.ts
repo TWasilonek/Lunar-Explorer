@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import { verifyPermissions } from "./verifyPermissions";
 import { userRepository } from "../../repositories/userRepository";
-import { DBUserMock } from "../../testHelpers/userMock";
 import { HttpStatusCode, AdminPermissions, UserRole } from "../../constants";
+import { DBUserMock } from "../../__mocks__/userMock";
 
 describe("verifyPermissions", () => {
     const req = { body: { userId: DBUserMock.id } } as Request;

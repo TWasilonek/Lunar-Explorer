@@ -41,7 +41,7 @@ Content-Type: application/json
 ### Create a booking
 POST http://localhost:8000/api/v1/bookings
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwMzgwMTc0NywiZXhwIjoxNzAzODA1MzQ3fQ.N-3WZzioMmDRhE0iLPTte-dawtjyZi30Gq77KNebNIM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwMzkyNzY4OSwiZXhwIjoxNzAzOTMxMjg5fQ.XB4Pj6BX3H1_HCV8gS81ud4lFm_hea7o6iogMeNpWlY
 
 {
   "userId": "4a2a0b8f-c5c1-4c65-9abf-12d8a3d46e2b",

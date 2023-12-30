@@ -4,7 +4,7 @@ import { ReturnUser, SaveUser } from "../../types";
 import { InternalServerError } from "../../errors/InternalServerError";
 import { signup, signin, logout, refreshTokens } from "./auth.controller";
 import { UserRole } from "../../constants";
-import { userMock } from "../../testHelpers/userMock";
+import { userMock } from "../../__mocks__/userMock";
 
 jest.mock("../users/users.service");
 jest.mock("./auth.service");

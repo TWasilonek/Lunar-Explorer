@@ -1,5 +1,5 @@
 import { InternalServerError } from "../../errors/InternalServerError";
-import { CreateBooking } from "../../types";
+import { CreateBooking, ReturnBooking } from "../../types";
 import * as tripsService from "../trips/trips.service";
 import * as usersService from "../users/users.service";
 import * as roomsService from "../rooms/rooms.service";
@@ -17,12 +17,15 @@ export const getBooking = async (bookingNumber: string) => {
             firstName: booking.user.firstName,
             lastName: booking.user.lastName,
             email: booking.user.email,
+            role: booking.user.role,
         },
         room,
     };
 };
 
-export const createBooking = async (data: CreateBooking) => {
+export const createBooking = async (
+    data: CreateBooking,
+): Promise<ReturnBooking | null> => {
     const user = await usersService.getUserById(data.userId);
     const trip = await tripsService.getTripById(data.tripId);
 
@@ -77,6 +80,7 @@ export const createBooking = async (data: CreateBooking) => {
             firstName: booking.user.firstName,
             lastName: booking.user.lastName,
             email: booking.user.email,
+            role: booking.user.role,
         },
         room,
     };

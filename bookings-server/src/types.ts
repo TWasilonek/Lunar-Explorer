@@ -1,4 +1,6 @@
 import { RoomType, UserRole } from "./constants";
+import { Booking } from "./models/Booking";
+import { Room } from "./models/Room";
 
 export type SaveUser = {
     firstName: string;
@@ -22,3 +24,18 @@ export type CreateBooking = {
     numberOfGuests: number;
     guestNames: string[];
 };
+
+export type ReturnBooking = {
+    bookingNumber: string;
+    id: string;
+    status: Booking["status"];
+    numberOfGuests: number;
+    guestNames: string[];
+    createdAt: Date;
+    updatedAt: Date;
+    user: ReturnUser;
+    trip: Booking["trip"];
+    room: Room;
+};
+
+export type BookingRecord = Omit<Booking, "logInsert">;

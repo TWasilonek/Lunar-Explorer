@@ -1,7 +1,8 @@
 import { UserRole } from "../constants";
 import { User } from "../models/User";
+import { ReturnUser } from "../types";
 
-export const userMock = {
+export const userMock: ReturnUser = {
     id: "testId",
     email: "test@test.com",
     firstName: "testFirstName",

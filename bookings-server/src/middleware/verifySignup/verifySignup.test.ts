@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { userRepository } from "../../repositories/userRepository";
 import { checkDuplicateUsernameOrEmail } from "./verifySignup";
-import { DBUserMock } from "../../testHelpers/userMock";
+import { DBUserMock } from "../../__mocks__/userMock";
 
 describe("checkDuplicateUsernameOrEmail", () => {
     const req = {

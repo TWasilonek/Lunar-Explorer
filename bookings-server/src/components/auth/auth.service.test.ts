@@ -5,8 +5,8 @@ import { User } from "../../models/User";
 import { UnauthorizedError } from "../../errors/UnauthorizedError";
 import * as usersService from "../users/users.service";
 import * as authService from "./auth.service";
-import { DBUserMock } from "../../testHelpers/userMock";
 import { InternalServerError } from "../../errors/InternalServerError";
+import { DBUserMock } from "../../__mocks__/userMock";
 
 jest.mock("bcryptjs");
 jest.mock("jsonwebtoken");
