@@ -2,6 +2,8 @@ import { appDataSource } from "../db/app-data-source";
 import { Booking } from "../models/Booking";
 import { User } from "../models/User";
 
+export type BookingRecord = Omit<Booking, "logInsert">;
+
 export const bookingRepository = appDataSource.getRepository(Booking).extend({
     findById(id: string) {
         return this.createQueryBuilder("bookings")

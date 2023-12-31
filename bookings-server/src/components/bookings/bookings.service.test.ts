@@ -3,23 +3,18 @@ import {
     getBookingByBookingNumber,
     getBookingsByUser,
     createAndSaveBooking,
+    BookingData,
 } from "./bookings.service";
 import { appDataSource } from "../../db/app-data-source";
 import { bookingRepository } from "../../repositories/bookingRepository";
 import { roomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
 import { flightOccupancyRepository } from "../../repositories/flightOccupancyRepository";
 import { InternalServerError } from "../../errors/InternalServerError";
-import { BookingData } from "./bookings.service";
-import { Booking } from "../../models/Booking";
-import { Room } from "../../models/Room";
-import { Trip } from "../../models/Trip";
 import { User } from "../../models/User";
-import { BookingRecord, CreateBooking, ReturnBooking } from "../../types";
-import { tripMock } from "../../__mocks__/tripMock";
+import { BookingRecord } from "../../types";
 import { DBUserMock } from "../../__mocks__/userMock";
 import { roomMock } from "../../__mocks__/roomMock";
-import { DBBookingMock, returnBookingMock } from "../../__mocks__/bookingMock";
-import { RoomOccupancy } from "../../models/RoomOccupancy";
+import { DBBookingMock } from "../../__mocks__/bookingMock";
 
 jest.mock("../../db/app-data-source");
 jest.mock("../../repositories/bookingRepository", () => {

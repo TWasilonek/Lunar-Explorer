@@ -1,7 +1,22 @@
 import * as usersService from "./users.service";
 import * as roomsService from "../rooms/rooms.service";
 import * as bookingsService from "../bookings/bookings.service";
-import { ReturnUser, SaveUser } from "../../types";
+import { UserRole } from "../../constants";
+
+export type SaveUser = {
+    firstName: string;
+    lastName: string;
+    email: string;
+    password: string;
+};
+
+export type ReturnUser = {
+    id: string;
+    firstName: string;
+    lastName: string;
+    email: string;
+    role: UserRole;
+};
 
 export const getAllUsers = async () => {
     return usersService.getAllUsers();

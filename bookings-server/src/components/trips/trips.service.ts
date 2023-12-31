@@ -1,8 +1,12 @@
 import { format } from "date-fns";
 import { tripRepository } from "../../repositories/tripRepository";
 import { NotFoundError } from "../../errors/NotFoundError";
+import { Trip } from "../../models/Trip";
 
-export const getTripsForDateRange = async (startDate: Date, endDate: Date) => {
+export const getTripsForDateRange = async (
+    startDate: Date,
+    endDate: Date,
+): Promise<Trip[]> => {
     console.log(
         "startDate",
         format(startDate, "dd MMM yyyy"),
@@ -22,7 +26,7 @@ export const getTripsForDateRange = async (startDate: Date, endDate: Date) => {
         .getMany();
 };
 
-export const getTripById = async (tripId: string) => {
+export const getTripById = async (tripId: string): Promise<Trip> => {
     const trip = await tripRepository.findById(tripId);
     if (!trip) {
         throw new NotFoundError("Trip not found");

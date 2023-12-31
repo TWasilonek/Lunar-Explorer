@@ -1,10 +1,39 @@
 import { InternalServerError } from "../../errors/InternalServerError";
-import { CreateBooking, ReturnBooking } from "../../types";
 import * as tripsService from "../trips/trips.service";
 import * as usersService from "../users/users.service";
 import * as roomsService from "../rooms/rooms.service";
 import * as flightsService from "../flights/flights.service";
 import * as bookingsService from "./bookings.service";
+import { RoomType, UserRole } from "../../constants";
+import { Booking } from "../../models/Booking";
+import { Room } from "../../models/Room";
+
+export type CreateBooking = {
+    userId: string;
+    tripId: string;
+    roomType: RoomType;
+    numberOfGuests: number;
+    guestNames: string[];
+};
+
+export type ReturnBooking = {
+    bookingNumber: string;
+    id: string;
+    status: Booking["status"];
+    numberOfGuests: number;
+    guestNames: string[];
+    createdAt: Date;
+    updatedAt: Date;
+    user: {
+        id: string;
+        firstName: string;
+        lastName: string;
+        email: string;
+        role: UserRole;
+    };
+    trip: Booking["trip"];
+    room: Room;
+};
 
 export const getBooking = async (bookingNumber: string) => {
     const booking =
