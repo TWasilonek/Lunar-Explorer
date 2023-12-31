@@ -1,7 +1,7 @@
 import { NotFoundError } from "../../errors/NotFoundError";
 import { User } from "../../models/User";
 import { userRepository } from "../../repositories/userRepository";
-import { SaveUser } from "../../types";
+import { SaveUser } from "./users.controller";
 
 export const getAllUsers = async () => {
     return userRepository.find();

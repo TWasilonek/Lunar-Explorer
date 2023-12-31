@@ -11,7 +11,7 @@ import { verifyPermissions } from "../../middleware/verifyPermissions";
 import { HttpStatusCode, AdminPermissions } from "../../constants";
 import asyncMiddleware from "../../middleware/asyncMiddleware/asyncMiddleware";
 import { validateRequestBody } from "../../middleware/validateRequestBody";
-import { updateUserSchema } from "./user.requestSchema";
+import { updateUserSchema } from "./users.schema";
 
 const router = express.Router();
 

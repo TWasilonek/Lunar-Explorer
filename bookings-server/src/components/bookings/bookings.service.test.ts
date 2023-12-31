@@ -6,12 +6,14 @@ import {
     BookingData,
 } from "./bookings.service";
 import { appDataSource } from "../../db/app-data-source";
-import { bookingRepository } from "../../repositories/bookingRepository";
+import {
+    BookingRecord,
+    bookingRepository,
+} from "../../repositories/bookingRepository";
 import { roomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
 import { flightOccupancyRepository } from "../../repositories/flightOccupancyRepository";
 import { InternalServerError } from "../../errors/InternalServerError";
 import { User } from "../../models/User";
-import { BookingRecord } from "../../types";
 import { DBUserMock } from "../../__mocks__/userMock";
 import { roomMock } from "../../__mocks__/roomMock";
 import { DBBookingMock } from "../../__mocks__/bookingMock";
@@ -45,6 +47,17 @@ jest.mock("../../repositories/flightOccupancyRepository", () => {
 });
 
 describe("Bookings Service", () => {
+    beforeAll(() => {
+        jest.spyOn(console, "error").mockImplementation(() => {});
+    });
+    afterAll(() => {
+        jest.restoreAllMocks();
+    });
+
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
+
     describe("generateBookingNumber", () => {
         it("should generate a booking number of the specified length", () => {
             const length = 8;

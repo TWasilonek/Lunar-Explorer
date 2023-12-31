@@ -7,7 +7,6 @@ import { User } from "../../models/User";
 import { bookingRepository } from "../../repositories/bookingRepository";
 import { flightOccupancyRepository } from "../../repositories/flightOccupancyRepository";
 import { roomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
-import { ReturnBooking } from "../../types";
 
 export type BookingData = {
     user: User;

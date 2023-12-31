@@ -1,10 +1,21 @@
-import { addQuarters, differenceInMonths, isToday } from "date-fns";
+import { addMonths, differenceInMonths, isToday, startOfDay } from "date-fns";
 import { NotFoundError } from "../../errors/NotFoundError";
 import { tripRepository } from "../../repositories/tripRepository";
-import { getTrips, getTripById } from "./trips.controller";
+import {
+    getTrips,
+    getTripById,
+    ReturnTripSimple,
+    getDefaultEndDate,
+} from "./trips.controller";
+import * as tripsController from "./trips.controller";
 import { getTripsForDateRange } from "./trips.service";
+import { tripMock } from "../../__mocks__/tripMock";
 
-jest.mock("../../repositories/tripRepository");
+jest.mock("../../repositories/tripRepository", () => ({
+    tripRepository: {
+        findById: jest.fn(),
+    },
+}));
 jest.mock("./trips.service");
 
 describe("Trips Controller", () => {
@@ -16,8 +27,24 @@ describe("Trips Controller", () => {
         it("should return trips for the given date range", async () => {
             const startDate = new Date("2022-01-01");
             const endDate = new Date("2022-03-31");
-            const expectedTrips = ["trip1", "trip2"];
-
+            const expectedTrips: ReturnTripSimple[] = [
+                {
+                    id: 1,
+                    startDate: "2022-01-01",
+                    endDate: "2022-03-31",
+                    capacity: 15,
+                    occupancy: 2,
+                    status: "scheduled",
+                },
+                {
+                    id: 2,
+                    startDate: "2022-01-01",
+                    endDate: "2022-03-31",
+                    capacity: 15,
+                    occupancy: 2,
+                    status: "scheduled",
+                },
+            ];
             (getTripsForDateRange as jest.Mock).mockResolvedValue(
                 expectedTrips,
             );
@@ -36,36 +63,58 @@ describe("Trips Controller", () => {
 
         it("should return trips for the current date range if no params are provided", async () => {
             const currentDate = new Date();
-            const expectedTrips = ["trip1", "trip2"];
+            const endDate = addMonths(currentDate, 2);
+            const expectedTrips: ReturnTripSimple[] = [
+                {
+                    id: 1,
+                    startDate: "2022-01-01",
+                    endDate: "2022-03-31",
+                    capacity: 15,
+                    occupancy: 2,
+                    status: "scheduled",
+                },
+                {
+                    id: 2,
+                    startDate: "2022-01-01",
+                    endDate: "2022-03-31",
+                    capacity: 15,
+                    occupancy: 2,
+                    status: "scheduled",
+                },
+            ];
             const getTripsForDateRangeMock = getTripsForDateRange as jest.Mock;
 
             getTripsForDateRangeMock.mockResolvedValue(expectedTrips);
+            jest.spyOn(tripsController, "getDefaultStartDate").mockReturnValue(
+                currentDate,
+            );
+            jest.spyOn(tripsController, "getDefaultEndDate").mockReturnValue(
+                endDate,
+            );
 
             const result = await getTrips({ startDate: "", endDate: "" });
 
             expect(result).toEqual(expectedTrips);
             expect(getTripsForDateRangeMock).toHaveBeenCalledWith(
-                expect.any(Date),
-                expect.any(Date),
-            );
-            // Check if currentDate is today
-            expect(isToday(getTripsForDateRangeMock.mock.calls[0][0])).toBe(
-                true,
-            );
-
-            // Check if endDate is exactly 6 months ahead
-            const monthsDifference = differenceInMonths(
-                getTripsForDateRangeMock.mock.calls[0][1],
                 currentDate,
+                endDate,
             );
-            expect(monthsDifference).toBe(6);
         });
     });
 
     describe("getTripById", () => {
         it("should return the trip with the given ID", async () => {
-            const tripId = "123";
-            const expectedTrip = { id: tripId, name: "Trip 1" };
+            const tripId = tripMock.id.toString();
+            const expectedTrip = {
+                id: tripMock.id,
+                startDate: tripMock.startDate,
+                endDate: tripMock.endDate,
+                capacity: tripMock.capacity,
+                occupancy: tripMock.occupancy,
+                status: tripMock.status,
+                flightToMoon: tripMock.flightToMoon,
+                flightToEarth: tripMock.flightToEarth,
+            };
 
             (tripRepository.findById as jest.Mock).mockResolvedValue(
                 expectedTrip,

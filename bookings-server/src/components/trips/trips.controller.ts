@@ -18,6 +18,10 @@ export type ReturnTrip = ReturnTripSimple & {
     flightToEarth: Flight;
 };
 
+export const getDefaultStartDate = (): Date => new Date();
+export const getDefaultEndDate = (startDate: Date): Date =>
+    addQuarters(startDate, 2);
+
 type GetTripsParams = {
     startDate: string;
     endDate: string;
@@ -28,10 +32,10 @@ export const getTrips = async (
 ): Promise<ReturnTripSimple[]> => {
     const startDate = params.startDate
         ? new Date(params.startDate as string)
-        : new Date();
+        : getDefaultStartDate();
     const endDate = params.endDate
         ? new Date(params.endDate as string)
-        : addQuarters(startDate, 2);
+        : getDefaultEndDate(startDate);
 
     const trips = await getTripsForDateRange(startDate, endDate);
     return trips.map((trip) => {

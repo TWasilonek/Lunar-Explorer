@@ -1,11 +1,14 @@
-import { getBooking, createBooking } from "./bookings.controller";
+import {
+    getBooking,
+    createBooking,
+    CreateBooking,
+} from "./bookings.controller";
 import * as bookingsService from "./bookings.service";
 import * as roomsService from "../rooms/rooms.service";
 import * as usersService from "../users/users.service";
 import * as tripsService from "../trips/trips.service";
 import * as flightsService from "../flights/flights.service";
 import { InternalServerError } from "../../errors/InternalServerError";
-import { CreateBooking } from "../../types";
 import { RoomType } from "../../constants";
 import { userMock } from "../../__mocks__/userMock";
 import { tripMock } from "../../__mocks__/tripMock";

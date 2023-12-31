@@ -1,8 +1,6 @@
 import { Trip } from "../models/Trip";
 
 export const tripMock = {
-    createdAt: new Date(),
-    updatedAt: new Date(),
     id: 2,
     startDate: "2024-03-07T23:00:00.000Z",
     endDate: "2024-03-14T23:00:00.000Z",
@@ -47,6 +45,8 @@ export const tripMock = {
 
 export const DBTripMock: Trip = {
     ...tripMock,
+    createdAt: new Date(),
+    updatedAt: new Date(),
     flightToMoon: {
         ...tripMock.flightToMoon,
         spaceship: {

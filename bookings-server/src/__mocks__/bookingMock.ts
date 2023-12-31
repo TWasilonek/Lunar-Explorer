@@ -1,5 +1,5 @@
-import { Booking } from "../models/Booking";
-import { BookingRecord, ReturnBooking } from "../types";
+import { ReturnBooking } from "../components/bookings/bookings.controller";
+import { BookingRecord } from "../repositories/bookingRepository";
 import { roomMock } from "./roomMock";
 import { DBTripMock, tripMock } from "./tripMock";
 import { DBUserMock, userMock } from "./userMock";

@@ -1,8 +1,14 @@
 import * as usersService from "../users/users.service";
 import * as authService from "./auth.service";
-import { ReturnUser, SaveUser } from "../../types";
 import { InternalServerError } from "../../errors/InternalServerError";
-import { signup, signin, logout, refreshTokens } from "./auth.controller";
+import {
+    signup,
+    signin,
+    logout,
+    refreshTokens,
+    ReturnAuthUser,
+    NewUser,
+} from "./auth.controller";
 import { UserRole } from "../../constants";
 import { userMock } from "../../__mocks__/userMock";
 
@@ -23,7 +29,7 @@ describe("Auth Controller", () => {
 
     describe("signup", () => {
         test("should create and save a new user", async () => {
-            const user: SaveUser = {
+            const user: NewUser = {
                 firstName: " John ",
                 lastName: " Doe ",
                 email: " JOHN.doe@example.com    ",
@@ -37,7 +43,7 @@ describe("Auth Controller", () => {
                 password: "hashedPassword",
             };
 
-            const createdUser: ReturnUser = {
+            const createdUser: ReturnAuthUser = {
                 id: "123",
                 firstName: "John",
                 lastName: "Doe",
@@ -62,7 +68,7 @@ describe("Auth Controller", () => {
 
     describe("signin", () => {
         test("should authenticate user and return user data with access and refresh tokens", async () => {
-            const user: ReturnUser = {
+            const user: ReturnAuthUser = {
                 id: "123",
                 firstName: "John",
                 lastName: "Doe",
@@ -106,7 +112,7 @@ describe("Auth Controller", () => {
     describe("logout", () => {
         test("should update user with null refreshToken", async () => {
             const userId = userMock.id;
-            const user: ReturnUser = { ...userMock };
+            const user: ReturnAuthUser = { ...userMock };
 
             (usersService.getUserById as jest.Mock).mockResolvedValue(user);
             (usersService.updateAndSaveUser as jest.Mock).mockResolvedValue(
@@ -143,7 +149,7 @@ describe("Auth Controller", () => {
         test("should validate refresh token, create new access token and refresh token, and save refresh token", async () => {
             const refreshToken = "refreshToken";
             const decoded = { id: userMock.id };
-            const user: ReturnUser = {
+            const user: ReturnAuthUser = {
                 ...userMock,
             };
             const accessToken = "accessToken";
