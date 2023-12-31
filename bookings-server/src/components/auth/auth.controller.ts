@@ -26,7 +26,14 @@ export const signup = async (user: NewUser): Promise<ReturnAuthUser> => {
         password: authService.hashPassword(user.password),
     };
 
-    return usersService.createAndSaveUser(sanitizedData);
+    const savedUser = await usersService.createAndSaveUser(sanitizedData);
+    return {
+        id: savedUser.id,
+        firstName: savedUser.firstName,
+        lastName: savedUser.lastName,
+        email: savedUser.email,
+        role: savedUser.role,
+    };
 };
 
 export type LoginData = {

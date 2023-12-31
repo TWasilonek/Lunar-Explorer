@@ -27,29 +27,16 @@ export const getUserByEmail = async (email: string) => {
 
 export const createAndSaveUser = async (data: SaveUser) => {
     const newUser = userRepository.create(data);
-    const savedUser = await userRepository.save(newUser);
-    return {
-        id: savedUser.id,
-        firstName: savedUser.firstName,
-        lastName: savedUser.lastName,
-        email: savedUser.email,
-        role: savedUser.role,
-    };
+    return await userRepository.save(newUser);
 };
 
 export const updateAndSaveUser = async (user: User, data: Partial<User>) => {
     userRepository.merge(user, data);
-    const savedUser = await userRepository.save(user);
-    return {
-        id: savedUser.id,
-        firstName: savedUser.firstName,
-        lastName: savedUser.lastName,
-        email: savedUser.email,
-        role: savedUser.role,
-    };
+    return userRepository.save(user);
 };
 
 export const deleteUser = async (userId: string) => {
-    await getUserById(userId);
-    return userRepository.delete(userId);
+    const user = await getUserById(userId);
+    await userRepository.delete(userId);
+    return user;
 };

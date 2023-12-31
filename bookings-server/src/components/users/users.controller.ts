@@ -38,11 +38,28 @@ export const updateUser = async (
         email: data.email?.trim().toLowerCase(),
     };
 
-    return usersService.updateAndSaveUser(user, sanitizedData);
+    const updatedUser = await usersService.updateAndSaveUser(
+        user,
+        sanitizedData,
+    );
+    return {
+        id: updatedUser.id,
+        firstName: updatedUser.firstName,
+        lastName: updatedUser.lastName,
+        email: updatedUser.email,
+        role: updatedUser.role,
+    };
 };
 
 export const deleteUser = async (userId: string) => {
-    return usersService.deleteUser(userId);
+    const deletedUser = await usersService.deleteUser(userId);
+    return {
+        id: deletedUser.id,
+        firstName: deletedUser.firstName,
+        lastName: deletedUser.lastName,
+        email: deletedUser.email,
+        role: deletedUser.role,
+    };
 };
 
 export const getUserBookings = async (userId: string) => {
