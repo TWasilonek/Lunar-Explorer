@@ -1,7 +1,7 @@
 
 
 ### Signup / Create a new user
-POST http://localhost:3000/auth/signup
+POST http://localhost:8000/api/v1/auth/signup
 Content-Type: application/json
 
 {
@@ -32,7 +32,7 @@ Content-Type: application/json
 ### Logout
 POST http://localhost:8000/api/v1/auth/logout
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwMzgwMTE0OSwiZXhwIjoxNzAzODAxMjA5fQ.yNqoSnajfd_z8kdgUMYafDU_vKG36T1PkSMSeGlML68
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwNDEyMjY4NSwiZXhwIjoxNzA0MTI2Mjg1fQ.gY2KW9RmHda2UaEndKDToL6bbiqWqU4ImT1SRsqC8jM
 
 ### Refresh token
 POST http://localhost:8000/api/v1/auth/refresh
@@ -41,7 +41,7 @@ Content-Type: application/json
 ### Create a booking
 POST http://localhost:8000/api/v1/bookings
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwMzkyNzY4OSwiZXhwIjoxNzAzOTMxMjg5fQ.XB4Pj6BX3H1_HCV8gS81ud4lFm_hea7o6iogMeNpWlY
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwNDEyMjY4NSwiZXhwIjoxNzA0MTI2Mjg1fQ.gY2KW9RmHda2UaEndKDToL6bbiqWqU4ImT1SRsqC8jM
 
 {
   "userId": "4a2a0b8f-c5c1-4c65-9abf-12d8a3d46e2b",
@@ -54,11 +54,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmL
 ### GET booking by booking number (Mia Taylor)
 GET http://localhost:8000/api/v1/bookings/8M5538EA13
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwMzgwMTc0NywiZXhwIjoxNzAzODA1MzQ3fQ.N-3WZzioMmDRhE0iLPTte-dawtjyZi30Gq77KNebNIM
+Authorization: Bearer eeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwNDEyMjI4NiwiZXhwIjoxNzA0MTI1ODg2fQ.Jau76WOM_SVY2zfXVZF2i2DJ7hKhrbVaHPw9i8XJDAQ
+
 ### GET user bookings
 GET http://localhost:8000/api/v1/users/me/bookings
 ontent-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwMzgwMTc0NywiZXhwIjoxNzAzODA1MzQ3fQ.N-3WZzioMmDRhE0iLPTte-dawtjyZi30Gq77KNebNIM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwNDEyMjI4NiwiZXhwIjoxNzA0MTI1ODg2fQ.Jau76WOM_SVY2zfXVZF2i2DJ7hKhrbVaHPw9i8XJDAQ
 
 ### Get trips by date range
 GET http://localhost:8000/api/v1/trips?startDate=2024-05-01&endDate=2024-10-15

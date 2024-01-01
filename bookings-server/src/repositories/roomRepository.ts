@@ -1,10 +1,21 @@
-import { appDataSource } from "../db/app-data-source";
 import { Room } from "../models/Room";
 
-export const roomRepository = appDataSource.getRepository(Room).extend({
-    findById(id: string) {
-        return this.createQueryBuilder("rooms")
-            .where("rooms.id = :id", { id: +id })
-            .getOne();
-    },
-});
+import { DataSource, Repository } from "typeorm";
+
+let repository: Repository<Room> & {
+    findById(id: string): Promise<Room | null>;
+};
+
+export const getRoomRepository = () => {
+    return repository;
+};
+
+export const createRoomRepository = (dataSource: DataSource) => {
+    repository = dataSource.getRepository(Room).extend({
+        findById(id: string) {
+            return this.createQueryBuilder("rooms")
+                .where("rooms.id = :id", { id: +id })
+                .getOne();
+        },
+    });
+};

@@ -1,7 +1,15 @@
 import { Request, Response } from "express";
-import { userRepository } from "../../repositories/userRepository";
 import { checkDuplicateUsernameOrEmail } from "./verifySignup";
 import { DBUserMock } from "../../__mocks__/userMock";
+
+const mockUserRepository = {
+    findByEmail: jest.fn(),
+};
+jest.mock("../../repositories/userRepository", () => ({
+    getUserRepository: jest.fn().mockImplementation(() => {
+        return mockUserRepository;
+    }),
+}));
 
 describe("checkDuplicateUsernameOrEmail", () => {
     const req = {
@@ -15,12 +23,20 @@ describe("checkDuplicateUsernameOrEmail", () => {
     } as unknown as Response;
     const next = jest.fn();
 
+    beforeAll(() => {
+        jest.spyOn(console, "error").mockImplementationOnce(() => {});
+    });
+
+    afterAll(() => {
+        jest.restoreAllMocks();
+    });
+
     beforeEach(() => {
         jest.clearAllMocks();
     });
 
     it("should call next if the email is not in use", async () => {
-        jest.spyOn(userRepository, "findByEmail").mockResolvedValueOnce(null);
+        mockUserRepository.findByEmail.mockResolvedValueOnce(null);
 
         await checkDuplicateUsernameOrEmail(req, res, next);
 
@@ -28,9 +44,7 @@ describe("checkDuplicateUsernameOrEmail", () => {
     });
 
     it("Should send a bad request response if the email is in use", async () => {
-        jest.spyOn(userRepository, "findByEmail")
-            //@ts-ignore
-            .mockResolvedValueOnce(DBUserMock);
+        mockUserRepository.findByEmail.mockResolvedValueOnce(DBUserMock);
 
         await checkDuplicateUsernameOrEmail(req, res, next);
 
@@ -42,14 +56,8 @@ describe("checkDuplicateUsernameOrEmail", () => {
     });
 
     it("Should send an internal server error resopnse if the database query fails", async () => {
-        const consoleErrorSpy = jest
-            .spyOn(console, "error")
-            .mockImplementationOnce(() => {});
-
         const errorMessage = "Database query failed";
-        jest.spyOn(userRepository, "findByEmail").mockRejectedValueOnce(
-            errorMessage,
-        );
+        mockUserRepository.findByEmail.mockRejectedValueOnce(errorMessage);
 
         await checkDuplicateUsernameOrEmail(req, res, next);
 
@@ -58,7 +66,5 @@ describe("checkDuplicateUsernameOrEmail", () => {
         expect(res.send).toHaveBeenCalledWith({
             message: errorMessage,
         });
-
-        consoleErrorSpy.mockRestore();
     });
 });

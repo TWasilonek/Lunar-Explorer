@@ -2,8 +2,8 @@ import { RoomType } from "../../constants";
 import { InternalServerError } from "../../errors/InternalServerError";
 import { Booking } from "../../models/Booking";
 import { Trip } from "../../models/Trip";
-import { roomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
-import { roomRepository } from "../../repositories/roomRepository";
+import { getRoomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
+import { getRoomRepository } from "../../repositories/roomRepository";
 
 export const getRoomForTrip = async (
     trip: Trip,
@@ -16,7 +16,7 @@ export const getRoomForTrip = async (
         );
     }
 
-    const roomsTaken = await roomOccupancyRepository.find({
+    const roomsTaken = await getRoomOccupancyRepository().find({
         where: {
             trip: {
                 id: trip.id,
@@ -28,7 +28,7 @@ export const getRoomForTrip = async (
         },
     });
 
-    const availableRoomsOfChosenType = await roomRepository.find({
+    const availableRoomsOfChosenType = await getRoomRepository().find({
         where: {
             capacity: roomType === RoomType.SINGLE ? 1 : 2,
         },
@@ -50,7 +50,8 @@ export const getRoomForTrip = async (
 };
 
 export const getRoomByBooking = async (booking: Booking) => {
-    const roomOccupancy = await roomOccupancyRepository.findByBooking(booking);
+    const roomOccupancy =
+        await getRoomOccupancyRepository().findByBooking(booking);
     if (!roomOccupancy) {
         throw new InternalServerError(
             `Room for booking with ${booking.bookingNumber} not found.`,

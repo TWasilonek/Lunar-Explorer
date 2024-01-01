@@ -1,14 +1,16 @@
 import { NotFoundError } from "../../errors/NotFoundError";
 import { User } from "../../models/User";
-import { userRepository } from "../../repositories/userRepository";
+import { getUserRepository } from "../../repositories/userRepository";
 import { SaveUser } from "./users.controller";
 
 export const getAllUsers = async () => {
-    return userRepository.find();
+    console.log("getUserRepository", getUserRepository());
+    return getUserRepository().find();
 };
 
 export const getUserById = async (userId: string) => {
-    const user = await userRepository.findById(userId);
+    console.log("getUserRepository", getUserRepository());
+    const user = await getUserRepository().findById(userId);
     if (!user) {
         throw new NotFoundError("User not found");
     }
@@ -17,7 +19,7 @@ export const getUserById = async (userId: string) => {
 };
 
 export const getUserByEmail = async (email: string) => {
-    const user = await userRepository.findByEmail(email);
+    const user = await getUserRepository().findByEmail(email);
     if (!user) {
         throw new NotFoundError("User not found");
     }
@@ -26,17 +28,19 @@ export const getUserByEmail = async (email: string) => {
 };
 
 export const createAndSaveUser = async (data: SaveUser) => {
+    const userRepository = getUserRepository();
     const newUser = userRepository.create(data);
     return await userRepository.save(newUser);
 };
 
 export const updateAndSaveUser = async (user: User, data: Partial<User>) => {
+    const userRepository = getUserRepository();
     userRepository.merge(user, data);
     return userRepository.save(user);
 };
 
 export const deleteUser = async (userId: string) => {
     const user = await getUserById(userId);
-    await userRepository.delete(userId);
+    await getUserRepository().delete(userId);
     return user;
 };

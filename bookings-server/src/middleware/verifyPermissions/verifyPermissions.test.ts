@@ -1,8 +1,16 @@
 import { Request, Response } from "express";
 import { verifyPermissions } from "./verifyPermissions";
-import { userRepository } from "../../repositories/userRepository";
 import { HttpStatusCode, AdminPermissions, UserRole } from "../../constants";
 import { DBUserMock } from "../../__mocks__/userMock";
+
+const mockUserRepository = {
+    findById: jest.fn(),
+};
+jest.mock("../../repositories/userRepository", () => ({
+    getUserRepository: jest.fn().mockImplementation(() => {
+        return mockUserRepository;
+    }),
+}));
 
 describe("verifyPermissions", () => {
     const req = { body: { userId: DBUserMock.id } } as Request;
@@ -11,6 +19,14 @@ describe("verifyPermissions", () => {
         send: jest.fn(),
     } as unknown as Response;
     const next = jest.fn();
+
+    beforeAll(() => {
+        jest.spyOn(console, "error").mockImplementationOnce(() => {});
+    });
+
+    afterAll(() => {
+        jest.restoreAllMocks();
+    });
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -23,9 +39,7 @@ describe("verifyPermissions", () => {
             role: UserRole.ADMIN,
         };
 
-        jest.spyOn(userRepository, "findById")
-            // @ts-ignore - We don't care about the whole repository object
-            .mockResolvedValueOnce(user);
+        mockUserRepository.findById.mockResolvedValueOnce(user);
 
         await verifyPermissions(permissions)(req, res, next);
 
@@ -46,9 +60,7 @@ describe("verifyPermissions", () => {
                 role: UserRole.USER,
             };
 
-            jest.spyOn(userRepository, "findById")
-                // @ts-ignore - We don't care about the whole repository object
-                .mockResolvedValueOnce(user);
+            mockUserRepository.findById.mockResolvedValueOnce(user);
 
             await verifyPermissions(permissions)(req, res, next);
 
@@ -59,9 +71,7 @@ describe("verifyPermissions", () => {
     });
 
     it("should send a not found response if the user does not exist", async () => {
-        jest.spyOn(userRepository, "findById")
-            // @ts-ignore - We don't care about the whole repository object
-            .mockResolvedValueOnce(null);
+        mockUserRepository.findById.mockResolvedValueOnce(null);
 
         await verifyPermissions([AdminPermissions.READ])(req, res, next);
 
@@ -76,9 +86,7 @@ describe("verifyPermissions", () => {
             role: "invalidRole",
         };
 
-        jest.spyOn(userRepository, "findById")
-            // @ts-ignore - We don't care about the whole repository object
-            .mockResolvedValueOnce(user);
+        mockUserRepository.findById.mockResolvedValueOnce(user);
 
         await verifyPermissions([AdminPermissions.READ])(req, res, next);
 
@@ -89,19 +97,14 @@ describe("verifyPermissions", () => {
 
     it("should send a forbidden response if there is an error thrown while fetching the user", async () => {
         const errorMessage = "Error while fetching user";
-        jest.spyOn(userRepository, "findById").mockRejectedValueOnce({
+        mockUserRepository.findById.mockRejectedValueOnce({
             message: errorMessage,
         });
-        const consoleErrorSpy = jest
-            .spyOn(console, "error")
-            .mockImplementationOnce(() => {});
 
         await verifyPermissions([AdminPermissions.READ])(req, res, next);
 
         expect(res.status).toHaveBeenCalledWith(HttpStatusCode.FORBIDDEN);
         expect(res.send).toHaveBeenCalledWith({ message: "Forbidden" });
         expect(next).not.toHaveBeenCalled();
-
-        consoleErrorSpy.mockRestore();
     });
 });

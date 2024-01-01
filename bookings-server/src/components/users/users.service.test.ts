@@ -1,7 +1,5 @@
 import { DBUserMock, userMock } from "../../__mocks__/userMock";
 import { NotFoundError } from "../../errors/NotFoundError";
-import { User } from "../../models/User";
-import { userRepository } from "../../repositories/userRepository";
 import { SaveUser } from "./users.controller";
 import {
     getAllUsers,
@@ -12,11 +10,24 @@ import {
     deleteUser,
 } from "./users.service";
 
-jest.mock("../../repositories/userRepository");
+const mockUserRepository = {
+    find: jest.fn(),
+    findById: jest.fn(),
+    findByEmail: jest.fn(),
+    create: jest.fn(),
+    merge: jest.fn(),
+    save: jest.fn(),
+    delete: jest.fn(),
+};
+jest.mock("../../repositories/userRepository", () => ({
+    getUserRepository: jest.fn().mockImplementation(() => {
+        return mockUserRepository;
+    }),
+}));
 
 describe("Users Service", () => {
     afterEach(() => {
-        jest.resetAllMocks();
+        jest.clearAllMocks();
     });
 
     describe("getAllUsers", () => {
@@ -25,12 +36,12 @@ describe("Users Service", () => {
                 { ...DBUserMock, id: "1" },
                 { ...DBUserMock, id: "2" },
             ];
-            (userRepository.find as jest.Mock).mockResolvedValue(mockUsers);
+            mockUserRepository.find.mockResolvedValueOnce(mockUsers);
 
             const result = await getAllUsers();
 
             expect(result).toEqual(mockUsers);
-            expect(userRepository.find).toHaveBeenCalledTimes(1);
+            expect(mockUserRepository.find).toHaveBeenCalledTimes(1);
         });
     });
 
@@ -38,22 +49,26 @@ describe("Users Service", () => {
         it("should return the user with the given ID", async () => {
             const mockUserId = DBUserMock.id;
             const mockUser = { ...DBUserMock };
-            (userRepository.findById as jest.Mock).mockResolvedValue(mockUser);
+            mockUserRepository.findById.mockResolvedValueOnce(mockUser);
 
             const result = await getUserById(mockUserId);
 
             expect(result).toEqual(mockUser);
-            expect(userRepository.findById).toHaveBeenCalledWith(mockUserId);
+            expect(mockUserRepository.findById).toHaveBeenCalledWith(
+                mockUserId,
+            );
         });
 
         it("should throw NotFoundError if user is not found", async () => {
             const mockUserId = "1";
-            (userRepository.findById as jest.Mock).mockResolvedValue(null);
+            mockUserRepository.findById.mockResolvedValueOnce(null);
 
             await expect(getUserById(mockUserId)).rejects.toThrow(
                 NotFoundError,
             );
-            expect(userRepository.findById).toHaveBeenCalledWith(mockUserId);
+            expect(mockUserRepository.findById).toHaveBeenCalledWith(
+                mockUserId,
+            );
         });
     });
 
@@ -61,24 +76,26 @@ describe("Users Service", () => {
         it("should return the user with the given email", async () => {
             const mockEmail = DBUserMock.email;
             const mockUser = { ...DBUserMock };
-            (userRepository.findByEmail as jest.Mock).mockResolvedValue(
-                mockUser,
-            );
+            mockUserRepository.findByEmail.mockResolvedValueOnce(mockUser);
 
             const result = await getUserByEmail(mockEmail);
 
             expect(result).toEqual(mockUser);
-            expect(userRepository.findByEmail).toHaveBeenCalledWith(mockEmail);
+            expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(
+                mockEmail,
+            );
         });
 
         it("should throw NotFoundError if user is not found", async () => {
             const mockEmail = "john@example.com";
-            (userRepository.findByEmail as jest.Mock).mockResolvedValue(null);
+            mockUserRepository.findByEmail.mockResolvedValueOnce(null);
 
             await expect(getUserByEmail(mockEmail)).rejects.toThrow(
                 NotFoundError,
             );
-            expect(userRepository.findByEmail).toHaveBeenCalledWith(mockEmail);
+            expect(mockUserRepository.findByEmail).toHaveBeenCalledWith(
+                mockEmail,
+            );
         });
     });
 
@@ -91,14 +108,14 @@ describe("Users Service", () => {
                 password: "123",
             };
             const mockNewUser = { ...userMock };
-            (userRepository.create as jest.Mock).mockReturnValue(mockNewUser);
-            (userRepository.save as jest.Mock).mockResolvedValue(mockNewUser);
+            mockUserRepository.create.mockReturnValue(mockNewUser);
+            mockUserRepository.save.mockResolvedValueOnce(mockNewUser);
 
             const result = await createAndSaveUser(newUser);
 
             expect(result).toEqual(mockNewUser);
-            expect(userRepository.create).toHaveBeenCalledWith(newUser);
-            expect(userRepository.save).toHaveBeenCalledWith(mockNewUser);
+            expect(mockUserRepository.create).toHaveBeenCalledWith(newUser);
+            expect(mockUserRepository.save).toHaveBeenCalledWith(mockNewUser);
         });
     });
 
@@ -108,17 +125,17 @@ describe("Users Service", () => {
                 ...DBUserMock,
             };
             const newData = { firstName: "John Smith" };
-            (userRepository.merge as jest.Mock).mockReturnValue(undefined);
-            (userRepository.save as jest.Mock).mockResolvedValue(mockUser);
+            mockUserRepository.merge.mockReturnValue(undefined);
+            mockUserRepository.save.mockResolvedValueOnce(mockUser);
 
             const result = await updateAndSaveUser(mockUser, newData);
 
             expect(result).toEqual(mockUser);
-            expect(userRepository.merge).toHaveBeenCalledWith(
+            expect(mockUserRepository.merge).toHaveBeenCalledWith(
                 mockUser,
                 newData,
             );
-            expect(userRepository.save).toHaveBeenCalledWith(mockUser);
+            expect(mockUserRepository.save).toHaveBeenCalledWith(mockUser);
         });
     });
 
@@ -126,23 +143,27 @@ describe("Users Service", () => {
         it("should delete the user with the given ID", async () => {
             const mockUserId = DBUserMock.id;
             const mockUser = { ...DBUserMock };
-            (userRepository.findById as jest.Mock).mockResolvedValue(mockUser);
-            (userRepository.delete as jest.Mock).mockResolvedValue(undefined);
+            mockUserRepository.findById.mockResolvedValueOnce(mockUser);
+            mockUserRepository.delete.mockResolvedValueOnce(undefined);
 
             const result = await deleteUser(mockUserId);
 
             expect(result).toEqual(mockUser);
-            expect(userRepository.findById).toHaveBeenCalledWith(mockUserId);
-            expect(userRepository.delete).toHaveBeenCalledWith(mockUserId);
+            expect(mockUserRepository.findById).toHaveBeenCalledWith(
+                mockUserId,
+            );
+            expect(mockUserRepository.delete).toHaveBeenCalledWith(mockUserId);
         });
 
         it("should throw NotFoundError if user is not found", async () => {
             const mockUserId = "1";
-            (userRepository.findById as jest.Mock).mockResolvedValue(null);
+            mockUserRepository.findById.mockResolvedValueOnce(null);
 
             await expect(deleteUser(mockUserId)).rejects.toThrow(NotFoundError);
-            expect(userRepository.findById).toHaveBeenCalledWith(mockUserId);
-            expect(userRepository.delete).not.toHaveBeenCalled();
+            expect(mockUserRepository.findById).toHaveBeenCalledWith(
+                mockUserId,
+            );
+            expect(mockUserRepository.delete).not.toHaveBeenCalled();
         });
     });
 });

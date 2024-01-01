@@ -165,7 +165,6 @@ describe("Auth Controller", () => {
             (authService.createRefreshToken as jest.Mock).mockReturnValue(
                 newRefreshToken,
             );
-            // (authService.saveRefreshToken as jest.Mock).mockResolvedValue();
 
             const result = await refreshTokens(refreshToken);
 

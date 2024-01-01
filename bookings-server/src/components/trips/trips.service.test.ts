@@ -1,24 +1,23 @@
-import { format } from "date-fns";
 import { getTripsForDateRange, getTripById } from "./trips.service";
-import { tripRepository } from "../../repositories/tripRepository";
 import { NotFoundError } from "../../errors/NotFoundError";
-import { DBTripMock, tripMock } from "../../__mocks__/tripMock";
+import { DBTripMock } from "../../__mocks__/tripMock";
 import { ReturnTripSimple } from "./trips.controller";
 import { Trip } from "../../models/Trip";
 
-jest.mock("../../repositories/tripRepository", () => {
-    return {
-        tripRepository: {
-            createQueryBuilder: jest.fn().mockReturnValue({
-                where: jest.fn().mockReturnThis(),
-                andWhere: jest.fn().mockReturnThis(),
-                orderBy: jest.fn().mockReturnThis(),
-                getMany: jest.fn(),
-            }),
-            findById: jest.fn(),
-        },
-    };
-});
+const mockTripRepository = {
+    createQueryBuilder: jest.fn().mockReturnValue({
+        where: jest.fn().mockReturnThis(),
+        andWhere: jest.fn().mockReturnThis(),
+        orderBy: jest.fn().mockReturnThis(),
+        getMany: jest.fn(),
+    }),
+    findById: jest.fn(),
+};
+jest.mock("../../repositories/tripRepository", () => ({
+    getTripRepository: jest.fn().mockImplementation(() => {
+        return mockTripRepository;
+    }),
+}));
 
 describe("getTripsForDateRange", () => {
     beforeEach(() => {
@@ -54,36 +53,37 @@ describe("getTripsForDateRange", () => {
         ];
 
         (
-            tripRepository.createQueryBuilder().where as jest.Mock
+            mockTripRepository.createQueryBuilder().where as jest.Mock
         ).mockReturnThis();
         (
-            tripRepository.createQueryBuilder().andWhere as jest.Mock
+            mockTripRepository.createQueryBuilder().andWhere as jest.Mock
         ).mockReturnThis();
         (
-            tripRepository.createQueryBuilder().orderBy as jest.Mock
+            mockTripRepository.createQueryBuilder().orderBy as jest.Mock
         ).mockReturnThis();
         (
-            tripRepository.createQueryBuilder().getMany as jest.Mock
+            mockTripRepository.createQueryBuilder().getMany as jest.Mock
         ).mockResolvedValue(expectedTrips);
 
         const trips = await getTripsForDateRange(startDate, endDate);
 
         expect(trips).toEqual(expectedTrips);
-        expect(tripRepository.createQueryBuilder().where).toHaveBeenCalledWith(
-            '"startDate" > :startDate',
-            {
-                startDate,
-            },
-        );
         expect(
-            tripRepository.createQueryBuilder().andWhere,
+            mockTripRepository.createQueryBuilder().where,
+        ).toHaveBeenCalledWith('"startDate" > :startDate', {
+            startDate,
+        });
+        expect(
+            mockTripRepository.createQueryBuilder().andWhere,
         ).toHaveBeenCalledWith('"endDate" < :endDate', {
             endDate,
         });
         expect(
-            tripRepository.createQueryBuilder().orderBy,
+            mockTripRepository.createQueryBuilder().orderBy,
         ).toHaveBeenCalledWith('"startDate"', "ASC");
-        expect(tripRepository.createQueryBuilder().getMany).toHaveBeenCalled();
+        expect(
+            mockTripRepository.createQueryBuilder().getMany,
+        ).toHaveBeenCalled();
     });
 });
 
@@ -94,20 +94,22 @@ describe("getTripById", () => {
             ...DBTripMock,
         };
 
-        (tripRepository.findById as jest.Mock).mockResolvedValue(expectedTrip);
+        (mockTripRepository.findById as jest.Mock).mockResolvedValue(
+            expectedTrip,
+        );
 
         const trip = await getTripById(tripId);
 
         expect(trip).toEqual(expectedTrip);
-        expect(tripRepository.findById).toHaveBeenCalledWith(tripId);
+        expect(mockTripRepository.findById).toHaveBeenCalledWith(tripId);
     });
 
     it("should throw NotFoundError if the trip is not found", async () => {
         const tripId = "123";
 
-        (tripRepository.findById as jest.Mock).mockResolvedValue(null);
+        (mockTripRepository.findById as jest.Mock).mockResolvedValue(null);
 
         await expect(getTripById(tripId)).rejects.toThrow(NotFoundError);
-        expect(tripRepository.findById).toHaveBeenCalledWith(tripId);
+        expect(mockTripRepository.findById).toHaveBeenCalledWith(tripId);
     });
 });

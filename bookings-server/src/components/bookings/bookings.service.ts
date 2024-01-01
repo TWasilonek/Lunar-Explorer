@@ -1,12 +1,12 @@
-import { appDataSource } from "../../db/app-data-source";
+import { getDataSource } from "../../db/dataSource";
 import { InternalServerError } from "../../errors/InternalServerError";
 import { Booking } from "../../models/Booking";
 import { Room } from "../../models/Room";
 import { Trip } from "../../models/Trip";
 import { User } from "../../models/User";
-import { bookingRepository } from "../../repositories/bookingRepository";
-import { flightOccupancyRepository } from "../../repositories/flightOccupancyRepository";
-import { roomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
+import { getBookingRepository } from "../../repositories/bookingRepository";
+import { getFlightOccupancyRepository } from "../../repositories/flightOccupancyRepository";
+import { getRoomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
 
 export type BookingData = {
     user: User;
@@ -29,7 +29,8 @@ export const generateBookingNumber = (length = 10) => {
 };
 
 export const getBookingByBookingNumber = async (bookingNumber: string) => {
-    const booking = await bookingRepository.findByBookingNumber(bookingNumber);
+    const booking =
+        await getBookingRepository().findByBookingNumber(bookingNumber);
     if (!booking) {
         throw new InternalServerError(
             `Booking with booking number ${bookingNumber} not found.`,
@@ -40,7 +41,7 @@ export const getBookingByBookingNumber = async (bookingNumber: string) => {
 };
 
 export const getBookingsByUser = async (user: User) => {
-    return bookingRepository.findByUser(user);
+    return getBookingRepository().findByUser(user);
 };
 
 const createBookingTransaction = async ({
@@ -52,11 +53,11 @@ const createBookingTransaction = async ({
     numberOfGuests,
     guestNames,
 }: BookingData): Promise<Booking> =>
-    appDataSource.transaction(async (transactionalEntityManager) => {
+    getDataSource().transaction(async (transactionalEntityManager) => {
         trip.occupancy += numberOfGuests;
         await transactionalEntityManager.save(trip);
 
-        const booking = bookingRepository.create({
+        const booking = getBookingRepository().create({
             user,
             trip,
             numberOfGuests: numberOfGuests,
@@ -66,7 +67,7 @@ const createBookingTransaction = async ({
         });
         await transactionalEntityManager.save(booking);
 
-        const roomOccupancy = roomOccupancyRepository.create({
+        const roomOccupancy = getRoomOccupancyRepository().create({
             booking,
             trip,
             room,
@@ -74,6 +75,7 @@ const createBookingTransaction = async ({
         });
         await transactionalEntityManager.save(roomOccupancy);
 
+        const flightOccupancyRepository = getFlightOccupancyRepository();
         const seatsPromises = flightToMoonSeats.map((seat) => {
             const flightOccupancy = flightOccupancyRepository.create({
                 booking,

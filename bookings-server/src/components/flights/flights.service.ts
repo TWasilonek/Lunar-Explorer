@@ -1,6 +1,6 @@
 import { InternalServerError } from "../../errors/InternalServerError";
 import { Flight } from "../../models/Flight";
-import { flightOccupancyRepository } from "../../repositories/flightOccupancyRepository";
+import { getFlightOccupancyRepository } from "../../repositories/flightOccupancyRepository";
 import { getSeatsInShip } from "../spaceships/spaceships.service";
 
 export const getAvailableSeats = async (
@@ -8,7 +8,7 @@ export const getAvailableSeats = async (
     numberOfGuests: number,
 ) => {
     const allSeats = getSeatsInShip(flight.spaceship);
-    const takenSeats = await flightOccupancyRepository.find({
+    const takenSeats = await getFlightOccupancyRepository().find({
         where: {
             flight: {
                 id: flight.id,

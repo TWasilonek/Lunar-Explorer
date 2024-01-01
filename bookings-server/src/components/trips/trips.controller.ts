@@ -1,7 +1,5 @@
 import { addQuarters } from "date-fns";
-import { NotFoundError } from "../../errors/NotFoundError";
-import { tripRepository } from "../../repositories/tripRepository";
-import { getTripsForDateRange } from "./trips.service";
+import * as tripsService from "./trips.service";
 import { Flight } from "../../models/Flight";
 
 export type ReturnTripSimple = {
@@ -37,7 +35,7 @@ export const getTrips = async (
         ? new Date(params.endDate as string)
         : getDefaultEndDate(startDate);
 
-    const trips = await getTripsForDateRange(startDate, endDate);
+    const trips = await tripsService.getTripsForDateRange(startDate, endDate);
     return trips.map((trip) => {
         return {
             id: trip.id,
@@ -51,10 +49,7 @@ export const getTrips = async (
 };
 
 export const getTripById = async (tripId: string): Promise<ReturnTrip> => {
-    const trip = await tripRepository.findById(tripId);
-    if (!trip) {
-        throw new NotFoundError("Trip not found");
-    }
+    const trip = await tripsService.getTripById(tripId);
 
     return {
         id: trip.id,

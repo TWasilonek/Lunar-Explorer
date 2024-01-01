@@ -5,46 +5,53 @@ import {
     createAndSaveBooking,
     BookingData,
 } from "./bookings.service";
-import { appDataSource } from "../../db/app-data-source";
-import {
-    BookingRecord,
-    bookingRepository,
-} from "../../repositories/bookingRepository";
-import { roomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
-import { flightOccupancyRepository } from "../../repositories/flightOccupancyRepository";
+import { BookingRecord } from "../../repositories/bookingRepository";
 import { InternalServerError } from "../../errors/InternalServerError";
 import { User } from "../../models/User";
 import { DBUserMock } from "../../__mocks__/userMock";
 import { roomMock } from "../../__mocks__/roomMock";
 import { DBBookingMock } from "../../__mocks__/bookingMock";
 
-jest.mock("../../db/app-data-source");
-jest.mock("../../repositories/bookingRepository", () => {
-    return {
-        bookingRepository: {
-            findByBookingNumber: jest.fn(),
-            findByUser: jest.fn(),
-            create: jest.fn(),
-            save: jest.fn(),
-        },
-    };
-});
-jest.mock("../../repositories/roomOccupancyRepository", () => {
-    return {
-        roomOccupancyRepository: {
-            create: jest.fn(),
-            save: jest.fn(),
-        },
-    };
-});
-jest.mock("../../repositories/flightOccupancyRepository", () => {
-    return {
-        flightOccupancyRepository: {
-            create: jest.fn(),
-            save: jest.fn(),
-        },
-    };
-});
+const mockDataSource = {
+    transaction: jest.fn(),
+};
+jest.mock("../../db/dataSource", () => ({
+    getDataSource: jest.fn().mockImplementation(() => {
+        return mockDataSource;
+    }),
+}));
+
+const mockBookingRepository = {
+    findByBookingNumber: jest.fn(),
+    findByUser: jest.fn(),
+    create: jest.fn(),
+    save: jest.fn(),
+};
+jest.mock("../../repositories/bookingRepository", () => ({
+    getBookingRepository: jest.fn().mockImplementation(() => {
+        return mockBookingRepository;
+    }),
+}));
+
+const mockRoomOccupancyRepository = {
+    create: jest.fn(),
+    save: jest.fn(),
+};
+jest.mock("../../repositories/roomOccupancyRepository", () => ({
+    getRoomOccupancyRepository: jest.fn().mockImplementation(() => {
+        return mockRoomOccupancyRepository;
+    }),
+}));
+
+const mockFlightOccupancyRepository = {
+    create: jest.fn(),
+    save: jest.fn(),
+};
+jest.mock("../../repositories/flightOccupancyRepository", () => ({
+    getFlightOccupancyRepository: jest.fn().mockImplementation(() => {
+        return mockFlightOccupancyRepository;
+    }),
+}));
 
 describe("Bookings Service", () => {
     beforeAll(() => {
@@ -69,15 +76,15 @@ describe("Bookings Service", () => {
     describe("getBookingByBookingNumber", () => {
         it("should throw InternalServerError if booking is not found", async () => {
             const bookingNumber = "1234567890";
-            (
-                bookingRepository.findByBookingNumber as jest.Mock
-            ).mockResolvedValueOnce(null);
+            mockBookingRepository.findByBookingNumber.mockResolvedValueOnce(
+                null,
+            );
 
             await expect(
                 getBookingByBookingNumber(bookingNumber),
             ).rejects.toThrow(InternalServerError);
             expect(
-                bookingRepository.findByBookingNumber as jest.Mock,
+                mockBookingRepository.findByBookingNumber,
             ).toHaveBeenCalledWith(bookingNumber);
         });
 
@@ -86,14 +93,14 @@ describe("Bookings Service", () => {
             const booking: BookingRecord = {
                 ...DBBookingMock,
             };
-            (
-                bookingRepository.findByBookingNumber as jest.Mock
-            ).mockResolvedValueOnce(booking);
+            mockBookingRepository.findByBookingNumber.mockResolvedValueOnce(
+                booking,
+            );
 
             const result = await getBookingByBookingNumber(bookingNumber);
             expect(result).toBe(booking);
             expect(
-                bookingRepository.findByBookingNumber as jest.Mock,
+                mockBookingRepository.findByBookingNumber,
             ).toHaveBeenCalledWith(bookingNumber);
         });
     });
@@ -102,13 +109,11 @@ describe("Bookings Service", () => {
         it("should return bookings for the specified user", async () => {
             const user: User = { ...DBUserMock };
             const bookings: BookingRecord[] = [{ ...DBBookingMock }];
-            (bookingRepository.findByUser as jest.Mock).mockResolvedValueOnce(
-                bookings,
-            );
+            mockBookingRepository.findByUser.mockResolvedValueOnce(bookings);
 
             const result = await getBookingsByUser(user);
             expect(result).toBe(bookings);
-            expect(bookingRepository.findByUser).toHaveBeenCalledWith(user);
+            expect(mockBookingRepository.findByUser).toHaveBeenCalledWith(user);
         });
     });
 
@@ -154,20 +159,18 @@ describe("Bookings Service", () => {
                     seatNumber: seat,
                 };
             });
-            (appDataSource.transaction as jest.Mock).mockImplementationOnce(
+            (mockDataSource.transaction as jest.Mock).mockImplementationOnce(
                 async (callback) => {
                     await callback(transactionalEntityManager);
                     return DBBookingMock;
                 },
             );
-            (bookingRepository.create as jest.Mock).mockReturnValueOnce(
-                booking,
-            );
-            (roomOccupancyRepository.create as jest.Mock).mockReturnValueOnce(
+            mockBookingRepository.create.mockReturnValueOnce(booking);
+            mockRoomOccupancyRepository.create.mockReturnValueOnce(
                 roomOccupancy,
             );
 
-            (flightOccupancyRepository.create as jest.Mock)
+            mockFlightOccupancyRepository.create
                 .mockReturnValueOnce(flightToMoonOccupancies[0])
                 .mockReturnValueOnce(flightToMoonOccupancies[1])
                 .mockReturnValueOnce(flightToEarthOccupancies[0])
@@ -176,8 +179,8 @@ describe("Bookings Service", () => {
             const result = await createAndSaveBooking(bookingData);
             expect(result).toEqual(booking);
 
-            expect(appDataSource.transaction).toHaveBeenCalled();
-            expect(bookingRepository.create).toHaveBeenCalledWith(
+            expect(mockDataSource.transaction).toHaveBeenCalled();
+            expect(mockBookingRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
                     user: bookingData.user,
                     trip: bookingData.trip,
@@ -187,7 +190,7 @@ describe("Bookings Service", () => {
                     status: "pending_payment",
                 }),
             );
-            expect(roomOccupancyRepository.create).toHaveBeenCalledWith(
+            expect(mockRoomOccupancyRepository.create).toHaveBeenCalledWith(
                 expect.objectContaining({
                     booking,
                     trip: bookingData.trip,
@@ -196,7 +199,7 @@ describe("Bookings Service", () => {
                 }),
             );
             expect(
-                (flightOccupancyRepository.create as jest.Mock).mock.calls,
+                (mockFlightOccupancyRepository.create as jest.Mock).mock.calls,
             ).toEqual(
                 expect.arrayContaining([
                     [flightToMoonOccupancies[0]],
@@ -220,14 +223,14 @@ describe("Bookings Service", () => {
 
         it("should throw InternalServerError if an error occurs", async () => {
             const error = new Error("Test error");
-            (appDataSource.transaction as jest.Mock).mockRejectedValueOnce(
+            (mockDataSource.transaction as jest.Mock).mockRejectedValueOnce(
                 error,
             );
 
             await expect(createAndSaveBooking(bookingData)).rejects.toThrow(
                 InternalServerError,
             );
-            expect(appDataSource.transaction).toHaveBeenCalled();
+            expect(mockDataSource.transaction).toHaveBeenCalled();
         });
     });
 });

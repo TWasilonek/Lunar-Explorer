@@ -1,21 +1,9 @@
-import { addMonths, differenceInMonths, isToday, startOfDay } from "date-fns";
-import { NotFoundError } from "../../errors/NotFoundError";
-import { tripRepository } from "../../repositories/tripRepository";
-import {
-    getTrips,
-    getTripById,
-    ReturnTripSimple,
-    getDefaultEndDate,
-} from "./trips.controller";
+import { addMonths } from "date-fns";
+import { getTrips, getTripById, ReturnTripSimple } from "./trips.controller";
 import * as tripsController from "./trips.controller";
-import { getTripsForDateRange } from "./trips.service";
+import * as tripsService from "./trips.service";
 import { tripMock } from "../../__mocks__/tripMock";
 
-jest.mock("../../repositories/tripRepository", () => ({
-    tripRepository: {
-        findById: jest.fn(),
-    },
-}));
 jest.mock("./trips.service");
 
 describe("Trips Controller", () => {
@@ -45,7 +33,7 @@ describe("Trips Controller", () => {
                     status: "scheduled",
                 },
             ];
-            (getTripsForDateRange as jest.Mock).mockResolvedValue(
+            (tripsService.getTripsForDateRange as jest.Mock).mockResolvedValue(
                 expectedTrips,
             );
 
@@ -55,7 +43,7 @@ describe("Trips Controller", () => {
             });
 
             expect(result).toEqual(expectedTrips);
-            expect(getTripsForDateRange).toHaveBeenCalledWith(
+            expect(tripsService.getTripsForDateRange).toHaveBeenCalledWith(
                 startDate,
                 endDate,
             );
@@ -82,7 +70,8 @@ describe("Trips Controller", () => {
                     status: "scheduled",
                 },
             ];
-            const getTripsForDateRangeMock = getTripsForDateRange as jest.Mock;
+            const getTripsForDateRangeMock =
+                tripsService.getTripsForDateRange as jest.Mock;
 
             getTripsForDateRangeMock.mockResolvedValue(expectedTrips);
             jest.spyOn(tripsController, "getDefaultStartDate").mockReturnValue(
@@ -116,23 +105,16 @@ describe("Trips Controller", () => {
                 flightToEarth: tripMock.flightToEarth,
             };
 
-            (tripRepository.findById as jest.Mock).mockResolvedValue(
+            (tripsService.getTripById as jest.Mock).mockResolvedValue(
                 expectedTrip,
             );
 
             const result = await getTripById(tripId);
 
             expect(result).toEqual(expectedTrip);
-            expect(tripRepository.findById).toHaveBeenCalledWith(tripId);
-        });
-
-        it("should throw NotFoundError if the trip with the given ID is not found", async () => {
-            const tripId = "123";
-
-            (tripRepository.findById as jest.Mock).mockResolvedValue(null);
-
-            await expect(getTripById(tripId)).rejects.toThrow(NotFoundError);
-            expect(tripRepository.findById).toHaveBeenCalledWith(tripId);
+            expect(tripsService.getTripById as jest.Mock).toHaveBeenCalledWith(
+                tripId,
+            );
         });
     });
 });
