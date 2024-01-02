@@ -2,6 +2,7 @@ import * as usersService from "../users/users.service";
 import * as authService from "./auth.service";
 import { InternalServerError } from "../../errors/InternalServerError";
 import { UserRole } from "../../constants";
+import { UnauthorizedError } from "../../errors/UnauthorizedError";
 
 export type NewUser = {
     firstName: string;
@@ -48,7 +49,14 @@ export const signin = async ({
     accessToken: string;
     refreshToken: string;
 }> => {
-    const user = await usersService.getUserByEmail(email);
+    let user;
+    try {
+        user = await usersService.getUserByEmail(email);
+    } catch (error) {
+        console.error("Error getting user by email: ", error);
+        throw new UnauthorizedError();
+    }
+
     const { accessToken, refreshToken } = authService.authenticate(
         user,
         password,

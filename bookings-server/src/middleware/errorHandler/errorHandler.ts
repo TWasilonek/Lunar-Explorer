@@ -4,6 +4,8 @@ import { BadRequestError } from "../../errors/BadRequestError/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
 import { InternalServerError } from "../../errors/InternalServerError";
 import { HttpStatusCode } from "../../constants";
+import { UnauthorizedError } from "../../errors/UnauthorizedError";
+import { ForbiddenError } from "../../errors/ForbiddenError";
 
 const errorHandler = (
     error: Error,
@@ -19,7 +21,9 @@ const errorHandler = (
     if (
         error instanceof BadRequestError ||
         error instanceof NotFoundError ||
-        error instanceof InternalServerError
+        error instanceof InternalServerError ||
+        error instanceof UnauthorizedError ||
+        error instanceof ForbiddenError
     ) {
         res.status(error.httpCode);
         res.json({ message: error.message });
