@@ -32,7 +32,7 @@ Content-Type: application/json
 ### Logout
 POST http://localhost:8000/api/v1/auth/logout
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwNDEyMjY4NSwiZXhwIjoxNzA0MTI2Mjg1fQ.gY2KW9RmHda2UaEndKDToL6bbiqWqU4ImT1SRsqC8jM
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwNDIyNjY4MywiZXhwIjoxNzA0MjMwMjgzfQ.sOVai97gG3ZP9ijGHLAZ3bix2TUhaDDnEbjSm5WHxnM
 
 ### Refresh token
 POST http://localhost:8000/api/v1/auth/refresh

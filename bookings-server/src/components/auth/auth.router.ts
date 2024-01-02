@@ -61,7 +61,7 @@ router.post(
     asyncMiddleware(async (req, res) => {
         const refreshToken = req.cookies.refreshToken;
         if (!refreshToken) {
-            return res.sendStatus(401);
+            return res.status(401).send({ message: "Unauthorized" });
         }
 
         const { accessToken, refreshToken: newRefreshToken } =

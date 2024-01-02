@@ -176,7 +176,7 @@ describe("Auth Controller", () => {
             expect(authService.createRefreshToken).toHaveBeenCalledWith(user);
             expect(authService.saveRefreshToken).toHaveBeenCalledWith(
                 user,
-                refreshToken,
+                newRefreshToken,
             );
             expect(result).toEqual({
                 accessToken,

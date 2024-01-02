@@ -4,12 +4,10 @@ import { getUserRepository } from "../../repositories/userRepository";
 import { SaveUser } from "./users.controller";
 
 export const getAllUsers = async () => {
-    console.log("getUserRepository", getUserRepository());
     return getUserRepository().find();
 };
 
 export const getUserById = async (userId: string) => {
-    console.log("getUserRepository", getUserRepository());
     const user = await getUserRepository().findById(userId);
     if (!user) {
         throw new NotFoundError("User not found");

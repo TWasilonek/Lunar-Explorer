@@ -30,19 +30,27 @@ describe("Auth integration", () => {
         };
         const app = await createApp(dbConfig);
 
+        // TODO: should you run the migrations or seed script? Ex. create the users table
+
         // Create a Supertest instance
         request = supertest(app);
     });
 
     afterAll(async () => {
-        // TODO: Stop the test database?
-    });
-
-    afterEach(() => {
-        getDataSource().query(`DELETE FROM users WHERE email='${user.email}';`);
+        await getDataSource().query(
+            `DELETE FROM users WHERE email='${user.email}';`,
+        );
+        // TODO: Should you delete the test database after all tests are done?
+        await getDataSource().destroy();
     });
 
     describe(`POST ${BASE_ROUTE}/signup`, () => {
+        afterEach(() => {
+            getDataSource().query(
+                `DELETE FROM users WHERE email='${user.email}';`,
+            );
+        });
+
         test(`POST ${BASE_ROUTE}/signup Success`, async () => {
             const response = await request
                 .post(`${BASE_ROUTE}/signup`)
@@ -105,10 +113,18 @@ describe("Auth integration", () => {
         });
     });
 
-    describe.only(`POST ${BASE_ROUTE}/login`, () => {
-        test(`POST ${BASE_ROUTE}/login Success`, async () => {
+    describe(`POST ${BASE_ROUTE}/login`, () => {
+        beforeAll(async () => {
             await request.post(`${BASE_ROUTE}/signup`).send(user);
+        });
 
+        afterAll(() => {
+            getDataSource().query(
+                `DELETE FROM users WHERE email='${user.email}';`,
+            );
+        });
+
+        test(`POST ${BASE_ROUTE}/login Success`, async () => {
             const response = await request.post(`${BASE_ROUTE}/login`).send({
                 email: user.email,
                 password: user.password,
@@ -146,8 +162,6 @@ describe("Auth integration", () => {
         });
 
         test(`POST ${BASE_ROUTE}/login wrong email format`, async () => {
-            await request.post(`${BASE_ROUTE}/signup`).send(user);
-
             const response = await request
                 .post(`${BASE_ROUTE}/login`)
                 .send({ email: "WRONG EMAIL", password: user.password });
@@ -161,8 +175,6 @@ describe("Auth integration", () => {
         });
 
         test(`POST ${BASE_ROUTE}/login wrong credentials - email`, async () => {
-            await request.post(`${BASE_ROUTE}/signup`).send(user);
-
             const response = await request
                 .post(`${BASE_ROUTE}/login`)
                 .send({ email: "NOT_john@doe.com", password: user.password });
@@ -176,8 +188,6 @@ describe("Auth integration", () => {
         });
 
         test(`POST ${BASE_ROUTE}/login wrong credentials - password`, async () => {
-            await request.post(`${BASE_ROUTE}/signup`).send(user);
-
             const response = await request
                 .post(`${BASE_ROUTE}/login`)
                 .send({ email: user.email, password: "WRONG PASSWORD" });
@@ -191,23 +201,131 @@ describe("Auth integration", () => {
         });
     });
 
-    // TODO: Logout
+    describe(`POST ${BASE_ROUTE}/logout`, () => {
+        let loginResponse: supertest.Response;
 
-    // TODO: Refresh
+        beforeAll(async () => {
+            await request.post(`${BASE_ROUTE}/signup`).send(user);
+        });
+        afterAll(() => {
+            getDataSource().query(
+                `DELETE FROM users WHERE email='${user.email}';`,
+            );
+        });
 
-    // test(`POST ${BASE_ROUTE}/logout`, async () => {
-    //     // TODO: Write the test for the /logout route using Supertest
-    //     const response = await request.post("/logout");
-    //     // Assert the response
-    //     expect(response.status).toBe(200);
-    //     // TODO: Add more assertions as needed
-    // });
+        beforeEach(async () => {
+            loginResponse = await request.post(`${BASE_ROUTE}/login`).send({
+                email: user.email,
+                password: user.password,
+            });
+        });
 
-    // test(`POST ${BASE_ROUTE}/refresh`, async () => {
-    //     // TODO: Write the test for the /refresh route using Supertest
-    //     const response = await request.post("/refresh");
-    //     // Assert the response
-    //     expect(response.status).toBe(200);
-    //     // TODO: Add more assertions as needed
-    // });
+        test(`POST ${BASE_ROUTE}/logout Success`, async () => {
+            const response = await request
+                .post(`${BASE_ROUTE}/logout`)
+                .set(
+                    "Authorization",
+                    `Bearer ${loginResponse.header["x-access-token"]}`,
+                )
+                .set("Cookie", loginResponse.header["set-cookie"]);
+
+            expect(response.status).toBe(200);
+            expect(response.header["set-cookie"]).toEqual(
+                expect.arrayContaining([
+                    expect.stringContaining("refreshToken=;"),
+                ]),
+            );
+
+            const dbResponse = await getDataSource().query(
+                `SELECT * FROM users WHERE email='${user.email}';`,
+            );
+            expect(dbResponse).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        refreshToken: null,
+                    }),
+                ]),
+            );
+        });
+
+        test(`POST ${BASE_ROUTE}/logout no token`, async () => {
+            const response = await request
+                .post(`${BASE_ROUTE}/logout`)
+                .set("Cookie", loginResponse.header["set-cookie"]);
+
+            expect(response.status).toBe(401);
+            expect(response.body).toMatchInlineSnapshot(`
+                {
+                  "message": "Unauthorized",
+                }
+            `);
+        });
+    });
+
+    describe(`POST ${BASE_ROUTE}/refresh`, () => {
+        let loginResponse: supertest.Response;
+
+        beforeAll(async () => {
+            await request.post(`${BASE_ROUTE}/signup`).send(user);
+        });
+        afterAll(() => {
+            getDataSource().query(
+                `DELETE FROM users WHERE email='${user.email}';`,
+            );
+        });
+
+        beforeEach(async () => {
+            loginResponse = await request.post(`${BASE_ROUTE}/login`).send({
+                email: user.email,
+                password: user.password,
+            });
+        });
+
+        test(`POST ${BASE_ROUTE}/refresh Success`, async () => {
+            // make sure the new refresh token will be created with a new timestamp to be different from the one from the login response
+            await new Promise((resolve) => setTimeout(resolve, 1000));
+
+            const response = await request
+                .post(`${BASE_ROUTE}/refresh`)
+                .set("Cookie", loginResponse.header["set-cookie"]);
+
+            expect(response.status).toBe(200);
+            expect(response.body).toEqual(
+                expect.objectContaining({
+                    accessToken: expect.any(String),
+                }),
+            );
+
+            const newRefreshTokenCookie = response.header["set-cookie"].find(
+                (cookie: string) => cookie.includes("refreshToken"),
+            );
+            expect(newRefreshTokenCookie).toEqual(expect.any(String));
+            const newRefreshToken = newRefreshTokenCookie
+                .split(";")[0]
+                .split("=")[1];
+            expect(newRefreshToken).toEqual(expect.any(String));
+
+            const dbResponse = await getDataSource().query(
+                `SELECT * FROM users WHERE email='${user.email}';`,
+            );
+            expect(dbResponse).toEqual(
+                expect.arrayContaining([
+                    expect.objectContaining({
+                        refreshToken: expect.stringContaining(newRefreshToken),
+                    }),
+                ]),
+            );
+        });
+
+        test(`POST ${BASE_ROUTE}/refresh no token`, async () => {
+            const response = await request.post(`${BASE_ROUTE}/refresh`);
+
+            expect(response.status).toBe(401);
+            expect(response.body).toMatchInlineSnapshot(`
+                {
+                  "message": "Unauthorized",
+                }
+            `);
+        });
+    });
 });

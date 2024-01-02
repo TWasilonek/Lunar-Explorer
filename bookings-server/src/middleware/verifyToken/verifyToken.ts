@@ -16,8 +16,8 @@ export const verifyToken = (
     if (!token) {
         console.error("No token provided");
         return res
-            .status(HttpStatusCode.FORBIDDEN)
-            .send({ message: "Forbidden" });
+            .status(HttpStatusCode.UNAUTHORIZED)
+            .send({ message: "Unauthorized" });
     }
 
     if (!authConfig.jwt_secret) {

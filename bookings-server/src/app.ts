@@ -1,6 +1,7 @@
 import "dotenv/config";
 import express from "express";
 import logger from "morgan";
+import cookieParser from "cookie-parser";
 
 import errorHandler from "./middleware/errorHandler";
 import logErrors from "./middleware/logErrors";
@@ -29,6 +30,8 @@ app.use(logger("dev"));
 app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
+// add cookies
+app.use(cookieParser());
 
 /**
  * ROUTES

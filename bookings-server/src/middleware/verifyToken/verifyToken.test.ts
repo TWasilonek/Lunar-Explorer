@@ -61,8 +61,8 @@ describe("verifyToken", () => {
 
             expect(req.body.userId).toBeFalsy();
             expect(next).not.toHaveBeenCalled();
-            expect(res.status).toHaveBeenCalledWith(403);
-            expect(res.send).toHaveBeenCalledWith({ message: "Forbidden" });
+            expect(res.status).toHaveBeenCalledWith(401);
+            expect(res.send).toHaveBeenCalledWith({ message: "Unauthorized" });
         });
     });
 

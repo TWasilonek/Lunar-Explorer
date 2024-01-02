@@ -102,7 +102,7 @@ export const refreshTokens = async (
     const user = await usersService.getUserById(decoded.id);
     const accessToken = authService.createAccessToken(user);
     const newRefreshToken = authService.createRefreshToken(user);
-    await authService.saveRefreshToken(user, refreshToken);
+    await authService.saveRefreshToken(user, newRefreshToken);
 
     return { accessToken, refreshToken: newRefreshToken };
 };
