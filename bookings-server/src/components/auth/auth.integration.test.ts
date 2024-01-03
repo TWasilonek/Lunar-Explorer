@@ -1,7 +1,5 @@
 import supertest from "supertest";
-import { createApp } from "../../app";
-import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { getDataSource } from "../../db/dataSource";
+import { TestDBContext } from "../../utils/testHelpers/TestDBContext";
 
 const user = {
     firstName: "John",
@@ -10,43 +8,28 @@ const user = {
     password: "test12345",
 };
 
-describe("Auth integration", () => {
+const context = new TestDBContext();
+
+describe("Auth REST API", () => {
     const BASE_ROUTE = "/api/v1/auth";
     let request: supertest.SuperTest<supertest.Test>;
 
     beforeAll(async () => {
-        // Start the test database
-        const dbConfig: PostgresConnectionOptions = {
-            type: "postgres",
-            host: "localhost",
-            port: 5432,
-            username: "tomaszw",
-            password: "",
-            database: "lunar_explorer_test",
-            synchronize: false, // the migrations will take care of this
-            logging: false,
-            entities: [process.env.PG_ENTITIES as unknown as string],
-            migrations: [process.env.PG_MIGRATIONS as unknown as string],
-        };
-        const app = await createApp(dbConfig);
-
-        // TODO: should you run the migrations or seed script? Ex. create the users table
-
-        // Create a Supertest instance
-        request = supertest(app);
+        await context.createApp();
+        await context.seedSchema();
+        request = supertest(context.app);
     });
 
     afterAll(async () => {
-        await getDataSource().query(
+        await context.dataSource.query(
             `DELETE FROM users WHERE email='${user.email}';`,
         );
-        // TODO: Should you delete the test database after all tests are done?
-        await getDataSource().destroy();
+        await context.destroy();
     });
 
     describe(`POST ${BASE_ROUTE}/signup`, () => {
         afterEach(() => {
-            getDataSource().query(
+            context.dataSource.query(
                 `DELETE FROM users WHERE email='${user.email}';`,
             );
         });
@@ -67,7 +50,7 @@ describe("Auth integration", () => {
                 }),
             );
 
-            const dbResponse = await getDataSource().query(
+            const dbResponse = await context.dataSource.query(
                 `SELECT * FROM users WHERE email='${user.email}';`,
             );
             expect(dbResponse).toEqual(
@@ -119,7 +102,7 @@ describe("Auth integration", () => {
         });
 
         afterAll(() => {
-            getDataSource().query(
+            context.dataSource.query(
                 `DELETE FROM users WHERE email='${user.email}';`,
             );
         });
@@ -149,7 +132,7 @@ describe("Auth integration", () => {
                 ]),
             );
 
-            const dbResponse = await getDataSource().query(
+            const dbResponse = await context.dataSource.query(
                 `SELECT * FROM users WHERE email='${user.email}';`,
             );
             expect(dbResponse).toEqual(
@@ -208,7 +191,7 @@ describe("Auth integration", () => {
             await request.post(`${BASE_ROUTE}/signup`).send(user);
         });
         afterAll(() => {
-            getDataSource().query(
+            context.dataSource.query(
                 `DELETE FROM users WHERE email='${user.email}';`,
             );
         });
@@ -236,7 +219,7 @@ describe("Auth integration", () => {
                 ]),
             );
 
-            const dbResponse = await getDataSource().query(
+            const dbResponse = await context.dataSource.query(
                 `SELECT * FROM users WHERE email='${user.email}';`,
             );
             expect(dbResponse).toEqual(
@@ -269,7 +252,7 @@ describe("Auth integration", () => {
             await request.post(`${BASE_ROUTE}/signup`).send(user);
         });
         afterAll(() => {
-            getDataSource().query(
+            context.dataSource.query(
                 `DELETE FROM users WHERE email='${user.email}';`,
             );
         });
@@ -305,7 +288,7 @@ describe("Auth integration", () => {
                 .split("=")[1];
             expect(newRefreshToken).toEqual(expect.any(String));
 
-            const dbResponse = await getDataSource().query(
+            const dbResponse = await context.dataSource.query(
                 `SELECT * FROM users WHERE email='${user.email}';`,
             );
             expect(dbResponse).toEqual(

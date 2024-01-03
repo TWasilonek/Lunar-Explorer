@@ -34,9 +34,14 @@ router.get(
     "/:bookingNumber",
     [verifyToken],
     asyncMiddleware(async (req, res, next) => {
-        // if user is not booking owner return 403
-
         const booking = await getBooking(req.params.bookingNumber);
+        if (!booking) {
+            res.status(HttpStatusCode.NOT_FOUND).send({
+                message: "Booking not found",
+            });
+            return;
+        }
+
         if (booking.user.id !== req.body.userId) {
             console.error(
                 `User ${req.body.userId} tried to access booking ${req.params.bookingNumber} owned by ${booking.user.id}`,
@@ -47,13 +52,7 @@ router.get(
             return;
         }
 
-        if (booking) {
-            res.send(booking);
-        } else {
-            res.status(HttpStatusCode.NOT_FOUND).send({
-                message: "Booking not found",
-            });
-        }
+        res.send(booking);
     }),
 );
 

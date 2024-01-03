@@ -1,5 +1,6 @@
 import { getDataSource } from "../../db/dataSource";
 import { InternalServerError } from "../../errors/InternalServerError";
+import { NotFoundError } from "../../errors/NotFoundError";
 import { Booking } from "../../models/Booking";
 import { Room } from "../../models/Room";
 import { Trip } from "../../models/Trip";
@@ -32,8 +33,8 @@ export const getBookingByBookingNumber = async (bookingNumber: string) => {
     const booking =
         await getBookingRepository().findByBookingNumber(bookingNumber);
     if (!booking) {
-        throw new InternalServerError(
-            `Booking with booking number ${bookingNumber} not found.`,
+        throw new NotFoundError(
+            `Booking with booking number: "${bookingNumber}" not found.`,
         );
     }
 
