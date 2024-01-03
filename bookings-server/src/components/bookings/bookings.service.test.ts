@@ -11,6 +11,7 @@ import { User } from "../../models/User";
 import { DBUserMock } from "../../__mocks__/userMock";
 import { roomMock } from "../../__mocks__/roomMock";
 import { DBBookingMock } from "../../__mocks__/bookingMock";
+import { NotFoundError } from "../../errors/NotFoundError";
 
 const mockDataSource = {
     transaction: jest.fn(),
@@ -82,7 +83,7 @@ describe("Bookings Service", () => {
 
             await expect(
                 getBookingByBookingNumber(bookingNumber),
-            ).rejects.toThrow(InternalServerError);
+            ).rejects.toThrow(NotFoundError);
             expect(
                 mockBookingRepository.findByBookingNumber,
             ).toHaveBeenCalledWith(bookingNumber);

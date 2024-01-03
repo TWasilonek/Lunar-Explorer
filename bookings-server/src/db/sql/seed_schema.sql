@@ -1,3 +1,4 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 DROP TABLE IF EXISTS public.room_occupancies CASCADE;
 DROP TABLE IF EXISTS public.flight_occupancies CASCADE;
 DROP TABLE IF EXISTS public.payments CASCADE;
@@ -9,12 +10,12 @@ DROP TABLE IF EXISTS public.manufacturers CASCADE;
 DROP TABLE IF EXISTS public.ports CASCADE;
 DROP TABLE IF EXISTS public.rooms CASCADE;
 DROP TABLE IF EXISTS public.users CASCADE;
-DROP TYPE public.users_role_enum;
+DROP TYPE IF EXISTS public.users_role_enum;
 CREATE TYPE public.users_role_enum AS ENUM ('admin', 'user');
 CREATE TABLE IF NOT EXISTS public.bookings (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL,
-    id uuid DEFAULT public.uuid_generate_v4() PRIMARY KEY,
+    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     "bookingNumber" character varying(10) NOT NULL,
     status character varying(20) NOT NULL,
     "numberOfGuests" integer NOT NULL,
@@ -55,7 +56,7 @@ CREATE TABLE public.payments (
     "paymentMethod" character varying(50) NOT NULL,
     "paymentDate" timestamp with time zone DEFAULT now() NOT NULL,
     "bookingIdId" uuid,
-    id uuid DEFAULT public.uuid_generate_v4() PRIMARY KEY
+    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY
 );
 CREATE TABLE public.ports (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
@@ -104,7 +105,7 @@ CREATE TABLE public.trips (
     "flightToEarthId" integer
 );
 CREATE TABLE public.users (
-    id uuid DEFAULT public.uuid_generate_v4() PRIMARY KEY,
+    id uuid DEFAULT uuid_generate_v4() PRIMARY KEY,
     "firstName" character varying(50) NOT NULL,
     "lastName" character varying(50) NOT NULL,
     email character varying(255) NOT NULL,

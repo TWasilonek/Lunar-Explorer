@@ -1,7 +1,7 @@
 import "dotenv/config";
 import { createApp } from "./app";
 import { isProduction } from "./utils/env";
-import { dbConfig } from "./db/config.dev";
+import { dbConfig } from "./db/devConfig";
 
 const port = process.env.PORT || 8000;
 

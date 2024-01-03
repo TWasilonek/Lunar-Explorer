@@ -11,14 +11,7 @@ import authRouter from "./components/auth/auth.router";
 import tripsRouter from "./components/trips/trips.router";
 import bookingsRouter from "./components/bookings/bookings.router";
 import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConnectionOptions";
-import { createTripRepository } from "./repositories/tripRepository";
-import { createBookingRepository } from "./repositories/bookingRepository";
 import { createDataSource } from "./db/dataSource";
-import { createFlightOccupancyRepository } from "./repositories/flightOccupancyRepository";
-import { createFlightRepository } from "./repositories/flightRepository";
-import { createRoomOccupancyRepository } from "./repositories/roomOccupancyRepository";
-import { createRoomRepository } from "./repositories/roomRepository";
-import { createUserRepository } from "./repositories/userRepository";
 
 const app = express();
 
@@ -64,15 +57,6 @@ process.on("uncaughtException", (error: Error) => {
 });
 
 export const createApp = async (dbConfig: PostgresConnectionOptions) => {
-    const dataSource = await createDataSource(dbConfig);
-
-    createUserRepository(dataSource);
-    createTripRepository(dataSource);
-    createBookingRepository(dataSource);
-    createFlightRepository(dataSource);
-    createRoomRepository(dataSource);
-    createFlightOccupancyRepository(dataSource);
-    createRoomOccupancyRepository(dataSource);
-
+    await createDataSource(dbConfig);
     return app;
 };
