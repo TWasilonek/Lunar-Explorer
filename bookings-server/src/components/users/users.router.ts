@@ -35,7 +35,7 @@ router.get(
 
 router.put(
     "/me",
-    [verifyToken, validateRequestBody(updateUserSchema)],
+    [validateRequestBody(updateUserSchema), verifyToken],
     asyncMiddleware(async (req, res, next) => {
         const user = await updateUser(req.body.userId, {
             firstName: req.body.firstName,
@@ -76,9 +76,9 @@ router.get(
 router.put(
     "/:userId",
     [
+        validateRequestBody(updateUserSchema),
         verifyToken,
         verifyPermissions([AdminPermissions.UPDATE]),
-        validateRequestBody(updateUserSchema),
     ],
     asyncMiddleware(async (req, res, next) => {
         const user = await updateUser(req.params.userId, req.body);

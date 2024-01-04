@@ -3,6 +3,7 @@ import { getTrips, getTripById, ReturnTripSimple } from "./trips.controller";
 import * as tripsController from "./trips.controller";
 import * as tripsService from "./trips.service";
 import { tripMock } from "../../__mocks__/tripMock";
+import { NotFoundError } from "../../errors/NotFoundError";
 
 jest.mock("./trips.service");
 
@@ -115,6 +116,12 @@ describe("Trips Controller", () => {
             expect(tripsService.getTripById as jest.Mock).toHaveBeenCalledWith(
                 tripId,
             );
+        });
+
+        it("should throw an error if the trip ID is not a number", async () => {
+            const tripId = "not-a-trip-id";
+
+            await expect(getTripById(tripId)).rejects.toThrow(NotFoundError);
         });
     });
 });

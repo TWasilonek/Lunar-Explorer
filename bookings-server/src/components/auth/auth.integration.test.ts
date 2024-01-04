@@ -1,6 +1,8 @@
 import supertest from "supertest";
 import { TestDBContext } from "../../utils/testHelpers/TestDBContext";
 
+const BASE_ROUTE = "/api/v1/auth";
+
 const user = {
     firstName: "John",
     lastName: "Doe",
@@ -11,7 +13,6 @@ const user = {
 const context = new TestDBContext();
 
 describe("Auth REST API", () => {
-    const BASE_ROUTE = "/api/v1/auth";
     let request: supertest.SuperTest<supertest.Test>;
 
     beforeAll(async () => {

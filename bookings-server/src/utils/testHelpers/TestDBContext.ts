@@ -47,16 +47,24 @@ export class TestDBContext {
         await this._dataSource.query(seedSchemaSQL);
     }
 
+    public async cleanSchema() {
+        const cleanDbQuery = getCleanDBSQL(this.roleName);
+        await this._dataSource.query(cleanDbQuery);
+    }
+
     public async seedData() {
         const seedDataSQL = getSeedDataSQL();
         await this._dataSource.query(seedDataSQL);
     }
 
-    public async destroy() {
-        const cleanDbQuery = getCleanDBSQL(this.roleName);
+    public async cleanData() {
         const cleanTablesQuery = getCleanTablesSQL(this.roleName);
         await this._dataSource.query(cleanTablesQuery);
-        await this._dataSource.query(cleanDbQuery);
+    }
+
+    public async destroy() {
+        await this.cleanData();
+        await this.cleanSchema();
         await this._dataSource.destroy();
         await this.dropSchemaWithRole(this.roleName);
     }

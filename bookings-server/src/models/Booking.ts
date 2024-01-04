@@ -32,7 +32,9 @@ export class Booking extends Auditable {
     })
     status: string;
 
-    @ManyToOne(() => User, (user) => user.id)
+    @ManyToOne(() => User, (user) => user.id, {
+        onDelete: "SET NULL",
+    })
     user: User;
 
     @ManyToOne(() => Trip, (trip) => trip.id)

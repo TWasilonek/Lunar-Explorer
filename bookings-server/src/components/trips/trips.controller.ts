@@ -1,6 +1,7 @@
 import { addQuarters } from "date-fns";
 import * as tripsService from "./trips.service";
 import { Flight } from "../../models/Flight";
+import { NotFoundError } from "../../errors/NotFoundError";
 
 export type ReturnTripSimple = {
     id: number;
@@ -49,6 +50,9 @@ export const getTrips = async (
 };
 
 export const getTripById = async (tripId: string): Promise<ReturnTrip> => {
+    if (isNaN(parseInt(tripId, 10))) {
+        throw new NotFoundError();
+    }
     const trip = await tripsService.getTripById(tripId);
 
     return {
