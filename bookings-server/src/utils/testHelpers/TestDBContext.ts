@@ -4,7 +4,7 @@ import { DataSource } from "typeorm";
 import { randomBytes } from "crypto";
 import { Pool } from "pg";
 import format from "pg-format";
-import { createDataSource, getDataSource } from "../../db/dataSource";
+import { getDataSource } from "../../db/dataSource";
 import {
     getCleanDBSQL,
     getCleanTablesSQL,

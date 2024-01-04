@@ -1,4 +1,4 @@
-import { InternalServerError } from "../../errors/InternalServerError";
+import { BadRequestError } from "../../errors/BadRequestError";
 import { Flight } from "../../models/Flight";
 import { getFlightOccupancyRepository } from "../../repositories/flightOccupancyRepository";
 import { getSeatsInShip } from "../spaceships/spaceships.service";
@@ -24,7 +24,7 @@ export const getAvailableSeats = async (
     });
 
     if (availableSeats.length < numberOfGuests) {
-        throw new InternalServerError(
+        throw new BadRequestError(
             `Not enough seats available for this flight.`,
         );
     }

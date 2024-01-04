@@ -1,7 +1,9 @@
 import { RoomType } from "../../constants";
-import { InternalServerError } from "../../errors/InternalServerError";
+import { BadRequestError } from "../../errors/BadRequestError";
+import { NotFoundError } from "../../errors/NotFoundError";
 import { Booking } from "../../models/Booking";
 import { Trip } from "../../models/Trip";
+import { BookingRecord } from "../../repositories/bookingRepository";
 import { getRoomOccupancyRepository } from "../../repositories/roomOccupancyRepository";
 import { getRoomRepository } from "../../repositories/roomRepository";
 
@@ -11,9 +13,7 @@ export const getRoomForTrip = async (
     numberOfGuests: number,
 ) => {
     if (numberOfGuests > 2) {
-        throw new InternalServerError(
-            `Cannot book a room for more than 2 guests.`,
-        );
+        throw new BadRequestError(`Cannot book a room for more than 2 guests.`);
     }
 
     const roomsTaken = await getRoomOccupancyRepository().find({
@@ -41,7 +41,7 @@ export const getRoomForTrip = async (
     });
 
     if (availableRoomsForTrip.length < 1) {
-        throw new InternalServerError(
+        throw new BadRequestError(
             `No rooms of type ${roomType} available for this trip.`,
         );
     }
@@ -49,11 +49,11 @@ export const getRoomForTrip = async (
     return availableRoomsForTrip[0];
 };
 
-export const getRoomByBooking = async (booking: Booking) => {
+export const getRoomByBooking = async (booking: BookingRecord) => {
     const roomOccupancy =
         await getRoomOccupancyRepository().findByBooking(booking);
     if (!roomOccupancy) {
-        throw new InternalServerError(
+        throw new NotFoundError(
             `Room for booking with ${booking.bookingNumber} not found.`,
         );
     }
