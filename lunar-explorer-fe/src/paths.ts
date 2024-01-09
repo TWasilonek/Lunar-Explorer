@@ -8,6 +8,9 @@ export const paths = {
     }
     return `/trips?startDate=${startDate}&endDate=${endDate}`;
   },
+  booking(tripId: string) {
+    return `/booking/${tripId}`;
+  },
 };
 
 export const BOOKINS_SERVER_URL = "http://localhost:8000";

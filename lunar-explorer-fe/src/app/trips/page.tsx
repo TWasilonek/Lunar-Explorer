@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { SimpleTripResponse } from "@bookings-server/types";
-import { TripsList } from "@/components/TripsList";
+import { TripsList } from "@/modules/trips/TripsList";
 import { restApi } from "@/paths";
 
 const validateQueryParams = ({ startDate, endDate }: SearchTripsParams) => {

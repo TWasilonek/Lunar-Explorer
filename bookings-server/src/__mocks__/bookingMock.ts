@@ -1,10 +1,10 @@
-import { ReturnBooking } from "../components/bookings/bookings.controller";
+import { CreateBookingResponse } from "../components/bookings/bookings.controller";
 import { BookingRecord } from "../repositories/bookingRepository";
 import { roomMock } from "./roomMock";
 import { DBTripMock, tripMock } from "./tripMock";
 import { DBUserMock, userMock } from "./userMock";
 
-export const returnBookingMock: ReturnBooking = {
+export const returnBookingMock: CreateBookingResponse = {
     id: "aacd1c3a-ae59-4a17-a04e-6a3917d99b45",
     bookingNumber: "KKPJ2CGRK7",
     status: "pending_payment",

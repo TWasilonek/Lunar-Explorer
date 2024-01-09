@@ -1,7 +1,7 @@
 import {
     getBooking,
     createBooking,
-    CreateBooking,
+    CreateBookingBody,
 } from "./bookings.controller";
 import * as bookingsService from "./bookings.service";
 import * as roomsService from "../rooms/rooms.service";
@@ -71,7 +71,7 @@ describe("Bookings Controller", () => {
     });
 
     describe("createBooking", () => {
-        const data: CreateBooking = {
+        const data: CreateBookingBody = {
             userId: userMock.id,
             tripId: tripMock.id.toString(),
             roomType: RoomType.SINGLE,

@@ -4,36 +4,7 @@ import * as usersService from "../users/users.service";
 import * as roomsService from "../rooms/rooms.service";
 import * as flightsService from "../flights/flights.service";
 import * as bookingsService from "./bookings.service";
-import { RoomType, UserRole } from "../../types";
-import { Booking } from "../../models/Booking";
-import { Room } from "../../models/Room";
-
-export type CreateBooking = {
-    userId: string;
-    tripId: string;
-    roomType: RoomType;
-    numberOfGuests: number;
-    guestNames: string[];
-};
-
-export type ReturnBooking = {
-    bookingNumber: string;
-    id: string;
-    status: Booking["status"];
-    numberOfGuests: number;
-    guestNames: string[];
-    createdAt: Date;
-    updatedAt: Date;
-    user: {
-        id: string;
-        firstName: string;
-        lastName: string;
-        email: string;
-        role: UserRole;
-    };
-    trip: Booking["trip"];
-    room: Room;
-};
+import { CreateBookingBody, CreateBookingResponse } from "../../types/bookings";
 
 export const getBooking = async (bookingNumber: string) => {
     const booking =
@@ -53,8 +24,8 @@ export const getBooking = async (bookingNumber: string) => {
 };
 
 export const createBooking = async (
-    data: CreateBooking,
-): Promise<ReturnBooking | null> => {
+    data: CreateBookingBody,
+): Promise<CreateBookingResponse | null> => {
     const user = await usersService.getUserById(data.userId);
     const trip = await tripsService.getTripById(data.tripId);
 

@@ -5,7 +5,8 @@ import { useRouter } from "next/navigation";
 import { formatDateToDisplay } from "@/utils/dateUtils";
 import { TripsResponse } from "@bookings-server/types";
 import { useQueryParams } from "@/hooks/useQueryParams";
-import { restApi } from "@/paths";
+import { paths, restApi } from "@/paths";
+import Link from "next/link";
 
 type Props = {
   tripId: string;
@@ -81,9 +82,7 @@ export const TripDetails = ({ tripId }: Props) => {
         {trip.capacity - trip.occupancy}
       </div>
 
-      <form>
-        <button>Book now</button>
-      </form>
+      <Link href={paths.booking(tripId)}>Book now</Link>
     </div>
   );
 };
