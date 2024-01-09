@@ -27,6 +27,7 @@ async function getTrips(
     }
   }
 
+  // TODO: Pagination!!
   const res = await fetch(restApi.trips.list(query));
   const json = await res.json();
   return json;
