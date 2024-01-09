@@ -18,10 +18,18 @@ export const createTripRepository = (dataSource: DataSource) => {
                 },
                 relations: {
                     flightToMoon: {
-                        spaceship: true,
+                        spaceship: {
+                            manufacturer: true,
+                        },
+                        originPort: true,
+                        destinationPort: true,
                     },
                     flightToEarth: {
-                        spaceship: true,
+                        spaceship: {
+                            manufacturer: true,
+                        },
+                        originPort: true,
+                        destinationPort: true,
                     },
                 },
             });

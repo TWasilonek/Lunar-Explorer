@@ -1,9 +1,10 @@
 import { addMonths } from "date-fns";
-import { getTrips, getTripById, ReturnTripSimple } from "./trips.controller";
+import { getTrips, getTripById } from "./trips.controller";
 import * as tripsController from "./trips.controller";
 import * as tripsService from "./trips.service";
 import { tripMock } from "../../__mocks__/tripMock";
 import { NotFoundError } from "../../errors/NotFoundError";
+import { SimpleTripResponse } from "../../types";
 
 jest.mock("./trips.service");
 
@@ -16,7 +17,7 @@ describe("Trips Controller", () => {
         it("should return trips for the given date range", async () => {
             const startDate = new Date("2022-01-01");
             const endDate = new Date("2022-03-31");
-            const expectedTrips: ReturnTripSimple[] = [
+            const expectedTrips: SimpleTripResponse[] = [
                 {
                     id: 1,
                     startDate: "2022-01-01",
@@ -53,7 +54,7 @@ describe("Trips Controller", () => {
         it("should return trips for the current date range if no params are provided", async () => {
             const currentDate = new Date();
             const endDate = addMonths(currentDate, 2);
-            const expectedTrips: ReturnTripSimple[] = [
+            const expectedTrips: SimpleTripResponse[] = [
                 {
                     id: 1,
                     startDate: "2022-01-01",

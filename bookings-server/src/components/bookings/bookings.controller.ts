@@ -4,7 +4,7 @@ import * as usersService from "../users/users.service";
 import * as roomsService from "../rooms/rooms.service";
 import * as flightsService from "../flights/flights.service";
 import * as bookingsService from "./bookings.service";
-import { RoomType, UserRole } from "../../constants";
+import { RoomType, UserRole } from "../../types";
 import { Booking } from "../../models/Booking";
 import { Room } from "../../models/Room";
 

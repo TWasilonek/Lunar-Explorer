@@ -1,4 +1,4 @@
-import { AdminPermissions, UserRole } from "../constants";
+import { AdminPermissions, UserRole } from "../types";
 
 export type RoleConfig = {
     name: UserRole;

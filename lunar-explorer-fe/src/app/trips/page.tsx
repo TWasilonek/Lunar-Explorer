@@ -1,32 +1,54 @@
-import Link from "next/link";
+import { redirect } from "next/navigation";
+import { SimpleTripResponse } from "@bookings-server/types";
+import { TripsList } from "@/components/TripsList";
+import { restApi } from "@/paths";
 
-// TODO: fix the Trip type -> should I have the types in a top-level file in the monorepo?
-type Trip = {
-  id: string;
-  name: string;
-  startDate: string;
-  endDate: string;
+const validateQueryParams = ({ startDate, endDate }: SearchTripsParams) => {
+  if (startDate && !Date.parse(startDate)) return false;
+  if (endDate && !Date.parse(endDate)) return false;
+  return true;
 };
 
-async function getTrips(): Promise<Trip[]> {
-  const res = await fetch("http://localhost:8000/api/v1/trips");
+type SearchTripsParams = {
+  startDate?: string;
+  endDate?: string;
+};
+
+async function getTrips(
+  searchParams: SearchTripsParams
+): Promise<SimpleTripResponse[]> {
+  let query = "";
+
+  if (searchParams.startDate && searchParams.endDate) {
+    if (validateQueryParams(searchParams)) {
+      query = `?startDate=${searchParams.startDate}&endDate=${searchParams.endDate}`;
+    } else {
+      redirect("/trips");
+    }
+  }
+
+  const res = await fetch(restApi.trips.list(query));
   const json = await res.json();
   return json;
 }
 
-export default async function TripsPage() {
-  // TODO: read query params to get the startDate and endDate
-  const trips = await getTrips();
+type Props = {
+  searchParams: SearchTripsParams;
+};
+
+export default async function TripsPage(
+  { searchParams }: Props = {
+    searchParams: {
+      startDate: "",
+      endDate: "",
+    },
+  }
+) {
+  const trips = await getTrips(searchParams);
   return (
     <div>
       <h1>Trips</h1>
-      <ul>
-        {trips.map((trip) => (
-          <li key={trip.id}>
-            <Link href={`/trips/${trip.id}`}>{trip.name}</Link>
-          </li>
-        ))}
-      </ul>
+      <TripsList trips={trips} />
     </div>
   );
 }

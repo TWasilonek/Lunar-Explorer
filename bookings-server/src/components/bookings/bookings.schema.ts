@@ -1,4 +1,4 @@
-import { RoomType } from "../../constants";
+import { RoomType } from "../../types";
 import { joi } from "../../utils/customJoi";
 
 export const createBookingSchema = joi.object({

@@ -1,21 +1,7 @@
 import { addQuarters } from "date-fns";
 import * as tripsService from "./trips.service";
-import { Flight } from "../../models/Flight";
 import { NotFoundError } from "../../errors/NotFoundError";
-
-export type ReturnTripSimple = {
-    id: number;
-    startDate: string;
-    endDate: string;
-    capacity: number;
-    occupancy: number;
-    status: string;
-};
-
-export type ReturnTrip = ReturnTripSimple & {
-    flightToMoon: Flight;
-    flightToEarth: Flight;
-};
+import { TripsResponse, SimpleTripResponse } from "../../types";
 
 export const getDefaultStartDate = (): Date => new Date();
 export const getDefaultEndDate = (startDate: Date): Date =>
@@ -28,7 +14,7 @@ type GetTripsParams = {
 
 export const getTrips = async (
     params: GetTripsParams,
-): Promise<ReturnTripSimple[]> => {
+): Promise<SimpleTripResponse[]> => {
     const startDate = params.startDate
         ? new Date(params.startDate as string)
         : getDefaultStartDate();
@@ -49,7 +35,7 @@ export const getTrips = async (
     });
 };
 
-export const getTripById = async (tripId: string): Promise<ReturnTrip> => {
+export const getTripById = async (tripId: string): Promise<TripsResponse> => {
     if (isNaN(parseInt(tripId, 10))) {
         throw new NotFoundError();
     }

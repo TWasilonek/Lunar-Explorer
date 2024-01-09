@@ -1,6 +1,6 @@
 import { ReturnUser } from "../components/users/users.controller";
-import { UserRole } from "../constants";
 import { User } from "../models/User";
+import { UserRole } from "../types";
 
 export const userMock: ReturnUser = {
     id: "testId",

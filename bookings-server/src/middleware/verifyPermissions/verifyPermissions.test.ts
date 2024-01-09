@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import { verifyPermissions } from "./verifyPermissions";
-import { HttpStatusCode, AdminPermissions, UserRole } from "../../constants";
+import { AdminPermissions, UserRole } from "../../types";
 import { DBUserMock } from "../../__mocks__/userMock";
+import { HttpStatusCode } from "../../constants";
 
 const mockUserRepository = {
     findById: jest.fn(),

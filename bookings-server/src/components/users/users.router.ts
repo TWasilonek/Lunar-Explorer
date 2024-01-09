@@ -8,10 +8,11 @@ import {
 } from "./users.controller";
 import { verifyToken } from "../../middleware/verifyToken";
 import { verifyPermissions } from "../../middleware/verifyPermissions";
-import { HttpStatusCode, AdminPermissions } from "../../constants";
+import { HttpStatusCode } from "../../constants";
 import asyncMiddleware from "../../middleware/asyncMiddleware/asyncMiddleware";
 import { validateRequestBody } from "../../middleware/validateRequestBody";
 import { updateUserSchema } from "./users.schema";
+import { AdminPermissions } from "../../types";
 
 const router = express.Router();
 

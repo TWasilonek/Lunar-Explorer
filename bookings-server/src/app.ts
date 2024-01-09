@@ -2,6 +2,7 @@ import "dotenv/config";
 import express from "express";
 import logger from "morgan";
 import cookieParser from "cookie-parser";
+import cors from "cors";
 
 import errorHandler from "./middleware/errorHandler";
 import logErrors from "./middleware/logErrors";
@@ -25,6 +26,12 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 // add cookies
 app.use(cookieParser());
+
+const corsOptions = {
+    origin: "http://localhost:3000",
+};
+
+app.use(cors(corsOptions));
 
 /**
  * ROUTES

@@ -1,8 +1,8 @@
 import * as usersService from "../users/users.service";
 import * as authService from "./auth.service";
 import { InternalServerError } from "../../errors/InternalServerError";
-import { UserRole } from "../../constants";
 import { UnauthorizedError } from "../../errors/UnauthorizedError";
+import { SignupResponse } from "../../types";
 
 export type NewUser = {
     firstName: string;
@@ -11,15 +11,7 @@ export type NewUser = {
     password: string;
 };
 
-export type ReturnAuthUser = {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role: UserRole;
-};
-
-export const signup = async (user: NewUser): Promise<ReturnAuthUser> => {
+export const signup = async (user: NewUser): Promise<SignupResponse> => {
     const sanitizedData = {
         firstName: user.firstName.trim(),
         lastName: user.lastName.trim(),
@@ -45,7 +37,7 @@ export const signin = async ({
     password,
     email,
 }: LoginData): Promise<{
-    user: ReturnAuthUser;
+    user: SignupResponse;
     accessToken: string;
     refreshToken: string;
 }> => {

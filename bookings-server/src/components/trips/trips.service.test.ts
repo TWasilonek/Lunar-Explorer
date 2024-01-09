@@ -1,8 +1,8 @@
 import { getTripsForDateRange, getTripById } from "./trips.service";
 import { NotFoundError } from "../../errors/NotFoundError";
 import { DBTripMock } from "../../__mocks__/tripMock";
-import { ReturnTripSimple } from "./trips.controller";
 import { Trip } from "../../models/Trip";
+import { SimpleTripResponse } from "../../types";
 
 const mockTripRepository = {
     createQueryBuilder: jest.fn().mockReturnValue({
@@ -33,7 +33,7 @@ describe("getTripsForDateRange", () => {
             { ...DBTripMock, id: 2 },
         ];
 
-        const expectedTrips: ReturnTripSimple[] = [
+        const expectedTrips: SimpleTripResponse[] = [
             {
                 id: dbTrips[0].id,
                 startDate: dbTrips[0].startDate,
