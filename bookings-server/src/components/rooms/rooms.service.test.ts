@@ -1,5 +1,5 @@
 import { getRoomForTrip, getRoomByBooking } from "./rooms.service";
-import { RoomType } from "../../constants";
+import { RoomType } from "../../types";
 import { Trip } from "../../models/Trip";
 import { RoomOccupancyRecord } from "../../repositories/roomOccupancyRepository";
 import { DBTripMock } from "../../__mocks__/tripMock";

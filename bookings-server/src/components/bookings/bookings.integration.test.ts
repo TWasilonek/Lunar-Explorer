@@ -1,6 +1,6 @@
 import supertest from "supertest";
 import { TestDBContext } from "../../utils/testHelpers/TestDBContext";
-import { RoomType } from "../../constants";
+import { RoomType } from "../../types";
 import {
     loginUserWithBooking1,
     userWithBooking1,

@@ -1,7 +1,6 @@
-import { RoomType } from "../../constants";
+import { RoomType } from "../../types";
 import { BadRequestError } from "../../errors/BadRequestError";
 import { NotFoundError } from "../../errors/NotFoundError";
-import { Booking } from "../../models/Booking";
 import { Trip } from "../../models/Trip";
 import { BookingRecord } from "../../repositories/bookingRepository";
 import { getRoomOccupancyRepository } from "../../repositories/roomOccupancyRepository";

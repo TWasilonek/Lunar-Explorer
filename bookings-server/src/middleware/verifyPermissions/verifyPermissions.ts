@@ -1,7 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { getUserRepository } from "../../repositories/userRepository";
 import { rolesConfig } from "../../config/rolesConfig";
-import { HttpStatusCode, AdminPermissions } from "../../constants";
+import { HttpStatusCode } from "../../constants";
+import { AdminPermissions } from "../../types";
 
 export const verifyPermissions =
     (permissions: AdminPermissions[]) =>

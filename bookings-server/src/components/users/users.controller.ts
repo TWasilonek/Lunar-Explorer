@@ -1,7 +1,7 @@
 import * as usersService from "./users.service";
 import * as roomsService from "../rooms/rooms.service";
 import * as bookingsService from "../bookings/bookings.service";
-import { UserRole } from "../../constants";
+import { UserRole } from "../../types";
 
 export type SaveUser = {
     firstName: string;

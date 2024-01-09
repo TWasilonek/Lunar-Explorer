@@ -9,7 +9,7 @@ import * as usersService from "../users/users.service";
 import * as tripsService from "../trips/trips.service";
 import * as flightsService from "../flights/flights.service";
 import { InternalServerError } from "../../errors/InternalServerError";
-import { RoomType } from "../../constants";
+import { RoomType } from "../../types";
 import { userMock } from "../../__mocks__/userMock";
 import { tripMock } from "../../__mocks__/tripMock";
 import { roomMock } from "../../__mocks__/roomMock";
