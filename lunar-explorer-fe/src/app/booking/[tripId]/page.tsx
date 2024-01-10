@@ -4,6 +4,7 @@ import { restApi } from "@/paths";
 import { formatDateToDisplay } from "@/utils/dateUtils";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { LoginBtn } from "@/components/AuthButtons";
+import { notFound } from "next/navigation";
 
 const getTrip = async (tripId: string) => {
   const res = await fetch(restApi.trips.getById(tripId));
@@ -19,6 +20,10 @@ type Props = {
 
 export default async function BookingPage({ params }: Props) {
   const trip = await getTrip(params.tripId);
+  if (!trip) {
+    notFound();
+  }
+
   const session = await getServerSession(authOptions);
 
   return (

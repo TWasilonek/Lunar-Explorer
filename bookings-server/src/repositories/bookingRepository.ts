@@ -29,8 +29,20 @@ export const createBookingRepository = (dataSource: DataSource) => {
                 relations: {
                     user: true,
                     trip: {
-                        flightToMoon: true,
-                        flightToEarth: true,
+                        flightToMoon: {
+                            spaceship: {
+                                manufacturer: true,
+                            },
+                            originPort: true,
+                            destinationPort: true,
+                        },
+                        flightToEarth: {
+                            spaceship: {
+                                manufacturer: true,
+                            },
+                            originPort: true,
+                            destinationPort: true,
+                        },
                     },
                 },
             });

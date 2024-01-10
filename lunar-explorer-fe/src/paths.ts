@@ -20,6 +20,14 @@ export const paths = {
   myBookingsDetail(bookingNumber: string) {
     return `/me/bookings/${bookingNumber}`;
   },
+  auth: {
+    login() {
+      return "/api/auth/signin";
+    },
+    signOut() {
+      return "/api/auth/signout";
+    },
+  },
 };
 
 export const BOOKINS_SERVER_URL = "http://localhost:8000";
@@ -39,6 +47,9 @@ export const restApi = {
   bookings: {
     create() {
       return BOOKINGS_REST_API_URL;
+    },
+    getByBookingNumber(bookingNumber: string) {
+      return `${BOOKINGS_REST_API_URL}/${bookingNumber}`;
     },
   },
   auth: {

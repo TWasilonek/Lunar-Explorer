@@ -90,9 +90,9 @@ export async function createBooking(
       },
     };
   }
-  const userId = session.user as UserFromJWT;
+  const user = session.user as UserFromJWT;
   const body: CreateBookingBody = {
-    userId: userId.id,
+    userId: user.id,
     tripId: tripIdNumber,
     roomType,
     numberOfGuests,
@@ -105,7 +105,7 @@ export async function createBooking(
       method: "POST",
       body: JSON.stringify(body),
       headers: {
-        authorization: `Bearer ${userId.accessToken}`,
+        authorization: `Bearer ${user.accessToken}`,
         "Content-Type": "application/json", // This MUST be included!
       },
     });

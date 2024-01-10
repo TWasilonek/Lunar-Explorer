@@ -28,3 +28,5 @@ export type CreateBookingResponse = {
     trip: Booking["trip"];
     room: Room;
 };
+
+export type GetBookingResponse = CreateBookingResponse;
