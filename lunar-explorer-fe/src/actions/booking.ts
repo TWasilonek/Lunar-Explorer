@@ -4,16 +4,16 @@ import { restApi } from "@/paths";
 import { CreateBookingBody, RoomType } from "@bookings-server/types";
 
 export async function createBooking(
-  usreId: string,
+  userId: string,
   tripId: string,
   formData: FormData
 ) {
   // TODO: validate form data
   const body: CreateBookingBody = {
-    userId: formData.get("userId") as string,
-    tripId: formData.get("tripId") as string,
+    userId,
+    tripId,
     roomType: formData.get("roomType") as RoomType,
-    numberOfGuests: parseInt(formData.get("numberOfGuests") as string),
+    numberOfGuests: parseInt(formData.get("numbeOfGuests") as string),
     guestNames: (formData.get("guestNames") as string).split(","),
   };
 

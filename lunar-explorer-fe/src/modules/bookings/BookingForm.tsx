@@ -36,11 +36,11 @@ export const BookingForm = ({ userId, tripId }: Props) => {
         </select>
       </div>
       <div>
-        <label htmlFor="numberOfPeople">Number of guests</label>
+        <label htmlFor="numbeOfGuests">Number of guests</label>
         <select
-          name="numberOfPeople"
-          id="numberOfPeople"
-          onSelect={handleNumberOfGuestsChange}
+          name="numbeOfGuests"
+          id="numbeOfGuests"
+          onChange={handleNumberOfGuestsChange}
         >
           <option value="1" selected>
             1

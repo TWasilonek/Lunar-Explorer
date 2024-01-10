@@ -16,6 +16,7 @@ export const paths = {
 export const BOOKINS_SERVER_URL = "http://localhost:8000";
 export const TRIPS_REST_API_URL = `${BOOKINS_SERVER_URL}/api/v1/trips`;
 export const BOOKINGS_REST_API_URL = `${BOOKINS_SERVER_URL}/api/v1/bookings`;
+export const AUTH_REST_API_URL = `${BOOKINS_SERVER_URL}/api/v1/auth`;
 
 export const restApi = {
   trips: {
@@ -29,6 +30,20 @@ export const restApi = {
   bookings: {
     create() {
       return BOOKINGS_REST_API_URL;
+    },
+  },
+  auth: {
+    signup() {
+      return `${AUTH_REST_API_URL}/signup`;
+    },
+    login() {
+      return `${AUTH_REST_API_URL}/login`;
+    },
+    logout() {
+      return `${AUTH_REST_API_URL}/logout`;
+    },
+    refresh() {
+      return `${AUTH_REST_API_URL}/refresh`;
     },
   },
 };
