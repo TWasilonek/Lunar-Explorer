@@ -1,6 +1,9 @@
+import { getServerSession } from "next-auth/next";
 import { BookingForm } from "@/modules/bookings/BookingForm";
 import { restApi } from "@/paths";
 import { formatDateToDisplay } from "@/utils/dateUtils";
+import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { LoginBtn } from "@/components/AuthButtons";
 
 const getTrip = async (tripId: string) => {
   const res = await fetch(restApi.trips.getById(tripId));
@@ -16,6 +19,7 @@ type Props = {
 
 export default async function BookingPage({ params }: Props) {
   const trip = await getTrip(params.tripId);
+  const session = await getServerSession(authOptions);
 
   return (
     <div>
@@ -48,8 +52,15 @@ export default async function BookingPage({ params }: Props) {
           </li>
         </ul>
       </div>
-      {/* TODO: Pass userId, when user is logged in (this page can only be shown when user is logged in) */}
-      <BookingForm tripId={params.tripId} />
+
+      {session && session.user ? (
+        <BookingForm tripId={params.tripId} />
+      ) : (
+        <div>
+          <p>You need to be logged in to book a trip</p>
+          <LoginBtn />
+        </div>
+      )}
     </div>
   );
 }

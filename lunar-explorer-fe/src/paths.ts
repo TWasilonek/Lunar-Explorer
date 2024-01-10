@@ -11,6 +11,15 @@ export const paths = {
   booking(tripId: string) {
     return `/booking/${tripId}`;
   },
+  me() {
+    return "/me";
+  },
+  myBookings() {
+    return "/me/bookings";
+  },
+  myBookingsDetail(bookingNumber: string) {
+    return `/me/bookings/${bookingNumber}`;
+  },
 };
 
 export const BOOKINS_SERVER_URL = "http://localhost:8000";

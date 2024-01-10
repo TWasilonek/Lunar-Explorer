@@ -26,7 +26,7 @@ export const getTripsForDateRange = async (
         .getMany();
 };
 
-export const getTripById = async (tripId: string): Promise<Trip> => {
+export const getTripById = async (tripId: number): Promise<Trip> => {
     const trip = await getTripRepository().findById(tripId);
     if (!trip) {
         throw new NotFoundError("Trip not found");

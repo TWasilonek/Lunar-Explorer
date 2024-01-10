@@ -1,16 +1,22 @@
 "use client";
 
 import { useState } from "react";
+import { useFormState } from "react-dom";
 import * as actions from "@/actions";
 import { RoomType } from "@bookings-server/types";
 
 type Props = {
-  userId: string;
   tripId: string;
 };
 
-export const BookingForm = ({ userId, tripId }: Props) => {
+export const BookingForm = ({ tripId }: Props) => {
   const [numberOfGuests, setNumberOfGuests] = useState(1);
+  const [formState, action] = useFormState(
+    actions.createBooking.bind(null, tripId),
+    {
+      errors: {},
+    }
+  );
 
   const handleNumberOfGuestsChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -18,14 +24,8 @@ export const BookingForm = ({ userId, tripId }: Props) => {
     setNumberOfGuests(parseInt(event.target.value));
   };
 
-  const createBookingWithData = actions.createBooking.bind(
-    null,
-    userId,
-    tripId
-  );
-
   return (
-    <form action={createBookingWithData}>
+    <form action={action}>
       <div>
         <label htmlFor="roomType">Select room type</label>
         <select name="roomType" id="roomType">
@@ -36,10 +36,10 @@ export const BookingForm = ({ userId, tripId }: Props) => {
         </select>
       </div>
       <div>
-        <label htmlFor="numbeOfGuests">Number of guests</label>
+        <label htmlFor="numberOfGuests">Number of guests</label>
         <select
-          name="numbeOfGuests"
-          id="numbeOfGuests"
+          name="numberOfGuests"
+          id="numberOfGuests"
           onChange={handleNumberOfGuestsChange}
         >
           <option value="1" selected>
@@ -49,25 +49,31 @@ export const BookingForm = ({ userId, tripId }: Props) => {
         </select>
       </div>
       <div>
-        <label htmlFor="guestNames">Guest 1 name</label>
+        <label htmlFor="guestName1">Guest 1 name</label>
         <input
           type="text"
-          name="guestNames"
-          id="guestNames"
+          name="guestName1"
+          id="guestName1"
           placeholder="Guest name"
         />
       </div>
       {numberOfGuests === 2 && (
         <div>
-          <label htmlFor="guestNames">Guest 1 name</label>
+          <label htmlFor="guestName2">Guest 1 name</label>
           <input
             type="text"
-            name="guestNames"
-            id="guestNames"
+            name="guestName2"
+            id="guestName2"
             placeholder="Guest name"
           />
         </div>
       )}
+
+      {formState.errors._form ? (
+        <div className="rounded p-2 bg-red-200 border border-red-400">
+          {formState.errors._form.join(", ")}
+        </div>
+      ) : null}
 
       <button type="submit">Book</button>
     </form>

@@ -4,7 +4,7 @@ import { RoomType, UserRole } from "./constants";
 
 export type CreateBookingBody = {
     userId: string;
-    tripId: string;
+    tripId: number;
     roomType: RoomType;
     numberOfGuests: number;
     guestNames: string[];

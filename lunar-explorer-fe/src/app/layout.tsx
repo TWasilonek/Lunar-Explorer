@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { LoginButton } from "@/components/LoginButton";
+import { LoginButton } from "@/components/AuthButtons";
 import Providers from "./providers";
 
 import "./globals.css";

@@ -1,7 +1,7 @@
 import Link from "next/link";
 
-import { LoginButton } from "../LoginButton";
 import { paths } from "@/paths";
+import { NavUserArea } from "./NavUserArea";
 
 const Navbar = () => {
   return (
@@ -9,7 +9,7 @@ const Navbar = () => {
       <nav>
         <Link href={paths.tripsList()}>Trips</Link>
       </nav>
-      <LoginButton />
+      <NavUserArea />
     </div>
   );
 };
