@@ -1,21 +1,16 @@
 import { notFound, redirect } from "next/navigation";
 import { paths, restApi } from "@/paths";
 import { GetBookingResponse, RoomType } from "@bookings-server/types";
-import { getServerSession } from "next-auth";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { UserFromJWT } from "@/types";
+import { checkLoggedInAndGetSession } from "@/utils/userServerSession";
 
 const getBooking = async (bookingNumber: string) => {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    redirect(paths.auth.login());
-  }
+  const session = await checkLoggedInAndGetSession();
 
-  const userId = session.user as UserFromJWT;
+  const user = session.user;
   const res = await fetch(restApi.bookings.getByBookingNumber(bookingNumber), {
     method: "GET",
     headers: {
-      authorization: `Bearer ${userId.accessToken}`,
+      authorization: `Bearer ${user.accessToken}`,
       "Content-Type": "application/json", // This MUST be included!
     },
   });
@@ -24,11 +19,9 @@ const getBooking = async (bookingNumber: string) => {
   if (res.ok) {
     return json;
   }
-
   if (res.status === 401 || res.status === 403) {
     redirect(paths.auth.login());
   }
-
   notFound();
 };
 
@@ -39,11 +32,7 @@ type Props = {
 };
 
 export default async function UserBookingDetailsPage({ params }: Props) {
-  const session = await getServerSession(authOptions);
-  if (!session || !session.user) {
-    redirect(paths.auth.login());
-  }
-
+  await checkLoggedInAndGetSession();
   const booking: GetBookingResponse = await getBooking(params.bookingNumber);
 
   if (!booking) {
