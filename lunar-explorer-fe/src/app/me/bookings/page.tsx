@@ -8,7 +8,7 @@ const getBookings = async () => {
   const session = await checkLoggedInAndGetSession();
   const user = session.user;
 
-  const res = await fetch(restApi.bookings.list(), {
+  const res = await fetch(restApi.user.listBookings(), {
     method: "GET",
     headers: {
       authorization: `Bearer ${user.accessToken}`,

@@ -1,35 +1,20 @@
 import * as usersService from "./users.service";
 import * as roomsService from "../rooms/rooms.service";
 import * as bookingsService from "../bookings/bookings.service";
-import { UserRole } from "../../types";
-
-export type SaveUser = {
-    firstName: string;
-    lastName: string;
-    email: string;
-    password: string;
-};
-
-export type ReturnUser = {
-    id: string;
-    firstName: string;
-    lastName: string;
-    email: string;
-    role: UserRole;
-};
+import { UpdateUserBody, UserProfile } from "../../types";
 
 export const getAllUsers = async () => {
     return usersService.getAllUsers();
 };
 
-export const getUser = async (userId: string) => {
+export const getUser = async (userId: string): Promise<UserProfile> => {
     return usersService.getUserById(userId);
 };
 
 export const updateUser = async (
     userId: string,
-    data: Partial<SaveUser>,
-): Promise<ReturnUser> => {
+    data: Partial<UpdateUserBody>,
+): Promise<UserProfile> => {
     const user = await usersService.getUserById(userId);
 
     const sanitizedData = {

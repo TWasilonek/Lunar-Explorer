@@ -1,7 +1,7 @@
 import { NotFoundError } from "../../errors/NotFoundError";
 import { User } from "../../models/User";
 import { getUserRepository } from "../../repositories/userRepository";
-import { SaveUser } from "./users.controller";
+import { UpdateUserBody } from "../../types";
 
 export const getAllUsers = async () => {
     return getUserRepository().find();
@@ -25,7 +25,7 @@ export const getUserByEmail = async (email: string) => {
     return user;
 };
 
-export const createAndSaveUser = async (data: SaveUser) => {
+export const createAndSaveUser = async (data: UpdateUserBody) => {
     const userRepository = getUserRepository();
     const newUser = userRepository.create(data);
     return await userRepository.save(newUser);

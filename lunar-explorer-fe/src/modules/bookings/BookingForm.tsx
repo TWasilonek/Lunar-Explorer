@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useFormState } from "react-dom";
+import { useFormState, useFormStatus } from "react-dom";
 import * as actions from "@/actions";
 import { RoomType } from "@bookings-server/types";
 
@@ -11,6 +11,7 @@ type Props = {
 
 export const BookingForm = ({ tripId }: Props) => {
   const [numberOfGuests, setNumberOfGuests] = useState(1);
+  const { pending } = useFormStatus();
   const [formState, action] = useFormState(
     actions.createBooking.bind(null, tripId),
     {
@@ -75,7 +76,9 @@ export const BookingForm = ({ tripId }: Props) => {
         </div>
       ) : null}
 
-      <button type="submit">Book</button>
+      <button type="submit" aria-disabled={pending}>
+        Book
+      </button>
     </form>
   );
 };

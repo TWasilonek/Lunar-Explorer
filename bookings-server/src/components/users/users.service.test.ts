@@ -1,6 +1,6 @@
 import { DBUserMock, userMock } from "../../__mocks__/userMock";
 import { NotFoundError } from "../../errors/NotFoundError";
-import { SaveUser } from "./users.controller";
+import { UpdateUserBody } from "../../types";
 import {
     getAllUsers,
     getUserById,
@@ -101,11 +101,10 @@ describe("Users Service", () => {
 
     describe("createAndSaveUser", () => {
         it("should create and save a new user", async () => {
-            const newUser: SaveUser = {
+            const newUser: UpdateUserBody = {
                 firstName: userMock.firstName,
                 lastName: userMock.lastName,
                 email: userMock.email,
-                password: "123",
             };
             const mockNewUser = { ...userMock };
             mockUserRepository.create.mockReturnValue(mockNewUser);

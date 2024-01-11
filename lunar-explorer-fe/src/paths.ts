@@ -11,8 +11,8 @@ export const paths = {
   booking(tripId: string) {
     return `/booking/${tripId}`;
   },
-  me() {
-    return "/me";
+  profile() {
+    return "/me/profile";
   },
   myBookings() {
     return "/me/bookings";
@@ -49,11 +49,16 @@ export const restApi = {
     create() {
       return BOOKINGS_REST_API_URL;
     },
-    list() {
-      return `${MY_USER_REST_API_URL}/bookings`;
-    },
     getByBookingNumber(bookingNumber: string) {
       return `${BOOKINGS_REST_API_URL}/${bookingNumber}`;
+    },
+  },
+  user: {
+    listBookings() {
+      return `${MY_USER_REST_API_URL}/bookings`;
+    },
+    profile() {
+      return `${MY_USER_REST_API_URL}`;
     },
   },
   auth: {

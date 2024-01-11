@@ -7,11 +7,10 @@ import {
     updateUser,
     deleteUser,
     getUserBookings,
-    SaveUser,
-    ReturnUser,
 } from "./users.controller";
 import { DBUserMock } from "../../__mocks__/userMock";
 import { User } from "../../models/User";
+import { UpdateUserBody, UserProfile } from "../../types";
 
 jest.mock("./users.service");
 jest.mock("../rooms/rooms.service");
@@ -69,14 +68,14 @@ describe("Users Controller", () => {
             const mockUser: User = {
                 ...DBUserMock,
             };
-            const returnUser: ReturnUser = {
+            const returnUser: UserProfile = {
                 id: DBUserMock.id,
                 firstName: DBUserMock.firstName,
                 lastName: DBUserMock.lastName,
                 email: DBUserMock.email,
                 role: DBUserMock.role,
             };
-            const mockData: Partial<SaveUser> = {
+            const mockData: Partial<UpdateUserBody> = {
                 firstName: " Updated ",
                 lastName: " User ",
                 email: "updated.user@example.com",
@@ -111,7 +110,7 @@ describe("Users Controller", () => {
             const mockUser: User = {
                 ...DBUserMock,
             };
-            const returnUser: ReturnUser = {
+            const returnUser: UserProfile = {
                 id: DBUserMock.id,
                 firstName: DBUserMock.firstName,
                 lastName: DBUserMock.lastName,
