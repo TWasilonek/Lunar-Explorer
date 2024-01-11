@@ -35,10 +35,7 @@ export const getTrips = async (
     });
 };
 
-export const getTripById = async (tripId: string): Promise<TripsResponse> => {
-    if (isNaN(parseInt(tripId, 10))) {
-        throw new NotFoundError();
-    }
+export const getTripById = async (tripId: number): Promise<TripsResponse> => {
     const trip = await tripsService.getTripById(tripId);
 
     return {

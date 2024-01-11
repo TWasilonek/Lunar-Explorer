@@ -89,7 +89,7 @@ describe("getTripsForDateRange", () => {
 
 describe("getTripById", () => {
     it("should return the trip with the specified ID", async () => {
-        const tripId = DBTripMock.id.toString();
+        const tripId = DBTripMock.id;
         const expectedTrip = {
             ...DBTripMock,
         };
@@ -98,14 +98,14 @@ describe("getTripById", () => {
             expectedTrip,
         );
 
-        const trip = await getTripById(tripId);
+        const trip = await getTripById(DBTripMock.id);
 
         expect(trip).toEqual(expectedTrip);
         expect(mockTripRepository.findById).toHaveBeenCalledWith(tripId);
     });
 
     it("should throw NotFoundError if the trip is not found", async () => {
-        const tripId = "123";
+        const tripId = 123;
 
         (mockTripRepository.findById as jest.Mock).mockResolvedValue(null);
 

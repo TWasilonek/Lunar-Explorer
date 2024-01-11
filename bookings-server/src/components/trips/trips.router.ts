@@ -17,8 +17,12 @@ router.get(
 
 router.get(
     "/:id",
-    asyncMiddleware(async (req, res, next) => {
-        const trip = await getTripById(req.params.id);
+    asyncMiddleware(async (req, res) => {
+        const tripIdAsNumber = parseInt(req.params.id, 10);
+        if (isNaN(tripIdAsNumber)) {
+            return res.status(404).json({ message: "not found" });
+        }
+        const trip = await getTripById(tripIdAsNumber);
         res.json(trip);
     }),
 );

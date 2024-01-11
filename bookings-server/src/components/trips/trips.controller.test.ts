@@ -95,7 +95,6 @@ describe("Trips Controller", () => {
 
     describe("getTripById", () => {
         it("should return the trip with the given ID", async () => {
-            const tripId = tripMock.id.toString();
             const expectedTrip = {
                 id: tripMock.id,
                 startDate: tripMock.startDate,
@@ -111,18 +110,12 @@ describe("Trips Controller", () => {
                 expectedTrip,
             );
 
-            const result = await getTripById(tripId);
+            const result = await getTripById(tripMock.id);
 
             expect(result).toEqual(expectedTrip);
             expect(tripsService.getTripById as jest.Mock).toHaveBeenCalledWith(
-                tripId,
+                tripMock.id,
             );
-        });
-
-        it("should throw an error if the trip ID is not a number", async () => {
-            const tripId = "not-a-trip-id";
-
-            await expect(getTripById(tripId)).rejects.toThrow(NotFoundError);
         });
     });
 });

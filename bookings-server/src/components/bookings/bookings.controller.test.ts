@@ -1,15 +1,11 @@
-import {
-    getBooking,
-    createBooking,
-    CreateBookingBody,
-} from "./bookings.controller";
+import { getBooking, createBooking } from "./bookings.controller";
 import * as bookingsService from "./bookings.service";
 import * as roomsService from "../rooms/rooms.service";
 import * as usersService from "../users/users.service";
 import * as tripsService from "../trips/trips.service";
 import * as flightsService from "../flights/flights.service";
 import { InternalServerError } from "../../errors/InternalServerError";
-import { RoomType } from "../../types";
+import { CreateBookingBody, RoomType } from "../../types";
 import { userMock } from "../../__mocks__/userMock";
 import { tripMock } from "../../__mocks__/tripMock";
 import { roomMock } from "../../__mocks__/roomMock";
@@ -73,7 +69,7 @@ describe("Bookings Controller", () => {
     describe("createBooking", () => {
         const data: CreateBookingBody = {
             userId: userMock.id,
-            tripId: tripMock.id.toString(),
+            tripId: tripMock.id,
             roomType: RoomType.SINGLE,
             numberOfGuests: 1,
             guestNames: ["John Doe"],
