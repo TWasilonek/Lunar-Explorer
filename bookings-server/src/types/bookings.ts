@@ -25,7 +25,14 @@ export type CreateBookingResponse = {
         email: string;
         role: UserRole;
     };
-    trip: Booking["trip"];
+    trip: Booking["trip"] & {
+        flightToMoon: Booking["trip"]["flightToMoon"] & {
+            seats: string[];
+        };
+        flightToEarth: Booking["trip"]["flightToEarth"] & {
+            seats: string[];
+        };
+    };
     room: Room;
 };
 

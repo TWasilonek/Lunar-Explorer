@@ -50,7 +50,11 @@ export default async function UserBookingDetailsPage({ params }: Props) {
     notFound();
   }
 
-  console.log(booking);
+  const renderSeats = (seats: string[]) => {
+    return seats.map((seat) => (
+      <span key={seat}>&nbsp;&quot;{seat}&quot;&nbsp;</span>
+    ));
+  };
 
   return (
     <div>
@@ -74,7 +78,7 @@ export default async function UserBookingDetailsPage({ params }: Props) {
       </section>
 
       <section>
-        <h2>Flighs</h2>
+        <h2>Flights</h2>
         <h3>Departure</h3>
         <ul>
           <li>
@@ -96,6 +100,7 @@ export default async function UserBookingDetailsPage({ params }: Props) {
           </li>
           <li>
             <strong>Seats:</strong>
+            {renderSeats(booking.trip.flightToMoon.seats)}
           </li>
         </ul>
 
@@ -120,6 +125,7 @@ export default async function UserBookingDetailsPage({ params }: Props) {
           </li>
           <li>
             <strong>Seats:</strong>
+            {renderSeats(booking.trip.flightToEarth.seats)}
           </li>
         </ul>
       </section>

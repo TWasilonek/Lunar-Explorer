@@ -10,8 +10,28 @@ export const getBooking = async (bookingNumber: string) => {
     const booking =
         await bookingsService.getBookingByBookingNumber(bookingNumber);
     const room = await roomsService.getRoomByBooking(booking);
+    const seatsToMoon = await flightsService.getSeatsByBooking(
+        booking,
+        booking.trip.flightToMoon,
+    );
+    const seatsToEarth = await flightsService.getSeatsByBooking(
+        booking,
+        booking.trip.flightToEarth,
+    );
+
     return {
         ...booking,
+        trip: {
+            ...booking.trip,
+            flightToMoon: {
+                ...booking.trip.flightToMoon,
+                seats: seatsToMoon,
+            },
+            flightToEarth: {
+                ...booking.trip.flightToEarth,
+                seats: seatsToEarth,
+            },
+        },
         user: {
             id: booking.user.id,
             firstName: booking.user.firstName,
@@ -75,6 +95,17 @@ export const createBooking = async (
 
     return {
         ...booking,
+        trip: {
+            ...booking.trip,
+            flightToMoon: {
+                ...booking.trip.flightToMoon,
+                seats: flightToMoonSeats,
+            },
+            flightToEarth: {
+                ...booking.trip.flightToEarth,
+                seats: flightToEarthSeats,
+            },
+        },
         user: {
             id: booking.user.id,
             firstName: booking.user.firstName,

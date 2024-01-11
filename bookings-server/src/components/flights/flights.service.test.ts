@@ -1,3 +1,4 @@
+import { DBBookingMock } from "../../__mocks__/bookingMock";
 import { flightMock } from "../../__mocks__/flightMock";
 import { BadRequestError } from "../../errors/BadRequestError";
 import {
@@ -5,7 +6,7 @@ import {
     getFlightOccupancyRepository,
 } from "../../repositories/flightOccupancyRepository";
 import { getSeatsInShip } from "../spaceships/spaceships.service";
-import { getAvailableSeats } from "./flights.service";
+import { getAvailableSeats, getSeatsByBooking } from "./flights.service";
 
 jest.mock("../../repositories/flightOccupancyRepository");
 jest.mock("../spaceships/spaceships.service");
@@ -20,7 +21,7 @@ const takenSeats: FlightOccupancyRecord[] = [
         updatedAt: new Date(),
         flight,
         // @ts-ignore we don't care abut the whole booking object
-        booking: "1",
+        booking: { ...DBBookingMock },
         seatNumber: "1",
     },
     {
@@ -29,7 +30,7 @@ const takenSeats: FlightOccupancyRecord[] = [
         updatedAt: new Date(),
         flight,
         // @ts-ignore we don't care abut the whole booking object
-        booking: "1",
+        booking: { ...DBBookingMock },
         seatNumber: "2",
     },
 ];
@@ -68,6 +69,21 @@ describe("Flights service", () => {
             await expect(
                 getAvailableSeats(flight, numberOfGuests),
             ).rejects.toThrow(BadRequestError);
+        });
+    });
+
+    describe("getSeatsByBooking", () => {
+        it("should return the seat numbers for a specific booking", async () => {
+            const booking = { ...DBBookingMock };
+            const expectedSeats = ["1", "2"];
+
+            (getFlightOccupancyRepository as jest.Mock).mockReturnValue({
+                find: jest.fn().mockResolvedValue(takenSeats),
+            });
+
+            const result = await getSeatsByBooking(booking, flight);
+
+            expect(result).toEqual(expectedSeats);
         });
     });
 });

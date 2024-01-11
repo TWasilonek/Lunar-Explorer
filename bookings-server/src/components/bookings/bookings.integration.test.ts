@@ -50,6 +50,12 @@ describe("Bookings REST API", () => {
                     guestNames: ["Mia Taylor"],
                     trip: expect.objectContaining({
                         id: 1,
+                        flightToMoon: expect.objectContaining({
+                            seats: expect.arrayContaining([expect.any(String)]),
+                        }),
+                        flightToEarth: expect.objectContaining({
+                            seats: expect.arrayContaining([expect.any(String)]),
+                        }),
                     }),
                     user: expect.objectContaining({
                         id: userWithBooking1.id,
@@ -95,6 +101,15 @@ describe("Bookings REST API", () => {
             expect(response.body).toEqual(
                 expect.objectContaining({
                     bookingNumber: userWithBooking1.bookingNumber,
+                    trip: expect.objectContaining({
+                        id: 1,
+                        flightToMoon: expect.objectContaining({
+                            seats: expect.arrayContaining([expect.any(String)]),
+                        }),
+                        flightToEarth: expect.objectContaining({
+                            seats: expect.arrayContaining([expect.any(String)]),
+                        }),
+                    }),
                     user: expect.objectContaining({
                         id: userWithBooking1.id,
                         firstName: userWithBooking1.firstName,

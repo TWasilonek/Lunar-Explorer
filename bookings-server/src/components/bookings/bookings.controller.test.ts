@@ -34,6 +34,9 @@ describe("Bookings Controller", () => {
             const booking = {
                 id: "bookingId",
                 bookingNumber,
+                trip: {
+                    ...tripMock,
+                },
                 user: {
                     ...userMock,
                 },
@@ -49,11 +52,25 @@ describe("Bookings Controller", () => {
             (roomsService.getRoomByBooking as jest.Mock).mockResolvedValue(
                 room,
             );
+            (flightsService.getSeatsByBooking as jest.Mock)
+                .mockResolvedValueOnce(["1", "2"])
+                .mockResolvedValueOnce(["3", "4"]);
 
             const result = await getBooking(bookingNumber);
 
             expect(result).toEqual({
                 ...booking,
+                trip: {
+                    ...booking.trip,
+                    flightToMoon: {
+                        ...booking.trip.flightToMoon,
+                        seats: ["1", "2"],
+                    },
+                    flightToEarth: {
+                        ...booking.trip.flightToEarth,
+                        seats: ["3", "4"],
+                    },
+                },
                 user: {
                     id: booking.user.id,
                     firstName: booking.user.firstName,
@@ -112,6 +129,17 @@ describe("Bookings Controller", () => {
 
             expect(result).toEqual({
                 ...booking,
+                trip: {
+                    ...booking.trip,
+                    flightToMoon: {
+                        ...booking.trip.flightToMoon,
+                        seats: flightToMoonSeats,
+                    },
+                    flightToEarth: {
+                        ...booking.trip.flightToEarth,
+                        seats: flightToEarthSeats,
+                    },
+                },
                 user: {
                     id: booking.user.id,
                     firstName: booking.user.firstName,
