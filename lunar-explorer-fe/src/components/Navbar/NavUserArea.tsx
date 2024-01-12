@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { SingOutBtn, LoginBtn } from "../AuthButtons";
+import { SingOutBtn, LoginBtn, RegisterBtn } from "../AuthButtons";
 
 export const NavUserArea = () => {
   const session = useSession();
@@ -16,7 +16,7 @@ export const NavUserArea = () => {
 
   return (
     <div className="flex gap-2">
-      <button>Sign up</button>
+      <RegisterBtn />
       <LoginBtn />
     </div>
   );

@@ -27,6 +27,9 @@ export const paths = {
     signOut() {
       return "/api/auth/signout";
     },
+    register() {
+      return "/auth/register";
+    },
   },
 };
 

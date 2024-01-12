@@ -1,4 +1,6 @@
 import { LoginForm } from "@/modules/auth";
+import { paths } from "@/paths";
+import Link from "next/link";
 
 type Props = {
   searchParams?: Record<"callbackUrl" | "error", string>;
@@ -6,10 +8,17 @@ type Props = {
 
 const SignInPage = (props: Props) => {
   return (
-    <LoginForm
-      searchParamsError={props.searchParams?.error}
-      callbackUrl={props.searchParams?.callbackUrl}
-    />
+    <div>
+      <h2>Sign In</h2>
+      <LoginForm
+        searchParamsError={props.searchParams?.error}
+        callbackUrl={props.searchParams?.callbackUrl}
+      />
+      <div>
+        Don&apos;t have an account?{" "}
+        <Link href={paths.auth.register()}>Sign Up</Link>
+      </div>
+    </div>
   );
 };
 
