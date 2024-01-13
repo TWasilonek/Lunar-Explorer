@@ -10,7 +10,13 @@ import { NavUserArea } from "./NavUserArea";
 
 const Navbar = () => {
   return (
-    <NextUINavbar isBordered maxWidth="full">
+    <NextUINavbar
+      isBordered
+      maxWidth="xl"
+      classNames={{
+        wrapper: "px-6",
+      }}
+    >
       <NavbarBrand className="flex-grow-0">
         <p className="font-bold text-inherit">Lunar Explorer</p>
       </NavbarBrand>
