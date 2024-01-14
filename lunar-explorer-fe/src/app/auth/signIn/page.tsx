@@ -1,6 +1,6 @@
 import { LoginForm } from "@/modules/auth";
 import { paths } from "@/paths";
-import Link from "next/link";
+import { Link } from "@nextui-org/link";
 
 type Props = {
   searchParams?: Record<"callbackUrl" | "error", string>;
@@ -8,8 +8,7 @@ type Props = {
 
 const SignInPage = (props: Props) => {
   return (
-    <div>
-      <h2>Sign In</h2>
+    <div className="mx-auto mt-40 max-w-md flex flex-col justify-center items-center gap-4">
       <LoginForm
         searchParamsError={props.searchParams?.error}
         callbackUrl={props.searchParams?.callbackUrl}

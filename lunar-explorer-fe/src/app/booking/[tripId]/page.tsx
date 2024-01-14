@@ -1,5 +1,5 @@
 import { getServerSession } from "next-auth/next";
-import { BookingForm } from "@/modules/bookings/BookingForm";
+import { BookingForm } from "@/modules/bookings";
 import { restApi } from "@/paths";
 import { formatDateToDisplay } from "@/utils/dateUtils";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";

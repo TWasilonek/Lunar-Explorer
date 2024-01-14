@@ -4,6 +4,8 @@ import { useState } from "react";
 import { signIn } from "next-auth/react";
 import { paths } from "@/paths";
 import { useRouter } from "next/navigation";
+import { Button, Chip, Input } from "@nextui-org/react";
+import { FormErrorMessage } from "@/components/FormErrorMessage";
 
 const getCallbackUrl = (providedCallBackUrl?: string) => {
   if (!providedCallBackUrl) {
@@ -50,36 +52,28 @@ export const LoginForm = (props: Props) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label>Email</label>
-        <input
-          type="text"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          required
-        />
-      </div>
-      <div>
-        <label>Password</label>
-        <input
-          type="password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          required
-        />
-      </div>
+    <form onSubmit={handleSubmit} className="w-full p-5 flex flex-col gap-8">
+      <Input
+        type="email"
+        label="Email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+        required
+      />
+      <Input
+        type="password"
+        label="Password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        required
+      />
       {props.searchParamsError ? (
-        <div className="rounded p-2 bg-red-200 border border-red-400">
-          Invalid credentials
-        </div>
+        <FormErrorMessage errorMessage="Invalid credentials" />
       ) : null}
-      {error ? (
-        <div className="rounded p-2 bg-red-200 border border-red-400">
-          {error}
-        </div>
-      ) : null}
-      <button type="submit">Sign In</button>
+      {error ? <FormErrorMessage errorMessage={error} /> : null}
+      <Button type="submit" size="lg" color="primary">
+        Sign In
+      </Button>
     </form>
   );
 };
