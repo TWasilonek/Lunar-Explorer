@@ -9,13 +9,14 @@ type Props = {
 const SignInPage = (props: Props) => {
   return (
     <div className="mx-auto mt-40 max-w-md flex flex-col justify-center items-center gap-4">
+      <h1 className="text-3xl">Login</h1>
       <LoginForm
         searchParamsError={props.searchParams?.error}
         callbackUrl={props.searchParams?.callbackUrl}
       />
       <div>
         Don&apos;t have an account?{" "}
-        <Link href={paths.auth.register()}>Sign Up</Link>
+        <Link href={paths.auth.register()}>Register</Link>
       </div>
     </div>
   );

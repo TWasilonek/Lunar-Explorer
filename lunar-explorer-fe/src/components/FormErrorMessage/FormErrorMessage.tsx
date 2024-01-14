@@ -11,7 +11,7 @@ export const FormErrorMessage = ({ errorMessage, ...restProps }: Props) => {
       radius="sm"
       size="lg"
       classNames={{
-        base: "w-full max-w-none py-3 h-auto",
+        base: "w-full max-w-none py-3 h-auto text-wrap",
       }}
       {...restProps}
     >

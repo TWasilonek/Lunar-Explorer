@@ -4,12 +4,30 @@ import { ValidationError } from "joi";
 import { redirect } from "next/navigation";
 
 export const signupSchema = joi.object({
-  firstName: joi.string().required(),
-  lastName: joi.string().required(),
+  firstName: joi.string().required().messages({
+    "string.empty": "First name is required",
+    "any.required": "First name is required",
+  }),
+  lastName: joi.string().required().messages({
+    "string.empty": "Last name is required",
+    "any.required": "Last name is required",
+  }),
   // { tlds: false } because of: https://github.com/hapijs/joi/issues/2390#issuecomment-1595763746
-  email: joi.string().email({ tlds: false }).required(),
-  password: joi.string().min(8).required(),
-  repeatPassword: joi.string().valid(joi.ref("password")).required(),
+  email: joi.string().email({ tlds: false }).required().messages({
+    "string.email": "Email must be a valid email",
+    "string.empty": "Email is required",
+    "any.required": "Email is required",
+  }),
+  password: joi.string().min(8).required().messages({
+    "string.min": "Password must be at least 8 characters long",
+    "string.empty": "Password is required",
+    "any.required": "Password is required",
+  }),
+  repeatPassword: joi.string().valid(joi.ref("password")).required().messages({
+    "any.only": "Passwords must match",
+    "string.empty": "Repeat password is required",
+    "any.required": "Repeat password is required",
+  }),
 });
 
 type RegisterUserFormState = {
@@ -37,13 +55,27 @@ export async function registerUser(
   );
 
   if (validationResult.error) {
-    return {
-      errors: {
-        _form: (validationResult.error as ValidationError).details.map(
-          (detail) => detail.message
-        ),
-      },
-    };
+    console.log("Validation error", validationResult.error.details);
+    if (validationResult.error.details.length > 0) {
+      const errors = (validationResult.error as ValidationError).details.reduce(
+        (acc, detail) => {
+          if (detail.path.length === 1) {
+            // @ts-ignore
+            acc[detail.path[0]] = detail.message;
+          }
+          return acc;
+        },
+        {} as RegisterUserFormState["errors"]
+      );
+      return { errors };
+    }
+    // return {
+    //   errors: {
+    //     _form: (validationResult.error as ValidationError).details.map(
+    //       (detail) => detail.message
+    //     ),
+    //   },
+    // };
   }
 
   const body = {

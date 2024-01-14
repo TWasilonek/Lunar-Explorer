@@ -1,15 +1,13 @@
 import { RegisterForm } from "@/modules/auth/RegisterForm";
 import { paths } from "@/paths";
-import Link from "next/link";
+import { Link } from "@nextui-org/link";
 
 export default async function SignUp() {
   return (
-    <div>
-      <h1>Register</h1>
+    <div className="mx-auto mt-40 max-w-md flex flex-col justify-center items-center gap-4">
+      <h1 className="text-3xl">Register</h1>
       <p>You are one step further to achieve your dreams!</p>
-      <div>
-        <RegisterForm />
-      </div>
+      <RegisterForm />
       <div>
         Already have an account? <Link href={paths.auth.login()}>Sign In</Link>
       </div>
