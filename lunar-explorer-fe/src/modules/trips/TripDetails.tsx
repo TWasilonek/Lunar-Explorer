@@ -1,21 +1,17 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
 import { formatDateToDisplay } from "@/utils/dateUtils";
 import { TripsResponse } from "@bookings-server/types";
-import { useQueryParams } from "@/hooks/useQueryParams";
 import { paths, restApi } from "@/paths";
 import Link from "next/link";
+import { Spinner } from "@nextui-org/react";
 
 type Props = {
   tripId: string;
 };
 
 export const TripDetails = ({ tripId }: Props) => {
-  const router = useRouter();
-  const { removeQueryParamFromUrl } = useQueryParams();
-
   const [trip, setTrip] = useState<TripsResponse | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -30,22 +26,11 @@ export const TripDetails = ({ tripId }: Props) => {
       .finally(() => setLoading(false));
   }, [tripId]);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-  if (!trip) return null;
-
-  const handleClose = () => {
-    const newUrl = removeQueryParamFromUrl("tripId");
-    router.push(newUrl);
-  };
+  if (loading) return <Spinner />;
+  if (error || !trip) return null;
 
   return (
     <div>
-      <div className="flex justify-between">
-        <h3>Trip Details</h3>
-        <button onClick={handleClose}>X</button>
-      </div>
-
       <div>
         <h4>Departure</h4>
         <ul>

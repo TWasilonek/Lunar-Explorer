@@ -46,8 +46,11 @@ export default async function TripsPage(
 ) {
   const trips = await getTrips(searchParams);
   return (
-    <div>
-      <h1>Trips</h1>
+    <div className="p-4">
+      <header className="mb-8">
+        <h1 className="text-3xl">Choose your trip</h1>
+      </header>
+
       <TripsList trips={trips} />
     </div>
   );

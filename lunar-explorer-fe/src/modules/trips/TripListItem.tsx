@@ -2,6 +2,9 @@ import Link from "next/link";
 import { formatDateToDisplay } from "@/utils/dateUtils";
 import { SimpleTripResponse } from "@bookings-server/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
+import { Card, CardBody } from "@nextui-org/card";
+
+import "./TripListItem.css";
 
 type Props = {
   trip: SimpleTripResponse;
@@ -16,17 +19,37 @@ export const TripListItem = ({
   const updatedSearchParams = new URLSearchParams(searchParams);
   updatedSearchParams.set("tripId", trip.id.toString());
   const tripUrl = `${pathname}?${updatedSearchParams.toString()}`;
+  const isFullyBooked = trip.occupancy >= trip.capacity;
 
   return (
-    <li key={trip.id}>
-      <Link href={tripUrl}>
-        {formatDateToDisplay(new Date(trip.startDate))} -{" "}
-        {formatDateToDisplay(new Date(trip.endDate))}
-      </Link>
-      <p>
-        <strong>Available spots:</strong>&nbsp;
-        {trip.capacity - trip.occupancy}
-      </p>
-    </li>
+    <Card
+      key={trip.id}
+      as="li"
+      classNames={{
+        base: "trip-card",
+        body: "p-0",
+      }}
+    >
+      <CardBody>
+        <Link
+          href={tripUrl}
+          className="trip-card_content p-4 flex flex-col gap-2"
+          aria-disabled={isFullyBooked}
+        >
+          <h4>
+            <strong>Launch Date:</strong>{" "}
+            {formatDateToDisplay(new Date(trip.startDate))}
+          </h4>
+          <h4>
+            <strong>Return Date:</strong>{" "}
+            {formatDateToDisplay(new Date(trip.endDate))}
+          </h4>
+          <p className={isFullyBooked ? "text-red-600" : ""}>
+            <strong>Available spots:</strong>&nbsp;
+            {trip.capacity - trip.occupancy}
+          </p>
+        </Link>
+      </CardBody>
+    </Card>
   );
 };
