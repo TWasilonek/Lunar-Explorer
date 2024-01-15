@@ -1,6 +1,6 @@
 import { Divider } from "@nextui-org/divider";
 import { FaSpaceShuttle, FaCalendarDay, FaMapPin } from "react-icons/fa";
-import { formatDateToDisplay } from "@/utils/dateUtils";
+import { formatCalendarDate } from "@/utils/dateUtils";
 import { TripsResponse } from "@bookings-server/types";
 
 import "./TripDetails.css";
@@ -20,7 +20,7 @@ export const TripDetails = ({ trip, direction = "column" }: Props) => {
         <ul className="text-sm">
           <li className="trip-details-item">
             <FaCalendarDay />{" "}
-            {formatDateToDisplay(new Date(trip.flightToMoon.departureTime))}
+            {formatCalendarDate(new Date(trip.flightToMoon.departureTime))}
           </li>
           <li className="trip-details-item">
             <FaMapPin />
@@ -43,7 +43,7 @@ export const TripDetails = ({ trip, direction = "column" }: Props) => {
         <ul className="text-sm">
           <li className="trip-details-item">
             <FaCalendarDay />{" "}
-            {formatDateToDisplay(new Date(trip.flightToEarth.arrivalTime))}
+            {formatCalendarDate(new Date(trip.flightToEarth.arrivalTime))}
           </li>
           <li className="trip-details-item">
             <FaMapPin />

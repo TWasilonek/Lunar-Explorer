@@ -1,6 +1,14 @@
 import { Booking } from "../models/Booking";
+import { Flight } from "../models/Flight";
 import { Room } from "../models/Room";
 import { RoomType, UserRole } from "./constants";
+
+export type CreateBookingFlightSegment = Flight & { seats: string[] };
+
+export type CreateBookingTripSegment = Booking["trip"] & {
+    flightToMoon: CreateBookingFlightSegment;
+    flightToEarth: CreateBookingFlightSegment;
+};
 
 export type CreateBookingBody = {
     userId: string;
@@ -25,14 +33,7 @@ export type CreateBookingResponse = {
         email: string;
         role: UserRole;
     };
-    trip: Booking["trip"] & {
-        flightToMoon: Booking["trip"]["flightToMoon"] & {
-            seats: string[];
-        };
-        flightToEarth: Booking["trip"]["flightToEarth"] & {
-            seats: string[];
-        };
-    };
+    trip: CreateBookingTripSegment;
     room: Room;
 };
 

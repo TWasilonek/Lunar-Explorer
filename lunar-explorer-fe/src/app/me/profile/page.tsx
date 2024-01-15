@@ -1,3 +1,4 @@
+import { PageHeader } from "@/components/PageHeader";
 import { UpdateUserProfileForm } from "@/modules/profile";
 import { paths, restApi } from "@/paths";
 import { UserSession } from "@/types";
@@ -32,10 +33,8 @@ export default async function UserProfilePage() {
   const profile: UserProfile = await getProfile(session);
 
   return (
-    <div>
-      <h1>
-        Welcome {profile.firstName} {profile.lastName}
-      </h1>
+    <div className="p-4">
+      <PageHeader title={`Welcome ${profile.firstName} ${profile.lastName}`} />
 
       <h3>
         <Link href={paths.myBookings()}>Your bookings</Link>

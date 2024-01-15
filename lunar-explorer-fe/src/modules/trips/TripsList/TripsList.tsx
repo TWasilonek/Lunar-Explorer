@@ -30,6 +30,8 @@ export const TripsList = ({ trips }: Props) => {
     if (error || !tripId || !trip) return null;
     if (loading) return <Spinner />;
 
+    const isFullyBooked = trip.occupancy >= trip.capacity;
+
     return (
       <>
         <TripDetails trip={trip} />
@@ -40,14 +42,16 @@ export const TripsList = ({ trips }: Props) => {
             {trip.capacity - trip.occupancy}
           </p>
 
-          <Button
-            href={paths.booking(tripId)}
-            as={Link}
-            color="primary"
-            variant="solid"
-          >
-            Book now
-          </Button>
+          {!isFullyBooked && (
+            <Button
+              href={paths.booking(tripId)}
+              as={Link}
+              color="primary"
+              variant="solid"
+            >
+              Book now
+            </Button>
+          )}
         </div>
       </>
     );

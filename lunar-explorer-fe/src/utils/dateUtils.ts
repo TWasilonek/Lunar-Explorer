@@ -1,5 +1,9 @@
 import { format } from "date-fns";
 
-export const formatDateToDisplay = (date: Date): string => {
+export const formatCalendarDate = (date: Date): string => {
   return format(date, "dd-MM-yyyy");
+};
+
+export const formatCalendarDateWithTime = (date: Date): string => {
+  return format(date, "dd-MM-yyyy HH:mm");
 };

@@ -3,7 +3,7 @@ import { Chip } from "@nextui-org/chip";
 import { notFound } from "next/navigation";
 import { restApi } from "@/paths";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { BookingForm } from "@/modules/bookings";
+import { BookingForm } from "@/modules/bookings/BookingForm";
 import { LoginBtn } from "@/components/AuthButtons";
 import { PageHeader } from "@/components/PageHeader";
 import { TripDetails } from "@/modules/trips/TripDetails";
@@ -37,7 +37,7 @@ export default async function BookingPage({ params }: Props) {
         {session && session.user ? (
           <div>
             <h2 className="text-xl mb-8">Booking details</h2>
-            <BookingForm tripId={params.tripId} />
+            <BookingForm trip={trip} />
           </div>
         ) : (
           <Card className="mx-auto max-w-md">

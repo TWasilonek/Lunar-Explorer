@@ -9,6 +9,7 @@
 .trip-card_content {
   position: relative;
   overflow: hidden;
+  flex: 1;
 }
 
 .trip-card_content::after {
@@ -31,4 +32,19 @@
 .trip-card_content:hover::after {
   opacity: 1;
   transform: scale(1.05);
+}
+
+.trip-card_content--fully-booked {
+  color: rgb(107 114 128);
+}
+
+.trip-card_content--fully-booked::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-image: none;
+  opacity: 1;
 }

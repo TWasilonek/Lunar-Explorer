@@ -1,7 +1,10 @@
 import { notFound, redirect } from "next/navigation";
+import { Divider } from "@nextui-org/divider";
 import { paths, restApi } from "@/paths";
 import { GetBookingResponse, RoomType } from "@bookings-server/types";
 import { checkLoggedInAndGetSession } from "@/utils/userServerSession";
+import { PageHeader } from "@/components/PageHeader";
+import { BookedFlightDetails } from "@/modules/bookings/BookedFlitghDetails";
 
 const getBooking = async (bookingNumber: string) => {
   const session = await checkLoggedInAndGetSession();
@@ -39,19 +42,13 @@ export default async function UserBookingDetailsPage({ params }: Props) {
     notFound();
   }
 
-  const renderSeats = (seats: string[]) => {
-    return seats.map((seat) => (
-      <span key={seat}>&nbsp;&quot;{seat}&quot;&nbsp;</span>
-    ));
-  };
-
   return (
-    <div>
-      <h1>Your trip to the Moon!</h1>
+    <div className="p-4">
+      <PageHeader title="You trip to the Moon" />
 
       <section>
-        <h2>Booking details</h2>
-
+        <h2 className="text-2xl mb-4">Booking details</h2>
+        <Divider className="my-4" />
         <ul>
           <li>
             <strong>Booking number:</strong> {booking.bookingNumber}
@@ -66,59 +63,16 @@ export default async function UserBookingDetailsPage({ params }: Props) {
         </ul>
       </section>
 
-      <section>
-        <h2>Flights</h2>
-        <h3>Departure</h3>
-        <ul>
-          <li>
-            <strong>Departure time:</strong>{" "}
-            {booking.trip.flightToMoon.departureTime}
-          </li>
-          <li>
-            <strong>Origin port:</strong>{" "}
-            {booking.trip.flightToMoon.originPort.name}
-          </li>
-          <li>
-            <strong>Spaceship:</strong>{" "}
-            {booking.trip.flightToMoon.spaceship.model} by{" "}
-            {booking.trip.flightToMoon.spaceship.manufacturer.name}
-          </li>
-          <li>
-            <strong>Arrival time:</strong>{" "}
-            {booking.trip.flightToMoon.arrivalTime}
-          </li>
-          <li>
-            <strong>Seats:</strong>
-            {renderSeats(booking.trip.flightToMoon.seats)}
-          </li>
-        </ul>
+      <section className="mt-8">
+        <h2 className="text-2xl mb-4">Flights</h2>
+        <Divider className="my-4" />
 
-        <h3>Return</h3>
-        <ul>
-          <li>
-            <strong>Departure time:</strong>{" "}
-            {booking.trip.flightToEarth.departureTime}
-          </li>
-          <li>
-            <strong>Origin port:</strong>{" "}
-            {booking.trip.flightToEarth.originPort.name}
-          </li>
-          <li>
-            <strong>Spaceship:</strong>{" "}
-            {booking.trip.flightToEarth.spaceship.model} by{" "}
-            {booking.trip.flightToEarth.spaceship.manufacturer.name}
-          </li>
-          <li>
-            <strong>Arrival time:</strong>{" "}
-            {booking.trip.flightToEarth.arrivalTime}
-          </li>
-          <li>
-            <strong>Seats:</strong>
-            {renderSeats(booking.trip.flightToEarth.seats)}
-          </li>
-        </ul>
+        <h3 className="text-xl mb-4">To the Moon</h3>
+        <BookedFlightDetails flight={booking.trip.flightToMoon} />
+
+        <h3 className="text-xl mt-8 mb-4">Back to Earth</h3>
+        <BookedFlightDetails flight={booking.trip.flightToEarth} />
       </section>
-      <pre>{params.bookingNumber}</pre>
     </div>
   );
 }

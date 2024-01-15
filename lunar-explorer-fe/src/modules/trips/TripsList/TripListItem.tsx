@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { formatDateToDisplay } from "@/utils/dateUtils";
+import { formatCalendarDate } from "@/utils/dateUtils";
 import { SimpleTripResponse } from "@bookings-server/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { Card, CardBody } from "@nextui-org/card";
@@ -33,21 +33,24 @@ export const TripListItem = ({
       <CardBody>
         <Link
           href={tripUrl}
-          className="trip-card_content p-4 flex flex-col gap-2"
+          className={`trip-card_content p-4 flex flex-col gap-2 ${
+            isFullyBooked && "trip-card_content--fully-booked"
+          }`}
           aria-disabled={isFullyBooked}
         >
           <h4>
             <strong>Launch Date:</strong>{" "}
-            {formatDateToDisplay(new Date(trip.startDate))}
+            {formatCalendarDate(new Date(trip.startDate))}
           </h4>
           <h4>
             <strong>Return Date:</strong>{" "}
-            {formatDateToDisplay(new Date(trip.endDate))}
+            {formatCalendarDate(new Date(trip.endDate))}
           </h4>
-          <p className={isFullyBooked ? "text-red-600" : ""}>
+          <p>
             <strong>Available spots:</strong>&nbsp;
             {trip.capacity - trip.occupancy}
           </p>
+          {isFullyBooked && <div className="text-red-500">Fully booked</div>}
         </Link>
       </CardBody>
     </Card>

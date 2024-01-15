@@ -2,24 +2,26 @@
 
 import { useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
-import { Input, Select, SelectItem, Spinner } from "@nextui-org/react";
+import { Button, Input, Select, SelectItem, Spinner } from "@nextui-org/react";
 import * as actions from "@/actions";
-import { RoomType } from "@bookings-server/types";
+import { CreateBookingTripSegment, RoomType } from "@bookings-server/types";
 import { FormErrorMessage } from "@/components/FormErrorMessage";
 
 type Props = {
-  tripId: string;
+  trip: CreateBookingTripSegment;
 };
 
-export const BookingForm = ({ tripId }: Props) => {
+export const BookingForm = ({ trip }: Props) => {
   const [numberOfGuests, setNumberOfGuests] = useState(1);
   const { pending } = useFormStatus();
   const [formState, action] = useFormState(
-    actions.createBooking.bind(null, tripId),
+    actions.createBooking.bind(null, trip.id.toString()),
     {
       errors: {},
     }
   );
+  const isFullyBooked = trip.occupancy >= trip.capacity;
+  const fieldIsDisabled = isFullyBooked || pending;
 
   const handleNumberOfGuestsChange = (
     event: React.ChangeEvent<HTMLSelectElement>
@@ -36,7 +38,7 @@ export const BookingForm = ({ tripId }: Props) => {
         name="roomType"
         label="Select room type"
         defaultSelectedKeys={[RoomType.SINGLE]}
-        isDisabled={pending}
+        isDisabled={fieldIsDisabled}
       >
         <SelectItem key={RoomType.SINGLE} value={RoomType.SINGLE}>
           Single
@@ -51,7 +53,7 @@ export const BookingForm = ({ tripId }: Props) => {
         label="Number of guests"
         onChange={handleNumberOfGuestsChange}
         defaultSelectedKeys={["1"]}
-        isDisabled={pending}
+        isDisabled={fieldIsDisabled}
       >
         <SelectItem key={"1"} value={"1"}>
           1
@@ -66,9 +68,7 @@ export const BookingForm = ({ tripId }: Props) => {
         label="Firt guest name"
         name="guestName1"
         required
-        // isInvalid={!!formState.errors.lastName}
-        // errorMessage={formState.errors.lastName}
-        isDisabled={pending}
+        isDisabled={fieldIsDisabled}
       />
       {numberOfGuests === 2 && (
         <Input
@@ -76,9 +76,7 @@ export const BookingForm = ({ tripId }: Props) => {
           label="Second guest name"
           name="guestName2"
           required
-          // isInvalid={!!formState.errors.lastName}
-          // errorMessage={formState.errors.lastName}
-          isDisabled={pending}
+          isDisabled={fieldIsDisabled}
         />
       )}
 
@@ -86,9 +84,11 @@ export const BookingForm = ({ tripId }: Props) => {
         <FormErrorMessage errorMessage={formState.errors._form.join(", ")} />
       )}
 
-      <button type="submit" aria-disabled={pending}>
-        Book
-      </button>
+      {!isFullyBooked && (
+        <Button type="submit" size="lg" color="primary" disabled={pending}>
+          Book
+        </Button>
+      )}
     </form>
   );
 };

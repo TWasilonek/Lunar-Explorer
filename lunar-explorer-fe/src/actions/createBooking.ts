@@ -21,8 +21,13 @@ const createBookingFormSchema = joi.object({
     .array()
     .items(joi.string())
     .length(joi.ref("numberOfGuests"))
-    .message("guestNames length must be equal to numberOfGuests")
-    .required(),
+    .required()
+    .messages({
+      "string.empty": "Guest names are required",
+      "array.base": "Guest names must be an array",
+      "array.length": "All guest names are required",
+      "any.required": "Guest names are required",
+    }),
 });
 
 type CreateBookingFormState = {

@@ -1,5 +1,6 @@
+import { PageHeader } from "@/components/PageHeader";
 import { paths, restApi } from "@/paths";
-import { formatDateToDisplay } from "@/utils/dateUtils";
+import { formatCalendarDate } from "@/utils/dateUtils";
 import { checkLoggedInAndGetSession } from "@/utils/userServerSession";
 import { GetBookingResponse } from "@bookings-server/types";
 import { notFound, redirect } from "next/navigation";
@@ -31,8 +32,8 @@ export default async function UserBookingsPage() {
   const bookings: GetBookingResponse[] = await getBookings();
 
   return (
-    <div>
-      <h1>Manage your bookings</h1>
+    <div className="p-4">
+      <PageHeader title="Manage your bookings" />
       <p>You can review and manage your bookings here.</p>
       <section>
         <ul>
@@ -46,10 +47,10 @@ export default async function UserBookingsPage() {
               </div>
               <div>
                 Departure:{" "}
-                {formatDateToDisplay(new Date(booking.trip.startDate))}
+                {formatCalendarDate(new Date(booking.trip.startDate))}
               </div>
               <div>
-                Return: {formatDateToDisplay(new Date(booking.trip.endDate))}
+                Return: {formatCalendarDate(new Date(booking.trip.endDate))}
               </div>
               <div>
                 Passengers:{" "}
