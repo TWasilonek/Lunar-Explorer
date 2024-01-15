@@ -3,6 +3,7 @@ import { formatCalendarDate } from "@/utils/dateUtils";
 import { SimpleTripResponse } from "@bookings-server/types";
 import { ReadonlyURLSearchParams } from "next/navigation";
 import { Card, CardBody } from "@nextui-org/card";
+import { checkIfFullyBooked } from "@/utils/bookingUtils";
 
 import "./TripListItem.css";
 
@@ -19,7 +20,7 @@ export const TripListItem = ({
   const updatedSearchParams = new URLSearchParams(searchParams);
   updatedSearchParams.set("tripId", trip.id.toString());
   const tripUrl = `${pathname}?${updatedSearchParams.toString()}`;
-  const isFullyBooked = trip.occupancy >= trip.capacity;
+  const isFullyBooked = checkIfFullyBooked(trip);
 
   return (
     <Card

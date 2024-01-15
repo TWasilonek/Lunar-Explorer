@@ -6,6 +6,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Chip,
   Divider,
   Link,
   Spinner,
@@ -15,6 +16,7 @@ import { TripListItem } from "./TripListItem";
 import { TripDetails } from "../TripDetails/";
 import { paths } from "@/paths";
 import { useGetTrip } from "@/hooks/useGetTrip";
+import { checkIfFullyBooked } from "@/utils/bookingUtils";
 
 type Props = {
   trips: SimpleTripResponse[];
@@ -30,8 +32,6 @@ export const TripsList = ({ trips }: Props) => {
     if (error || !tripId || !trip) return null;
     if (loading) return <Spinner />;
 
-    const isFullyBooked = trip.occupancy >= trip.capacity;
-
     return (
       <>
         <TripDetails trip={trip} />
@@ -42,7 +42,7 @@ export const TripsList = ({ trips }: Props) => {
             {trip.capacity - trip.occupancy}
           </p>
 
-          {!isFullyBooked && (
+          {!checkIfFullyBooked(trip) && (
             <Button
               href={paths.booking(tripId)}
               as={Link}
@@ -72,7 +72,12 @@ export const TripsList = ({ trips }: Props) => {
       <Card className="flex-1 ml-8">
         <CardHeader>
           <h3 className="text-xl">
-            {tripId ? "Trip details" : "No trip chosen yet"}
+            {!!trip ? "Trip details" : "No trip chosen yet"}
+            {!!trip && checkIfFullyBooked(trip) && (
+              <Chip color="danger" className="ml-3">
+                Fully Booked
+              </Chip>
+            )}
           </h3>
         </CardHeader>
         <CardBody>{!!tripId && renderTripDetails()}</CardBody>

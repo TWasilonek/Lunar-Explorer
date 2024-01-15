@@ -1,5 +1,7 @@
+import { ReactNode } from "react";
+
 type Props = {
-  title: string;
+  title: ReactNode;
 };
 
 export const PageHeader = ({ title }: Props) => {

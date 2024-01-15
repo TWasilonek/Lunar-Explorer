@@ -6,6 +6,7 @@ import { Button, Input, Select, SelectItem, Spinner } from "@nextui-org/react";
 import * as actions from "@/actions";
 import { CreateBookingTripSegment, RoomType } from "@bookings-server/types";
 import { FormErrorMessage } from "@/components/FormErrorMessage";
+import { checkIfFullyBooked } from "@/utils/bookingUtils";
 
 type Props = {
   trip: CreateBookingTripSegment;
@@ -20,7 +21,7 @@ export const BookingForm = ({ trip }: Props) => {
       errors: {},
     }
   );
-  const isFullyBooked = trip.occupancy >= trip.capacity;
+  const isFullyBooked = checkIfFullyBooked(trip);
   const fieldIsDisabled = isFullyBooked || pending;
 
   const handleNumberOfGuestsChange = (
