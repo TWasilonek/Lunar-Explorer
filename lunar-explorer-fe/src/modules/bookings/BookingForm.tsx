@@ -2,8 +2,10 @@
 
 import { useState } from "react";
 import { useFormState, useFormStatus } from "react-dom";
+import { Input, Select, SelectItem, Spinner } from "@nextui-org/react";
 import * as actions from "@/actions";
 import { RoomType } from "@bookings-server/types";
+import { FormErrorMessage } from "@/components/FormErrorMessage";
 
 type Props = {
   tripId: string;
@@ -26,55 +28,63 @@ export const BookingForm = ({ tripId }: Props) => {
   };
 
   return (
-    <form action={action}>
-      <div>
-        <label htmlFor="roomType">Select room type</label>
-        <select name="roomType" id="roomType">
-          <option value={RoomType.SINGLE} selected>
-            Single
-          </option>
-          <option value={RoomType.DOUBLE}>Double</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="numberOfGuests">Number of guests</label>
-        <select
-          name="numberOfGuests"
-          id="numberOfGuests"
-          onChange={handleNumberOfGuestsChange}
-        >
-          <option value="1" selected>
-            1
-          </option>
-          <option value="2">2</option>
-        </select>
-      </div>
-      <div>
-        <label htmlFor="guestName1">Guest 1 name</label>
-        <input
-          type="text"
-          name="guestName1"
-          id="guestName1"
-          placeholder="Guest name"
-        />
-      </div>
+    <form action={action} className="flex flex-col gap-8">
+      {pending && (
+        <Spinner color="default" label="Booking your trip to the moon..." />
+      )}
+      <Select
+        name="roomType"
+        label="Select room type"
+        defaultSelectedKeys={[RoomType.SINGLE]}
+        isDisabled={pending}
+      >
+        <SelectItem key={RoomType.SINGLE} value={RoomType.SINGLE}>
+          Single
+        </SelectItem>
+        <SelectItem key={RoomType.DOUBLE} value={RoomType.DOUBLE}>
+          Double
+        </SelectItem>
+      </Select>
+
+      <Select
+        name="numberOfGuests"
+        label="Number of guests"
+        onChange={handleNumberOfGuestsChange}
+        defaultSelectedKeys={["1"]}
+        isDisabled={pending}
+      >
+        <SelectItem key={"1"} value={"1"}>
+          1
+        </SelectItem>
+        <SelectItem key={"2"} value={"2"}>
+          2
+        </SelectItem>
+      </Select>
+
+      <Input
+        type="text"
+        label="Firt guest name"
+        name="guestName1"
+        required
+        // isInvalid={!!formState.errors.lastName}
+        // errorMessage={formState.errors.lastName}
+        isDisabled={pending}
+      />
       {numberOfGuests === 2 && (
-        <div>
-          <label htmlFor="guestName2">Guest 1 name</label>
-          <input
-            type="text"
-            name="guestName2"
-            id="guestName2"
-            placeholder="Guest name"
-          />
-        </div>
+        <Input
+          type="text"
+          label="Second guest name"
+          name="guestName2"
+          required
+          // isInvalid={!!formState.errors.lastName}
+          // errorMessage={formState.errors.lastName}
+          isDisabled={pending}
+        />
       )}
 
-      {formState.errors._form ? (
-        <div className="rounded p-2 bg-red-200 border border-red-400">
-          {formState.errors._form.join(", ")}
-        </div>
-      ) : null}
+      {!!formState.errors._form && (
+        <FormErrorMessage errorMessage={formState.errors._form.join(", ")} />
+      )}
 
       <button type="submit" aria-disabled={pending}>
         Book
