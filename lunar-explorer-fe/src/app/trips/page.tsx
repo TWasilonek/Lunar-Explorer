@@ -3,6 +3,7 @@ import { SimpleTripResponse } from "@bookings-server/types";
 import { TripsList } from "@/modules/trips/TripsList";
 import { restApi } from "@/paths";
 import { PageHeader } from "@/components/PageHeader";
+import { TripsDatePicker } from "@/modules/trips/TripsDatePicker";
 
 const validateQueryParams = ({ startDate, endDate }: SearchTripsParams) => {
   if (startDate && !Date.parse(startDate)) return false;
@@ -46,9 +47,11 @@ export default async function TripsPage(
   }
 ) {
   const trips = await getTrips(searchParams);
+
   return (
     <div className="p-4">
       <PageHeader title="Choose your trip" />
+      <TripsDatePicker />
       <TripsList trips={trips} />
     </div>
   );

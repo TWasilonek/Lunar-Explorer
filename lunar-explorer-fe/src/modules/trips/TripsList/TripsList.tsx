@@ -72,7 +72,7 @@ export const TripsList = ({ trips }: Props) => {
       <Card className="flex-1 ml-8">
         <CardHeader>
           <h3 className="text-xl">
-            {!!trip ? "Trip details" : "No trip chosen yet"}
+            {!!trip ? "Trip details" : "No trips available for these dates"}
             {!!trip && checkIfFullyBooked(trip) && (
               <Chip color="danger" className="ml-3">
                 Fully Booked
