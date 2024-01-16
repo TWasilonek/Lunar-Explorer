@@ -1,11 +1,11 @@
+import { notFound, redirect } from "next/navigation";
+import { Link } from "@nextui-org/link";
 import { PageHeader } from "@/components/PageHeader";
 import { UpdateUserProfileForm } from "@/modules/profile";
 import { paths, restApi } from "@/paths";
 import { UserSession } from "@/types";
 import { checkLoggedInAndGetSession } from "@/utils/userServerSession";
 import { UserProfile } from "@bookings-server/types";
-import Link from "next/link";
-import { notFound, redirect } from "next/navigation";
 
 const getProfile = async (session: UserSession) => {
   const user = session.user;
@@ -34,14 +34,19 @@ export default async function UserProfilePage() {
 
   return (
     <div className="p-4">
-      <PageHeader title={`Welcome ${profile.firstName} ${profile.lastName}`} />
+      <PageHeader
+        title={
+          <>
+            <div>
+              Welcome {profile.firstName} {profile.lastName}
+            </div>
+            <Link href={paths.myBookings()}>Your bookings</Link>
+          </>
+        }
+      />
 
-      <h3>
-        <Link href={paths.myBookings()}>Your bookings</Link>
-      </h3>
-
-      <section>
-        <h2>Update your details</h2>
+      <section className="mx-auto max-w-md">
+        <h2 className="text-2xl text-center mb-4">Update your details</h2>
         <UpdateUserProfileForm profile={profile} />
       </section>
     </div>

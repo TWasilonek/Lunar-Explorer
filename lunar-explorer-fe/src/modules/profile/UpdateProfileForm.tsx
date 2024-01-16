@@ -1,9 +1,11 @@
 "use client";
 
 import { useFormState, useFormStatus } from "react-dom";
+import { Button, Input, Spinner } from "@nextui-org/react";
 import { UserProfile } from "@bookings-server/types";
 
 import * as actions from "@/actions";
+import { FormErrorMessage } from "@/components/FormErrorMessage";
 
 type Props = {
   profile: UserProfile;
@@ -16,47 +18,44 @@ export const UpdateUserProfileForm = ({ profile }: Props) => {
   });
 
   return (
-    <form action={action}>
-      <div>
-        <label htmlFor="firstName">First name</label>
-        <input
-          id="firstName"
-          name="firstName"
-          type="text"
-          defaultValue={profile.firstName}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="lastName">Last name</label>
-        <input
-          id="lastName"
-          name="lastName"
-          type="text"
-          defaultValue={profile.lastName}
-          required
-        />
-      </div>
-      <div>
-        <label htmlFor="email">Email</label>
-        <input
-          id="email"
-          name="email"
-          type="email"
-          defaultValue={profile.email}
-          required
-        />
-      </div>
-
-      {formState.errors._form ? (
-        <div className="rounded p-2 bg-red-200 border border-red-400">
-          {formState.errors._form.join(", ")}
-        </div>
-      ) : null}
-
-      <button type="submit" aria-disabled={pending}>
+    <form action={action} className="w-full p-5 flex flex-col gap-8">
+      {pending && <Spinner color="default" label="Updating..." />}
+      <Input
+        type="text"
+        label="First Name"
+        name="firstName"
+        defaultValue={profile.firstName}
+        required
+        isInvalid={!!formState.errors.firstName}
+        errorMessage={formState.errors.firstName}
+        isDisabled={pending}
+      />
+      <Input
+        type="text"
+        label="Last Name"
+        name="lastName"
+        defaultValue={profile.lastName}
+        required
+        isInvalid={!!formState.errors.lastName}
+        errorMessage={formState.errors.lastName}
+        isDisabled={pending}
+      />
+      <Input
+        type="email"
+        label="Email"
+        name="email"
+        defaultValue={profile.email}
+        required
+        isInvalid={!!formState.errors.email}
+        errorMessage={formState.errors.email}
+        isDisabled={pending}
+      />
+      {!!formState.errors._form && (
+        <FormErrorMessage errorMessage={formState.errors._form.join(", ")} />
+      )}
+      <Button type="submit" size="lg" color="primary" disabled={pending}>
         Update Profile
-      </button>
+      </Button>
     </form>
   );
 };

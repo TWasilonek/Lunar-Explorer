@@ -148,5 +148,7 @@ export async function createBooking(
   }
 
   revalidatePath(paths.tripsList());
+  revalidatePath(paths.myBookings());
+  revalidatePath(paths.booking(booking.bookingNumber));
   redirect(paths.myBookingDetail(booking.bookingNumber));
 }

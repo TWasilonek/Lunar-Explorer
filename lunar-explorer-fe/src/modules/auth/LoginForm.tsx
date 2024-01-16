@@ -22,7 +22,6 @@ const getCallbackUrl = (providedCallBackUrl?: string) => {
 };
 
 type Props = {
-  className?: string;
   callbackUrl?: string;
   searchParamsError?: string;
 };
@@ -59,7 +58,7 @@ export const LoginForm = (props: Props) => {
       if (response?.error && response.error === "CredentialsSignin") {
         setError("Invalid credentials");
       } else {
-        router.push(getCallbackUrl());
+        router.push(getCallbackUrl(props.callbackUrl));
       }
     } catch (error: unknown) {
       if (error instanceof Error) {

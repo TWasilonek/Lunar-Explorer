@@ -55,7 +55,6 @@ export async function registerUser(
   );
 
   if (validationResult.error) {
-    console.log("Validation error", validationResult.error.details);
     if (validationResult.error.details.length > 0) {
       const errors = (validationResult.error as ValidationError).details.reduce(
         (acc, detail) => {
@@ -69,13 +68,6 @@ export async function registerUser(
       );
       return { errors };
     }
-    // return {
-    //   errors: {
-    //     _form: (validationResult.error as ValidationError).details.map(
-    //       (detail) => detail.message
-    //     ),
-    //   },
-    // };
   }
 
   const body = {
