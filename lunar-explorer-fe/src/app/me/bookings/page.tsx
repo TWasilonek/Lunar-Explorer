@@ -1,4 +1,5 @@
 import { PageHeader } from "@/components/PageHeader";
+import { BookingsList } from "@/modules/bookings/BookingsList";
 import { paths, restApi } from "@/paths";
 import { formatCalendarDate } from "@/utils/dateUtils";
 import { checkLoggedInAndGetSession } from "@/utils/userServerSession";
@@ -34,34 +35,7 @@ export default async function UserBookingsPage() {
   return (
     <div className="p-4">
       <PageHeader title="Manage your bookings" />
-      <p>You can review and manage your bookings here.</p>
-      <section>
-        <ul>
-          {bookings.map((booking) => (
-            <li key={booking.bookingNumber} className="m-2">
-              <div>
-                Booking number:{" "}
-                <a href={paths.myBookingDetail(booking.bookingNumber)}>
-                  {booking.bookingNumber}
-                </a>
-              </div>
-              <div>
-                Departure:{" "}
-                {formatCalendarDate(new Date(booking.trip.startDate))}
-              </div>
-              <div>
-                Return: {formatCalendarDate(new Date(booking.trip.endDate))}
-              </div>
-              <div>
-                Passengers:{" "}
-                {booking.guestNames.map((guest) => (
-                  <p key={guest}>&quot;{guest}&quot;</p>
-                ))}
-              </div>
-            </li>
-          ))}
-        </ul>
-      </section>
+      <BookingsList bookings={bookings} />
     </div>
   );
 }

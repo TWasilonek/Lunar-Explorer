@@ -40,7 +40,7 @@ export default async function UserProfilePage() {
             <div>
               Welcome {profile.firstName} {profile.lastName}
             </div>
-            <Link href={paths.myBookings()}>Your bookings</Link>
+            <Link href={paths.myBookings()}>Manage your bookings</Link>
           </>
         }
       />

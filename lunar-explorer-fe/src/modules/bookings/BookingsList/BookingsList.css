@@ -1,0 +1,7 @@
+.booking-card {
+  border: 1px solid transparent;
+  transition: border 0.5s ease;
+}
+.booking-card:hover {
+  border-color: rgb(101, 167, 252);
+}
