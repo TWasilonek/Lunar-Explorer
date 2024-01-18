@@ -18,7 +18,9 @@ const Navbar = () => {
       }}
     >
       <NavbarBrand className="flex-grow-0">
-        <p className="font-bold text-inherit">Lunar Explorer</p>
+        <Link href={paths.home()} className="font-bold text-inherit">
+          Lunar Explorer
+        </Link>
       </NavbarBrand>
       <NavbarContent className="flex-grow-0 gap-4 ml-4">
         <NavbarItem>
