@@ -1,7 +1,7 @@
 import { PageHeader } from "@/components/PageHeader";
 import { BookingsList } from "@/modules/bookings/BookingsList";
 import { paths, restApi } from "@/paths";
-import { formatCalendarDate } from "@/utils/dateUtils";
+import { PageContainer } from "@/components/PageContainer";
 import { checkLoggedInAndGetSession } from "@/utils/userServerSession";
 import { GetBookingResponse } from "@bookings-server/types";
 import { notFound, redirect } from "next/navigation";
@@ -33,9 +33,11 @@ export default async function UserBookingsPage() {
   const bookings: GetBookingResponse[] = await getBookings();
 
   return (
-    <div className="p-4">
-      <PageHeader title="Manage your bookings" />
-      <BookingsList bookings={bookings} />
-    </div>
+    <PageContainer>
+      <div className="p-4">
+        <PageHeader title="Manage your bookings" />
+        <BookingsList bookings={bookings} />
+      </div>
+    </PageContainer>
   );
 }

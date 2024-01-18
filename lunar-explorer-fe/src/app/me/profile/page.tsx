@@ -1,6 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { Link } from "@nextui-org/link";
 import { PageHeader } from "@/components/PageHeader";
+import { PageContainer } from "@/components/PageContainer";
 import { UpdateUserProfileForm } from "@/modules/profile";
 import { paths, restApi } from "@/paths";
 import { UserSession } from "@/types";
@@ -33,22 +34,24 @@ export default async function UserProfilePage() {
   const profile: UserProfile = await getProfile(session);
 
   return (
-    <div className="p-4">
-      <PageHeader
-        title={
-          <>
-            <div>
-              Welcome {profile.firstName} {profile.lastName}
-            </div>
-            <Link href={paths.myBookings()}>Manage your bookings</Link>
-          </>
-        }
-      />
+    <PageContainer>
+      <div className="p-4">
+        <PageHeader
+          title={
+            <>
+              <div>
+                Welcome {profile.firstName} {profile.lastName}
+              </div>
+              <Link href={paths.myBookings()}>Manage your bookings</Link>
+            </>
+          }
+        />
 
-      <section className="mx-auto max-w-md">
-        <h2 className="text-2xl text-center mb-4">Update your details</h2>
-        <UpdateUserProfileForm profile={profile} />
-      </section>
-    </div>
+        <section className="mx-auto max-w-md">
+          <h2 className="text-2xl text-center mb-4">Update your details</h2>
+          <UpdateUserProfileForm profile={profile} />
+        </section>
+      </div>
+    </PageContainer>
   );
 }

@@ -1,3 +1,4 @@
+import { PageContainer } from "@/components/PageContainer";
 import { LoginForm } from "@/modules/auth";
 import { paths } from "@/paths";
 import { Link } from "@nextui-org/link";
@@ -8,17 +9,19 @@ type Props = {
 
 const SignInPage = (props: Props) => {
   return (
-    <div className="mx-auto mt-40 max-w-md flex flex-col justify-center items-center gap-4">
-      <h1 className="text-3xl">Login</h1>
-      <LoginForm
-        searchParamsError={props.searchParams?.error}
-        callbackUrl={props.searchParams?.callbackUrl}
-      />
-      <div>
-        Don&apos;t have an account?{" "}
-        <Link href={paths.auth.register()}>Register</Link>
+    <PageContainer>
+      <div className="mx-auto mt-40 max-w-md flex flex-col justify-center items-center gap-4">
+        <h1 className="text-3xl">Login</h1>
+        <LoginForm
+          searchParamsError={props.searchParams?.error}
+          callbackUrl={props.searchParams?.callbackUrl}
+        />
+        <div>
+          Don&apos;t have an account?{" "}
+          <Link href={paths.auth.register()}>Register</Link>
+        </div>
       </div>
-    </div>
+    </PageContainer>
   );
 };
 
