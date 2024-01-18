@@ -5,6 +5,7 @@ import { GetBookingResponse, RoomType } from "@bookings-server/types";
 import { checkLoggedInAndGetSession } from "@/utils/userServerSession";
 import { PageHeader } from "@/components/PageHeader";
 import { BookedFlightDetails } from "@/modules/bookings/BookedFlitghDetails";
+import { PageContainer } from "@/components/PageContainer";
 
 const getBooking = async (bookingNumber: string) => {
   const session = await checkLoggedInAndGetSession();
@@ -43,36 +44,38 @@ export default async function UserBookingDetailsPage({ params }: Props) {
   }
 
   return (
-    <div className="p-4">
-      <PageHeader title="You trip to the Moon" />
+    <PageContainer>
+      <div className="p-4">
+        <PageHeader title="You trip to the Moon" />
 
-      <section>
-        <h2 className="text-2xl mb-4">Booking details</h2>
-        <Divider className="my-4" />
-        <ul>
-          <li>
-            <strong>Booking number:</strong> {booking.bookingNumber}
-          </li>
-          <li>
-            <strong>Passengers:</strong> {booking.guestNames.join(", ")}
-          </li>
-          <li>
-            <strong>Room type:</strong>{" "}
-            {booking.room.capacity === 1 ? RoomType.SINGLE : RoomType.DOUBLE}
-          </li>
-        </ul>
-      </section>
+        <section>
+          <h2 className="text-2xl mb-4">Booking details</h2>
+          <Divider className="my-4" />
+          <ul>
+            <li>
+              <strong>Booking number:</strong> {booking.bookingNumber}
+            </li>
+            <li>
+              <strong>Passengers:</strong> {booking.guestNames.join(", ")}
+            </li>
+            <li>
+              <strong>Room type:</strong>{" "}
+              {booking.room.capacity === 1 ? RoomType.SINGLE : RoomType.DOUBLE}
+            </li>
+          </ul>
+        </section>
 
-      <section className="mt-8">
-        <h2 className="text-2xl mb-4">Flights</h2>
-        <Divider className="my-4" />
+        <section className="mt-8">
+          <h2 className="text-2xl mb-4">Flights</h2>
+          <Divider className="my-4" />
 
-        <h3 className="text-xl mb-4">To the Moon</h3>
-        <BookedFlightDetails flight={booking.trip.flightToMoon} />
+          <h3 className="text-xl mb-4">To the Moon</h3>
+          <BookedFlightDetails flight={booking.trip.flightToMoon} />
 
-        <h3 className="text-xl mt-8 mb-4">Back to Earth</h3>
-        <BookedFlightDetails flight={booking.trip.flightToEarth} />
-      </section>
-    </div>
+          <h3 className="text-xl mt-8 mb-4">Back to Earth</h3>
+          <BookedFlightDetails flight={booking.trip.flightToEarth} />
+        </section>
+      </div>
+    </PageContainer>
   );
 }

@@ -70,7 +70,11 @@ export const Earth = () => {
   });
 
   return (
-    <mesh ref={ref} position={[1.2, -1.5, 0]} rotation={[0.5, -2.6, 0]}>
+    <mesh
+      ref={ref}
+      // position={[1.2, -1.5, 0]}
+      rotation={[0.5, -3, 0]}
+    >
       <sphereGeometry args={[5, 50, 50]} />
       {/* @ts-ignore */}
       <earthTexture globeTexture={earthTexture} />
@@ -80,7 +84,10 @@ export const Earth = () => {
 
 export const EarthExteriorAtmosphere = () => {
   return (
-    <mesh scale={[1.15, 1.15, 1.15]} position={[1.2, -1.5, 0]}>
+    <mesh
+      scale={[1.15, 1.15, 1.15]}
+      // position={[1.2, -1.5, 0]}
+    >
       <sphereGeometry args={[5, 50, 50]} />
       {/* @ts-ignore */}
       <exteriorAtmosphereMaterial blending={AdditiveBlending} side={BackSide} />
