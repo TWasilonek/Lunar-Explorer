@@ -1,3 +1,9 @@
+import { EarthMoon3DScene } from "@/modules/landingPage/EarthMoon3DScene";
+
 export default function Home() {
-  return <main>TODO: Landing page</main>;
+  return (
+    <main>
+      <EarthMoon3DScene />
+    </main>
+  );
 }
