@@ -26,7 +26,4 @@ export class Room extends Auditable {
         length: 255,
     })
     mainPhotoUrl: string;
-
-    // @Column({ type: "jsonb" })
-    // photos: Photo[];
 }

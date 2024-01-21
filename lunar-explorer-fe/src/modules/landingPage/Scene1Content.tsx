@@ -45,10 +45,10 @@ export const Scene1Content = ({ onButtonClick }: Props) => {
         Until now, you&apos;ve only seen the moon from the Earth.
       </animated.p>
       <AnimatedButton
-        className="mt-8 text-3xl text-foreground"
+        className="mt-8 text-3xl text-foreground border-foreground"
         size="lg"
-        color="primary"
-        variant="light"
+        color="default"
+        variant="bordered"
         style={buttonProps}
         onClick={onButtonClick}
       >

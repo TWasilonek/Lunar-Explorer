@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get(
     "/",
-    asyncMiddleware(async (req, res, next) => {
+    asyncMiddleware(async (req, res) => {
         const trips = await getTrips({
             startDate: req.query?.startDate as string,
             endDate: req.query?.endDate as string,
