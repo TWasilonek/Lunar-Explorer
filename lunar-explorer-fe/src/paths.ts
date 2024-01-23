@@ -33,7 +33,7 @@ export const paths = {
   },
 };
 
-export const BOOKINS_SERVER_URL = process.env.BOOKINGS_SERVER_URL;
+export const BOOKINS_SERVER_URL = process.env.NEXT_PUBLIC_BOOKINGS_SERVER_URL;
 export const TRIPS_REST_API_URL = `${BOOKINS_SERVER_URL}/api/v1/trips`;
 export const BOOKINGS_REST_API_URL = `${BOOKINS_SERVER_URL}/api/v1/bookings`;
 export const AUTH_REST_API_URL = `${BOOKINS_SERVER_URL}/api/v1/auth`;
