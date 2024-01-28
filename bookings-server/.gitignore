@@ -8,4 +8,6 @@ node_modules
 coverage
 
 .env
+.env.production
+.env.local
 dist

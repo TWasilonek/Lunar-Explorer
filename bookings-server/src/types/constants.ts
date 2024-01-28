@@ -1,16 +1,16 @@
 export enum AdminPermissions {
-  READ = "read",
-  CREATE = "create",
-  UPDATE = "update",
-  DELETE = "delete",
+    READ = "read",
+    CREATE = "create",
+    UPDATE = "update",
+    DELETE = "delete",
 }
 
 export enum UserRole {
-  ADMIN = "admin",
-  USER = "user",
+    ADMIN = "admin",
+    USER = "user",
 }
 
 export enum RoomType {
-  SINGLE = "single",
-  DOUBLE = "double",
+    SINGLE = "single",
+    DOUBLE = "double",
 }
