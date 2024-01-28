@@ -24,6 +24,27 @@ This is the server for the Lunar Explorer app.
 1. Start the local database
 2. Start the server - `$ npm run dev`
 
+## Deployment
+
+### Database
+
+Deploy the database to a server or a cloud service (ex. AWS RDS). Ensure that the database is accessible from the server where the app will be deployed.
+
+### Server
+
+The server can be deployed to any server or cloud service. Ensure that the database is accessible from the server. Remember to include the environment variables in the deployment (look at the `.env.example` file).
+
+#### Example with AWS Elastic Beanstalk
+
+1. Create a new Elastic Beanstalk application.
+2. Create a new environment for the application.
+3. **OPTIONAL** Create a new RDS database.
+4. Upload the code to the environment.
+    1. Create a zip file of the code. Ex.: `$ zip -r bookings-server.zip .` or `$ git archive --format=zip --output=bookings-server.zip HEAD:bookings-server/`
+    2. Upload the zip file to the environment in the provided UI.
+5. Set the environment variables in the environment configuration. Make sure they match the database configuration.
+6. Deploy the application.
+
 ## Concepts
 
 ### Database
