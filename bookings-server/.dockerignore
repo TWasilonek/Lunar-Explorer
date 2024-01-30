@@ -1,0 +1,11 @@
+# Don't include node_modules in the docker image
+# The final node_modules will be created from a fresh installation in the docker image
+node_modules
+
+# Don't include the dist folder in the docker image
+# The final dist folder will be created from a fresh build in the docker image
+dist
+
+# other files and folders
+.env*
+requests.http
