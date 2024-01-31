@@ -2,13 +2,11 @@
 
 This is the server for the Lunar Explorer app.
 
-## REST API schema
-
 ## Setup
 
 ### Prerequisites
 
--   **Node.js** and **npm**
+-   **Node.js** and **npm** (the project has been tested on Node.js v20.10.0 and npm v10.2.3)
 -   **PostgreSQL** installed locally
 
 ### Prepare the environment
@@ -22,7 +20,13 @@ This is the server for the Lunar Explorer app.
 ### Run locally
 
 1. Start the local database
-2. Start the server - `$ npm run dev`
+2. Start the server - `npm run dev`
+
+### Run tests
+
+1. Create a test database in PostgreSQL. The name of the database should be the same as the one in the `PG_TEST_DATABASE` env veriable.
+2. Set the `PG_TEST_DATABASE` and `PG_TEST_HOST` env variables to the correct values.
+3. Run `npm run test` to run the tests.
 
 ## Deployment
 
@@ -34,18 +38,10 @@ Deploy the database to a server or a cloud service (ex. AWS RDS). Ensure that th
 
 The server can be deployed to any server or cloud service. Ensure that the database is accessible from the server. Remember to include the environment variables in the deployment (look at the `.env.example` file).
 
-#### Example with AWS Elastic Beanstalk
+You can deploy a docker image to a cloud service (ex. AWS ES2) or run it on a server.
+The **Dockerfile** is located in the root of the project.
 
-1. Create a new Elastic Beanstalk application.
-2. Create a new environment for the application.
-3. **OPTIONAL** Create a new RDS database.
-4. Upload the code to the environment.
-    1. Create a zip file of the code. Ex.: `$ zip -r bookings-server.zip .` or `$ git archive --format=zip --output=bookings-server.zip HEAD:bookings-server/`
-    2. Upload the zip file to the environment in the provided UI.
-5. Set the environment variables in the environment configuration. Make sure they match the database configuration.
-6. Deploy the application.
-
-## Concepts
+## Stack
 
 ### Database
 
@@ -61,4 +57,4 @@ There is a simple role based access control system in place. The roles are: `adm
 
 ### Request and data validation
 
--   [class-validator](https://www.npmjs.com/package/class-validator) is used for entity validation. Only a handful of most important checks are done on the model. Normal request-specific validation is done in the controller.
+[class-validator](https://www.npmjs.com/package/class-validator) is used for entity validation. Only a handful of most important checks are done on the model. Normal request-specific validation is done in the controller.
