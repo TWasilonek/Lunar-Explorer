@@ -12,4 +12,8 @@ export const dbConfig: PostgresConnectionOptions = {
     logging: false,
     entities: [process.env.PG_ENTITIES as unknown as string],
     migrations: [process.env.PG_MIGRATIONS as unknown as string],
+    ssl: {
+        // TODO: Handle it better on the cloud and create a self-signed certificate
+        rejectUnauthorized: false,
+    },
 };
