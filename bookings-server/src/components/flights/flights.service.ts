@@ -17,7 +17,6 @@ export const getAvailableSeats = async (
         },
     });
 
-    // If the available seats for a flight are less than the required ones for the booking, throw an error
     const availableSeats = allSeats.filter((seat) => {
         return !takenSeats.some((takenSeat) => {
             return takenSeat.seatNumber === seat;

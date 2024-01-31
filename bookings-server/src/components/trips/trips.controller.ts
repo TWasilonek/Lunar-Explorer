@@ -1,6 +1,5 @@
 import { addQuarters } from "date-fns";
 import * as tripsService from "./trips.service";
-import { NotFoundError } from "../../errors/NotFoundError";
 import { TripsResponse, SimpleTripResponse } from "../../types";
 
 export const getDefaultStartDate = (): Date => new Date();
@@ -16,10 +15,10 @@ export const getTrips = async (
     params: GetTripsParams,
 ): Promise<SimpleTripResponse[]> => {
     const startDate = params.startDate
-        ? new Date(params.startDate as string)
+        ? new Date(params.startDate)
         : getDefaultStartDate();
     const endDate = params.endDate
-        ? new Date(params.endDate as string)
+        ? new Date(params.endDate)
         : getDefaultEndDate(startDate);
 
     const trips = await tripsService.getTripsForDateRange(startDate, endDate);

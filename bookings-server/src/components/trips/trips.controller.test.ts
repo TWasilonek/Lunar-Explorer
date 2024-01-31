@@ -3,7 +3,6 @@ import { getTrips, getTripById } from "./trips.controller";
 import * as tripsController from "./trips.controller";
 import * as tripsService from "./trips.service";
 import { tripMock } from "../../__mocks__/tripMock";
-import { NotFoundError } from "../../errors/NotFoundError";
 import { SimpleTripResponse } from "../../types";
 
 jest.mock("./trips.service");

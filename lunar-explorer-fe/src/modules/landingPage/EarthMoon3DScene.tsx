@@ -15,7 +15,6 @@ const cameraPosition2 = new Vector3(-2, 0, 7);
 const cameraMoonPosition = new Vector3(-9, 0.8, -4);
 
 type CameraControlProps = {
-  animateCamera?: gsap.TweenVars | gsap.TweenVars[];
   scene: SCENE;
 };
 const CameraControl = ({ scene }: CameraControlProps) => {
@@ -81,13 +80,6 @@ const CameraControl = ({ scene }: CameraControlProps) => {
   //     gui.destroy();
   //   };
   // }, []);
-
-  // useFrame(({ camera }) => {
-  //   // camera.position.x = camera.position.x + 0.01;
-  //   // camera.position.y = camera.position.y + 0.01;
-  //   // camera.position.z = camera.position.z + 0.01;
-  //   camera.lookAt(0, 0, 0);
-  // });
 
   return null;
 };

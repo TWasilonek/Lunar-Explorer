@@ -32,6 +32,6 @@ export const loginUserWithBooking2 = async (
     request: supertest.SuperTest<supertest.Test>,
 ) =>
     await request.post(LOGIN_ROUTE).send({
-        email: userWithBooking1.email,
-        password: userWithBooking1.password,
+        email: userWithBooking2.email,
+        password: userWithBooking2.password,
     });

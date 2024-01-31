@@ -4,7 +4,7 @@ import * as React from "react";
 import { Button } from "@nextui-org/button";
 import { Popover, PopoverContent, PopoverTrigger } from "@nextui-org/popover";
 import { FaRegCalendarAlt } from "react-icons/fa";
-import { addMonths, format } from "date-fns";
+import { format } from "date-fns";
 import { DateRange } from "react-day-picker";
 import { Calendar } from "./Calendar";
 

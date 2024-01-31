@@ -115,30 +115,6 @@ CREATE TABLE public.users (
     "createdAt" timestamp with time zone DEFAULT now() NOT NULL,
     "updatedAt" timestamp with time zone DEFAULT now() NOT NULL
 );
--- ALTER TABLE ONLY public.rooms
--- ADD CONSTRAINT "PK_0368a2d7c215f2d0458a54933f2" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.manufacturers
--- ADD CONSTRAINT "PK_138520de32c379a48e703441975" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.payments
--- ADD CONSTRAINT "PK_197ab7af18c93fbb0c9b28b4a59" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.ports
--- ADD CONSTRAINT "PK_291c9f372b1ce97c885e96f5ff4" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.spaceships
--- ADD CONSTRAINT "PK_77be88e73cae962e8f3e6b2f764" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.room_occupancies
--- ADD CONSTRAINT "PK_95d751bf71408ed6d7c83e0496a" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.users
--- ADD CONSTRAINT "PK_a3ffb1c0c8416b9fc6f907b7433" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.bookings
--- ADD CONSTRAINT "PK_bee6805982cc1e248e94ce94957" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.flights
--- ADD CONSTRAINT "PK_c614ef3382fdd70b6d6c2c8d8dd" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.flight_occupancies
--- ADD CONSTRAINT "PK_d9580d00c6d2eb79b1edad4a8bc" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.trips
--- ADD CONSTRAINT "PK_f71c231dee9c05a9522f9e840f5" PRIMARY KEY (id);
--- ALTER TABLE ONLY public.room_occupancies
--- ADD CONSTRAINT "REL_9a9b8a16c2e0247593e6344bd4" UNIQUE ("roomId");
 ALTER TABLE ONLY public.trips
 ADD CONSTRAINT "UQ_04a17ecded4b2f23fc9f5596ed8" UNIQUE ("flightToEarthId");
 ALTER TABLE ONLY public.trips

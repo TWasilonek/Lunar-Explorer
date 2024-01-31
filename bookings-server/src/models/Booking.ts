@@ -28,7 +28,7 @@ export class Booking extends Auditable {
     @Column("varchar", {
         length: 20,
         nullable: false,
-        default: "pending_payment", // TODO: Create an enum for this (also in the database)
+        default: "pending_payment",
     })
     status: string;
 

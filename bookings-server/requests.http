@@ -5,9 +5,9 @@ POST http://localhost:8000/api/v1/auth/signup
 Content-Type: application/json
 
 {
-  "firstName": "te",
-  "lastName": "Wu",
-  "email": "te@wu.pl",
+  "firstName": "John",
+  "lastName": "Doe",
+  "email": "john.doe@email.com",
   "password": "test12345"
 }
 
@@ -32,7 +32,7 @@ Content-Type: application/json
 ### Logout
 POST http://localhost:8000/api/v1/auth/logout
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwNDIyNjY4MywiZXhwIjoxNzA0MjMwMjgzfQ.sOVai97gG3ZP9ijGHLAZ3bix2TUhaDDnEbjSm5WHxnM
+Authorization: Bearer ADD_TOKEN_HERE
 
 ### Refresh token
 POST http://localhost:8000/api/v1/auth/refresh
@@ -41,7 +41,7 @@ Content-Type: application/json
 ### Create a booking
 POST http://localhost:8000/api/v1/bookings
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0LTYyZGQtNDU5Mi04NzU5LWFhZTdhMDY0ZjZjZiIsImlhdCI6MTcwNDMxMzYyMiwiZXhwIjoxNzA0MzE3MjIyfQ.dI_Yd56DG-nXj_7XtcTyBsGQGXzbf9kmNCJxmTzKo9U
+Authorization: Bearer ADD_TOKEN_HERE
 
 {
   "userId": "4a2a0b8f-c5c1-4c65-9abf-12d8a3d46e2b",
@@ -54,12 +54,12 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImFlYTg0YWM0L
 ### GET booking by booking number (Mia Taylor)
 GET http://localhost:8000/api/v1/bookings/8M5538EA13
 Content-Type: application/json
-Authorization: Bearer eeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwNDEyMjI4NiwiZXhwIjoxNzA0MTI1ODg2fQ.Jau76WOM_SVY2zfXVZF2i2DJ7hKhrbVaHPw9i8XJDAQ
+Authorization: Bearer ADD_TOKEN_HERE
 
 ### GET user bookings
 GET http://localhost:8000/api/v1/users/me/bookings
 ontent-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRhMmEwYjhmLWM1YzEtNGM2NS05YWJmLTEyZDhhM2Q0NmUyYiIsImlhdCI6MTcwNDEyMjI4NiwiZXhwIjoxNzA0MTI1ODg2fQ.Jau76WOM_SVY2zfXVZF2i2DJ7hKhrbVaHPw9i8XJDAQ
+Authorization: Bearer 
 
 ### Get trips by date range
 GET http://localhost:8000/api/v1/trips?startDate=2024-05-01&endDate=2024-10-15
@@ -68,4 +68,5 @@ Content-Type: application/json
 ### Get trip
 GET http://localhost:8000/api/v1/trips/1
 Content-Type: application/json
+
 

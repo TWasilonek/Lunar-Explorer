@@ -23,7 +23,7 @@ describe("Auth REST API", () => {
 
     afterAll(async () => {
         await context.dataSource.query(
-            `DELETE FROM users WHERE email='${user.email}';`,
+            `DELETE FROM users WHERE email='${user.email}';`
         );
         await context.destroy();
     });
@@ -31,7 +31,7 @@ describe("Auth REST API", () => {
     describe(`POST ${BASE_ROUTE}/signup`, () => {
         afterEach(() => {
             context.dataSource.query(
-                `DELETE FROM users WHERE email='${user.email}';`,
+                `DELETE FROM users WHERE email='${user.email}';`
             );
         });
 
@@ -48,11 +48,11 @@ describe("Auth REST API", () => {
                     lastName: user.lastName,
                     email: user.email,
                     role: "user",
-                }),
+                })
             );
 
             const dbResponse = await context.dataSource.query(
-                `SELECT * FROM users WHERE email='${user.email}';`,
+                `SELECT * FROM users WHERE email='${user.email}';`
             );
             expect(dbResponse).toEqual(
                 expect.arrayContaining([
@@ -64,7 +64,7 @@ describe("Auth REST API", () => {
                         role: "user",
                         refreshToken: null,
                     }),
-                ]),
+                ])
             );
         });
 
@@ -77,7 +77,7 @@ describe("Auth REST API", () => {
             expect(response.status).toBe(400);
             expect(response.body).toMatchInlineSnapshot(`
                 {
-                  "message": ""email" must be a valid email",
+                  "message": "Email must be a valid email",
                 }
             `);
         });
@@ -91,7 +91,7 @@ describe("Auth REST API", () => {
             expect(response.status).toBe(400);
             expect(response.body).toMatchInlineSnapshot(`
                 {
-                  "message": ""password" length must be at least 8 characters long",
+                  "message": "Password must be at least 8 characters long",
                 }
             `);
         });
@@ -104,7 +104,7 @@ describe("Auth REST API", () => {
 
         afterAll(() => {
             context.dataSource.query(
-                `DELETE FROM users WHERE email='${user.email}';`,
+                `DELETE FROM users WHERE email='${user.email}';`
             );
         });
 
@@ -122,26 +122,26 @@ describe("Auth REST API", () => {
                     lastName: user.lastName,
                     email: user.email,
                     role: "user",
-                }),
+                })
             );
             expect(response.header["x-access-token"]).toEqual(
-                expect.any(String),
+                expect.any(String)
             );
             expect(response.header["set-cookie"]).toEqual(
                 expect.arrayContaining([
                     expect.stringContaining("refreshToken"),
-                ]),
+                ])
             );
 
             const dbResponse = await context.dataSource.query(
-                `SELECT * FROM users WHERE email='${user.email}';`,
+                `SELECT * FROM users WHERE email='${user.email}';`
             );
             expect(dbResponse).toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({
                         refreshToken: expect.any(String),
                     }),
-                ]),
+                ])
             );
         });
 
@@ -153,7 +153,7 @@ describe("Auth REST API", () => {
             expect(response.status).toBe(400);
             expect(response.body).toMatchInlineSnapshot(`
                 {
-                  "message": ""email" must be a valid email",
+                  "message": "Email must be a valid email",
                 }
             `);
         });
@@ -193,7 +193,7 @@ describe("Auth REST API", () => {
         });
         afterAll(() => {
             context.dataSource.query(
-                `DELETE FROM users WHERE email='${user.email}';`,
+                `DELETE FROM users WHERE email='${user.email}';`
             );
         });
 
@@ -209,7 +209,7 @@ describe("Auth REST API", () => {
                 .post(`${BASE_ROUTE}/logout`)
                 .set(
                     "Authorization",
-                    `Bearer ${loginResponse.header["x-access-token"]}`,
+                    `Bearer ${loginResponse.header["x-access-token"]}`
                 )
                 .set("Cookie", loginResponse.header["set-cookie"]);
 
@@ -217,18 +217,18 @@ describe("Auth REST API", () => {
             expect(response.header["set-cookie"]).toEqual(
                 expect.arrayContaining([
                     expect.stringContaining("refreshToken=;"),
-                ]),
+                ])
             );
 
             const dbResponse = await context.dataSource.query(
-                `SELECT * FROM users WHERE email='${user.email}';`,
+                `SELECT * FROM users WHERE email='${user.email}';`
             );
             expect(dbResponse).toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({
                         refreshToken: null,
                     }),
-                ]),
+                ])
             );
         });
 
@@ -254,7 +254,7 @@ describe("Auth REST API", () => {
         });
         afterAll(() => {
             context.dataSource.query(
-                `DELETE FROM users WHERE email='${user.email}';`,
+                `DELETE FROM users WHERE email='${user.email}';`
             );
         });
 
@@ -277,11 +277,11 @@ describe("Auth REST API", () => {
             expect(response.body).toEqual(
                 expect.objectContaining({
                     accessToken: expect.any(String),
-                }),
+                })
             );
 
             const newRefreshTokenCookie = response.header["set-cookie"].find(
-                (cookie: string) => cookie.includes("refreshToken"),
+                (cookie: string) => cookie.includes("refreshToken")
             );
             expect(newRefreshTokenCookie).toEqual(expect.any(String));
             const newRefreshToken = newRefreshTokenCookie
@@ -290,14 +290,14 @@ describe("Auth REST API", () => {
             expect(newRefreshToken).toEqual(expect.any(String));
 
             const dbResponse = await context.dataSource.query(
-                `SELECT * FROM users WHERE email='${user.email}';`,
+                `SELECT * FROM users WHERE email='${user.email}';`
             );
             expect(dbResponse).toEqual(
                 expect.arrayContaining([
                     expect.objectContaining({
                         refreshToken: expect.stringContaining(newRefreshToken),
                     }),
-                ]),
+                ])
             );
         });
 

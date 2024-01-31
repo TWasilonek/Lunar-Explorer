@@ -94,7 +94,7 @@ export class TestDBContext {
         );
 
         // Disconnect entirely from PG
-        await client.release(true);
+        client.release(true);
         await pool.end();
 
         this.roleName = roleName;
@@ -118,7 +118,7 @@ export class TestDBContext {
         await client.query(format("DROP ROLE %I;", roleName));
 
         // Disconnect entirely from PG
-        await client.release(true);
+        client.release(true);
         await pool.end();
     }
 

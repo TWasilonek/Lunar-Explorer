@@ -3,7 +3,7 @@ import { PostgresConnectionOptions } from "typeorm/driver/postgres/PostgresConne
 
 export const dbTestConfig: PostgresConnectionOptions = {
     type: "postgres",
-    host: process.env.PG_HOST,
+    host: process.env.PG_TEST_HOST,
     port: process.env.PG_PORT as unknown as number,
     username: process.env.PG_ACCOUNT,
     password: process.env.PG_PASSWORD,

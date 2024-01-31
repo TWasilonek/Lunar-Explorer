@@ -27,7 +27,7 @@
   opacity: 0;
   transform: scale(1);
   transition: all 0.5s ease;
-  pointer-events: none; /* Ensures the pseudo-element doesn't interfere with mouse events */
+  pointer-events: none;
 }
 .trip-card_content:hover::after {
   opacity: 1;

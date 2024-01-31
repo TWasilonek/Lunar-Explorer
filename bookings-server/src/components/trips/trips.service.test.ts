@@ -94,9 +94,7 @@ describe("getTripById", () => {
             ...DBTripMock,
         };
 
-        (mockTripRepository.findById as jest.Mock).mockResolvedValue(
-            expectedTrip,
-        );
+        mockTripRepository.findById.mockResolvedValue(expectedTrip);
 
         const trip = await getTripById(DBTripMock.id);
 
@@ -107,7 +105,7 @@ describe("getTripById", () => {
     it("should throw NotFoundError if the trip is not found", async () => {
         const tripId = 123;
 
-        (mockTripRepository.findById as jest.Mock).mockResolvedValue(null);
+        mockTripRepository.findById.mockResolvedValue(null);
 
         await expect(getTripById(tripId)).rejects.toThrow(NotFoundError);
         expect(mockTripRepository.findById).toHaveBeenCalledWith(tripId);

@@ -160,7 +160,7 @@ describe("Bookings Service", () => {
                     seatNumber: seat,
                 };
             });
-            (mockDataSource.transaction as jest.Mock).mockImplementationOnce(
+            mockDataSource.transaction.mockImplementationOnce(
                 async (callback) => {
                     await callback(transactionalEntityManager);
                     return DBBookingMock;
@@ -199,9 +199,7 @@ describe("Bookings Service", () => {
                     numberOfOccupants: bookingData.numberOfGuests,
                 }),
             );
-            expect(
-                (mockFlightOccupancyRepository.create as jest.Mock).mock.calls,
-            ).toEqual(
+            expect(mockFlightOccupancyRepository.create.mock.calls).toEqual(
                 expect.arrayContaining([
                     [flightToMoonOccupancies[0]],
                     [flightToMoonOccupancies[1]],
@@ -224,9 +222,7 @@ describe("Bookings Service", () => {
 
         it("should throw InternalServerError if an error occurs", async () => {
             const error = new Error("Test error");
-            (mockDataSource.transaction as jest.Mock).mockRejectedValueOnce(
-                error,
-            );
+            mockDataSource.transaction.mockRejectedValueOnce(error);
 
             await expect(createAndSaveBooking(bookingData)).rejects.toThrow(
                 InternalServerError,

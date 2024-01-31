@@ -22,8 +22,6 @@ const fadeOut = {
   },
 };
 
-const AnimatedScene1Content = animated(Scene1Content);
-
 export const Hero = () => {
   const router = useRouter();
   const [scene, setScene] = useState<SCENE>(SCENE.ONE);

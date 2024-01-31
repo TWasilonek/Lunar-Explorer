@@ -20,7 +20,7 @@ export const createDataSource = async (config: PostgresConnectionOptions) => {
     try {
         await dataSource.initialize();
         console.log(`Database connected on port ${config.port}`);
-        await initializeRepositories(dataSource);
+        initializeRepositories(dataSource);
     } catch (error) {
         console.error(error);
     }
@@ -28,12 +28,12 @@ export const createDataSource = async (config: PostgresConnectionOptions) => {
     return dataSource;
 };
 
-export const initializeRepositories = async (dataSource: DataSource) => {
-    await createBookingRepository(dataSource);
-    await createFlightOccupancyRepository(dataSource);
-    await createFlightRepository(dataSource);
-    await createRoomOccupancyRepository(dataSource);
-    await createRoomRepository(dataSource);
-    await createTripRepository(dataSource);
-    await createUserRepository(dataSource);
+export const initializeRepositories = (dataSource: DataSource) => {
+    createBookingRepository(dataSource);
+    createFlightOccupancyRepository(dataSource);
+    createFlightRepository(dataSource);
+    createRoomOccupancyRepository(dataSource);
+    createRoomRepository(dataSource);
+    createTripRepository(dataSource);
+    createUserRepository(dataSource);
 };
