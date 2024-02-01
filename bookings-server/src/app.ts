@@ -29,8 +29,11 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 const corsOptions = {
-    origin: "http://localhost:3000",
+    origin: ["http://localhost:3000"],
 };
+if (process.env.FE_PRODUCTION_ORIGIN) {
+    corsOptions.origin.push(process.env.FE_PRODUCTION_ORIGIN);
+}
 
 app.use(cors(corsOptions));
 
