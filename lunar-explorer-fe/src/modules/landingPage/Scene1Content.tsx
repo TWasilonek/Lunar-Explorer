@@ -37,15 +37,21 @@ export const Scene1Content = ({ onButtonClick }: Props) => {
   });
 
   return (
-    <div className="absolute top-[200px] flex flex-col items-center py-2 px-12">
-      <animated.h2 className="text-6xl font-bold" style={titleProps}>
+    <div className="absolute top-[200px] flex flex-col items-center w-full lg:w-auto py-2 px-6 md:px-12">
+      <animated.h2
+        className="font-bold text-4xl md:text-6xl text-center lg:text-left"
+        style={titleProps}
+      >
         This is what you know
       </animated.h2>
-      <animated.p className="mt-4 text-2xl" style={paragraphProps}>
+      <animated.p
+        className="mt-4 text-xl md:text-2xl text-center lg:text-left"
+        style={paragraphProps}
+      >
         Until now, you&apos;ve only seen the moon from the Earth.
       </animated.p>
       <AnimatedButton
-        className="mt-8 text-3xl text-foreground border-foreground"
+        className="mt-8 text-3xl p-8 text-foreground border-foreground"
         size="lg"
         color="default"
         variant="bordered"
