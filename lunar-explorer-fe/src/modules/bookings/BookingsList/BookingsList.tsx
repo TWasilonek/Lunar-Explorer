@@ -13,7 +13,7 @@ type Props = {
 
 export const BookingsList = ({ bookings }: Props) => {
   return (
-    <ul className="flex-3 grid grid-cols-3 gap-8">
+    <ul className="flex-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
       {bookings.map((booking) => (
         <Card
           key={booking.bookingNumber}

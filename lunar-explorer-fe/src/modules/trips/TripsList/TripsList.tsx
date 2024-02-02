@@ -36,8 +36,8 @@ export const TripsList = ({ trips }: Props) => {
       <>
         <TripDetails trip={trip} />
         <Divider className="my-3" />
-        <div className="flex justify-between items-center mt-2">
-          <p>
+        <div className="flex flex-col md:flex-row md:justify-between items-center mt-2">
+          <p className="text-xl md:text-base">
             <strong>Available spots: </strong>
             {trip.capacity - trip.occupancy}
           </p>
@@ -48,6 +48,7 @@ export const TripsList = ({ trips }: Props) => {
               as={Link}
               color="primary"
               variant="solid"
+              className="mt-4 md:mt-0 w-full md:w-auto text-2xl md:text-base p-6 md:p-3"
             >
               Book now
             </Button>
@@ -58,8 +59,8 @@ export const TripsList = ({ trips }: Props) => {
   };
 
   return (
-    <div className="flex justify-between">
-      <ul className="flex-3 grid grid-cols-3 gap-8">
+    <div className="flex justify-between flex-col-reverse md:flex-row">
+      <ul className="flex-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
         {trips.map((trip) => (
           <TripListItem
             key={trip.id}
@@ -69,7 +70,7 @@ export const TripsList = ({ trips }: Props) => {
           />
         ))}
       </ul>
-      <Card className="flex-1 ml-8">
+      <Card className="flex-1 md:ml-8 mb-8 md:mb-0">
         <CardHeader>
           <h3 className="text-xl">
             {!!trip ? "Trip details" : "No trips available for these dates"}
