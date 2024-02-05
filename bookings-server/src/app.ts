@@ -28,11 +28,16 @@ app.use(express.urlencoded({ extended: true }));
 // add cookies
 app.use(cookieParser());
 
-const corsOptions = {
-    origin: ["http://localhost:3000"],
-};
-if (process.env.FE_PRODUCTION_ORIGIN) {
-    corsOptions.origin.push(process.env.FE_PRODUCTION_ORIGIN);
+let corsOptions: cors.CorsOptions;
+
+if (isProduction() && process.env.FE_PRODUCTION_ORIGIN) {
+    corsOptions = {
+        origin: [process.env.FE_PRODUCTION_ORIGIN],
+    };
+} else {
+    corsOptions = {
+        origin: "http://localhost:3000",
+    };
 }
 
 app.use(cors(corsOptions));

@@ -2,7 +2,6 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import authConfig from "../../config/authConfig";
 import { User } from "../../models/User";
-import { isProduction } from "../../utils/env";
 import { UnauthorizedError } from "../../errors/UnauthorizedError";
 import * as usersService from "../users/users.service";
 import { InternalServerError } from "../../errors/InternalServerError";
@@ -18,7 +17,9 @@ export const createAccessToken = (user: User) => {
     }
 
     return jwt.sign({ id: user.id }, authConfig.jwt_secret, {
-        expiresIn: isProduction() ? "10m" : "1h",
+        expiresIn: process.env.JWT_EXPIRES_IN
+            ? parseInt(process.env.JWT_EXPIRES_IN, 10)
+            : "15m",
     });
 };
 

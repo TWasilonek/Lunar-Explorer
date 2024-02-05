@@ -60,6 +60,12 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: "/auth/signIn",
   },
+  session: {
+    strategy: "jwt",
+    maxAge: process.env.JWT_EXPIRES_IN
+      ? parseInt(process.env.JWT_EXPIRES_IN, 10) // this should be the same as the bookings-server JWT_EXPIRES_IN (but in seconds)
+      : 60 * 15, // 15 minutes
+  },
 };
 
 const handler = NextAuth(authOptions);
