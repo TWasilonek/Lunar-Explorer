@@ -3,8 +3,11 @@ import { Session } from "next-auth";
 
 export type UserFromJWT = SignupResponse & {
   accessToken: string;
+  refreshTokenCookie: string;
+  // cookies: string[];
 };
 
 export type UserSession = Session & {
   user: UserFromJWT;
+  error?: string;
 };

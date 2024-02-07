@@ -40,7 +40,11 @@ if (isProduction() && process.env.FE_PRODUCTION_ORIGIN) {
     };
 }
 
-app.use(cors(corsOptions));
+app.use(
+    cors({
+        ...corsOptions,
+    }),
+);
 
 /**
  * ROUTES

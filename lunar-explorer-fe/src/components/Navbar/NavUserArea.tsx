@@ -22,6 +22,8 @@ export const NavUserArea = () => {
     return <Spinner color="default" />;
   }
 
+  console.log("session", session);
+
   if (session.data?.user) {
     const { firstName, lastName, email } = session.data.user as UserFromJWT;
     return (
