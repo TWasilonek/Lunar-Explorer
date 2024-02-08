@@ -27,7 +27,6 @@ export const authOptions: NextAuthOptions = {
             password: credentials.password,
           }),
           headers: { "Content-Type": "application/json" },
-          credentials: "include",
         });
 
         const user: SignupResponse = await res.json();

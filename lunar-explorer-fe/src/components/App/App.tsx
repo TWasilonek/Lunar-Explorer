@@ -5,7 +5,7 @@ import { signOut, useSession } from "next-auth/react";
 import Navbar from "@/components/Navbar/Navbar";
 import { paths } from "@/paths";
 
-const CHECK_SESSION_EXP_TIME = 1000 * 60 * 0.5; // 30 seconds
+const CHECK_SESSION_EXP_TIME = 1000 * 60 * 5; // 5 minutes
 
 export const App = ({ children }: { children: ReactNode }) => {
   const { data: session, update } = useSession();
