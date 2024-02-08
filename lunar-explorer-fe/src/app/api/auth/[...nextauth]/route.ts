@@ -4,14 +4,7 @@ import { jwtDecode } from "jwt-decode";
 import { omit, cloneDeep } from "lodash";
 import { restApi } from "@/paths";
 import { SignupResponse } from "@bookings-server/types";
-import { UserFromJWT } from "@/types";
-
-const extractRefreshToken = (setCookie?: string) => {
-  if (!setCookie) {
-    return null;
-  }
-  return setCookie.split(";")[0]?.split("refreshToken=")[1];
-};
+import { UserFromJWT, UserSession } from "@/types";
 
 export const authOptions: NextAuthOptions = {
   providers: [
@@ -55,8 +48,6 @@ export const authOptions: NextAuthOptions = {
             ...user,
             accessToken,
             refreshTokenCookie,
-            // refreshToken,
-            // cookies,
             expiresAt: decodedAccessToken.exp,
           };
           return userInCallbacks;
@@ -74,7 +65,9 @@ export const authOptions: NextAuthOptions = {
         token.user = user as UserFromJWT;
         return token;
       }
-      if (Math.floor(Date.now() / 1000) < token.user.expiresAt) {
+      if (
+        Math.floor(Date.now() / 1000) < (token.user as UserFromJWT).expiresAt
+      ) {
         return token;
       } else {
         // If the access token has expired, try to refresh it
@@ -129,7 +122,7 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       // the session object will be available on the client-side
-      session.error = token.error as string;
+      (session as UserSession).error = token.error as string;
       // override the default session.user to be able to access it in useSession()
       session.user = cloneDeep(
         omit(token.user as UserFromJWT, "refreshTokenCookie")

@@ -4,7 +4,7 @@ import { Session } from "next-auth";
 export type UserFromJWT = SignupResponse & {
   accessToken: string;
   refreshTokenCookie: string;
-  // cookies: string[];
+  expiresAt: number;
 };
 
 export type UserSession = Session & {

@@ -12,9 +12,6 @@ export const App = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     const checkUserSession = setInterval(() => {
-      if (!session?.user || session.user.error) {
-        signOut();
-      }
       const expiresTimeTimestamp = Math.floor(
         new Date(session?.expires || "").getTime()
       );
@@ -25,7 +22,6 @@ export const App = ({ children }: { children: ReactNode }) => {
       // and the user is not idle, then we want to refresh the session
       // on the client and request a token refresh on the backend
       if (timeRemaining < CHECK_SESSION_EXP_TIME) {
-        console.log("will refresh session");
         update(); // extend the client session
       } else if (timeRemaining < 0) {
         // session has expired, logout the user and display session expiration message
