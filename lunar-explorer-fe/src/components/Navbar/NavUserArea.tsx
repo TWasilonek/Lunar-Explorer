@@ -22,7 +22,7 @@ export const NavUserArea = () => {
     return <Spinner color="default" />;
   }
 
-  if (session.data?.user) {
+  if (session.data?.user && session.status === "authenticated") {
     const { firstName, lastName, email } = session.data.user as UserFromJWT;
     return (
       <Dropdown placement="bottom-end">
