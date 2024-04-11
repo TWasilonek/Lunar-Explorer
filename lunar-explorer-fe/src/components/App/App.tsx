@@ -7,7 +7,7 @@ import { paths } from "@/paths";
 
 const CHECK_SESSION_EXP_TIME = 1000 * 60 * 5; // 5 minutes
 
-export const App = ({ children }: { children: ReactNode }) => {
+export const App = ({ children }: { children?: ReactNode }) => {
   const { data: session, update } = useSession();
 
   useEffect(() => {
