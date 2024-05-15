@@ -4,8 +4,7 @@ import { ReactNode, useEffect } from "react";
 import { signOut, useSession } from "next-auth/react";
 import Navbar from "@/components/Navbar/Navbar";
 import { paths } from "@/paths";
-
-const CHECK_SESSION_EXP_TIME = 1000 * 60 * 5; // 5 minutes
+import { CHECK_SESSION_EXP_TIME, CHECK_SESSION_INTERVAL } from "@/constants";
 
 export const App = ({ children }: { children?: ReactNode }) => {
   const { data: session, update } = useSession();
@@ -18,16 +17,16 @@ export const App = ({ children }: { children?: ReactNode }) => {
       const currentTimestamp = Date.now();
       const timeRemaining = expiresTimeTimestamp - currentTimestamp;
 
-      // If the user session will expire before the next session check
-      // and the user is not idle, then we want to refresh the session
-      // on the client and request a token refresh on the backend
-      if (timeRemaining < CHECK_SESSION_EXP_TIME) {
-        update(); // extend the client session
-      } else if (timeRemaining < 0) {
+      if (CHECK_SESSION_EXP_TIME <= 0 && timeRemaining < 0) {
         // session has expired, logout the user and display session expiration message
         signOut({ callbackUrl: paths.auth.login() + "?error=SessionExpired" });
+      } else if (timeRemaining < CHECK_SESSION_EXP_TIME) {
+        // If the user session will expire before the next session check
+        // and the user is not idle, then we want to refresh the session
+        // on the client and request a token refresh on the backend
+        update(); // extend the client session
       }
-    }, 30);
+    }, CHECK_SESSION_INTERVAL);
 
     return () => {
       clearInterval(checkUserSession);
