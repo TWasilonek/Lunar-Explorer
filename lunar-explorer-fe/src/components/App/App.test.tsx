@@ -14,10 +14,6 @@ jest.mock("../../constants", () => ({
 }));
 
 describe("App", () => {
-  beforeEach(() => {
-    jest.resetModules();
-  });
-
   test("renders correctly", () => {
     const expiresAt = new Date(Date.now() + 2 * 86400).toISOString();
     expect(() =>
@@ -54,7 +50,10 @@ describe("App", () => {
       update: updateSpy,
     });
 
-    const signOutSpy = jest.spyOn(nextAuth, "signOut");
+    const signOutSpy = jest
+      .spyOn(nextAuth, "signOut")
+      // @ts-ignore We don't need to implement the signOut function
+      .mockImplementation(() => {}); // fixes any issues about environment
 
     beforeAll(() => {
       jest.useFakeTimers();
