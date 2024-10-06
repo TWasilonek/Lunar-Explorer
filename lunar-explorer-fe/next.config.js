@@ -8,6 +8,13 @@ const nextConfig = {
     // !! WARN !!
     ignoreBuildErrors: true,
   },
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      // Disable browser condition for msw/node
+      config.resolve.alias["msw/node"] = false;
+    }
+    return config;
+  },
 };
 
 module.exports = nextConfig;
